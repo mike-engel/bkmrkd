@@ -1,0 +1,189 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  font-family: 'aktiv-grotesk-std', helvetica, arial, sans-serif;
+  color: #333;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+ul {
+  list-style: none;
+  list-style-type: none;
+}
+
+.clearfix {
+  &:before,
+  &:after {
+    display: table;
+    content: '';
+  }
+
+  &:after {
+    clear: both;
+  }
+}
+
+a,
+a:link,
+a:visited {
+  color: #2187F6;
+  text-decoration: none;
+  padding: 2px;
+  border-bottom: 1px solid transparent;
+}
+
+a:hover,
+a:active {
+  background-color: lighten(#2187F6, 43%);
+  border-bottom: 1px solid lighten(#2187F6, 30%);
+}
+
+p {
+  font: normal 20px/1.618 'aktiv-grotesk-std', helvetica, arial, sans-serif;
+  font-size: 1.25rem;
+}
+
+.header {
+  width: 100%;
+  border-bottom: 1px solid #DDD;
+  position: fixed;
+  background: white;
+  padding: 15px 0;
+
+  .container {
+    position: relative;
+
+    .site-title {
+      display: inline-block;
+      color: #788694;
+      margin: 0;
+      position: relative;
+      bottom: 15px;
+      top: 0;
+    }
+
+    .header__nav {
+      float: right;
+      position: relative;
+      bottom: 15px;
+      top: 0;
+
+      li {
+        float: left;
+        margin-left: 25px;
+
+        a {
+          opacity: 0.5;
+
+          &:hover {
+            opacity: 1.0;
+          }
+        }
+
+        .active {
+          opacity: 1.0;
+        }
+      }
+    }
+  }
+}
+
+.bookmarks {
+  padding-top: 71px;
+
+  .pagination {
+    font-size: 14px;
+    font-size: 0.875rem;
+    padding: 30px 0;
+
+    .previous_page {
+      margin-right: 20px;
+    }
+
+    .next_page {
+      margin-left: 20px;
+    }
+
+    .disabled {
+      opacity: 0.5;
+      padding: 2px;
+    }
+
+    .current {
+      font-style: normal;
+      margin-right: 5px;
+      padding: 2px;
+    }
+
+    .current,
+    a {
+      margin-right: 5px;
+
+      &:nth-last-child(2),
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  .bookmark {
+    margin: 0 0 50px 0;
+
+    &:nth-last-child(2) {
+      margin: 0;
+    }
+  }
+
+  .bookmark__title {
+    display: inline-block;
+    font-size: 18px;
+    font-size: 1.125rem;
+    font-weight: bold;
+    margin: 0 10px 0 0;
+  }
+
+  .bookmark__location {
+    display: inline;
+    font-size: 14px;
+    font-size: 0.875rem;
+    color: #777;
+
+    &:after {
+      content: '';
+      display: block;
+    }
+  }
+
+  .bookmark__creation,
+  .bookmark__destroy {
+    display: inline-block;
+    font-size: 12px;
+    font-size: 0.75rem;
+    color: #AAA;
+    margin: 0 15px 0 0;
+    padding: 0;
+  }
+}
+
+.oh-no {
+  padding-top: 79px;
+}
+
+.colophon {
+  padding-top: 150px;
+}
