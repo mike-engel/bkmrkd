@@ -1,1 +1,1 @@
-web: unicorn -p 3000 -E development config.ru
+web: unicorn -p 3000 -c unicorn.rb -E production -D

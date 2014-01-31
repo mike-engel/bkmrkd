@@ -28,7 +28,7 @@ class Bookmark
 end
 
 DataMapper.finalize
-DataMapper.auto_migrate!
+DataMapper.auto_upgrade!
 
 get '/' do
   @bookmarks = Bookmark.paginate(page: params[:page], per_page: 25).reverse!
@@ -61,8 +61,9 @@ get '/add' do
 
   if @bookmark.valid?
     @bookmark.save
-    return "alert(200, null, {'message': 'Bookmarklet saved successfully!'})"
   else
-    return "alert(500, #{@bookmark.errors}, {'message': 'Bookmarklet could not be saved.'})"
+    @bookmark.errors.each do |err|
+      puts err
+    end
   end
 end
