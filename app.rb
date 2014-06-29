@@ -7,31 +7,20 @@ require 'unicorn'
 require 'haml'
 require 'redcarpet'
 
-require 'data_mapper'
-require 'will_paginate'
-require 'will_paginate/data_mapper'
+require 'mongo'
 
-DataMapper.setup(:default, ENV['DATABASE_URL'] || "sqlite://#{File.expand_path(File.dirname(__FILE__))}/db/main.db")
+include Mongo
+
+db = MongoClient.new(ENV["DATABASE_URL"] || "localhost", 27017).db("bkmrkd")
+bookmarks = db.collection('bookmarks')
+
 
 helpers do
 
 end
 
-class Bookmark
-  include DataMapper::Resource
-
-  property :id, Serial
-  property :title, Text, required: true
-  property :url, Text, required: true
-  property :formatted_url, String, required: true
-  property :date_added, DateTime, required: true
-end
-
-DataMapper.finalize
-DataMapper.auto_upgrade!
-
 get '/' do
-  @bookmarks = Bookmark.paginate(page: params[:page], per_page: 25).reverse!
+  @bookmarks = bookmarks.find.to_a.reverse!
   if @bookmarks
     puts 'found some bookmarks'
   else
@@ -45,8 +34,8 @@ get '/colophon' do
 end
 
 get '/delete/:token' do
-  @bookmarklet = Bookmark.get(params[:token])
-  @bookmarklet.destroy()
+  @id = params[:token].to_i(10)
+  bookmarks.remove("id" => @id)
   flash.next[:success] = 'Bookmarklet deleted successfully'
   redirect '/'
 end
@@ -55,15 +44,13 @@ get '/add' do
   @title = params['title']
   @url = params['url']
   @callback = params['callback']
+  @action = params['action']
+  @id = bookmarks.count + 1
   @formatted_url = @url.split('/')[2]
 
-  @bookmark = Bookmark.new(title: @title, url: @url, formatted_url: @formatted_url, date_added: Time.now)
+  @bookmark = bookmarks.insert("id" => @id, "title" => @title, "url" => @url, "formatted_url" => @formatted_url, "date_added" => Time.now)
 
-  if @bookmark.valid?
-    @bookmark.save
-  else
-    @bookmark.errors.each do |err|
-      puts err
-    end
+  if @action === 'close'
+    return 'window.close();'
   end
 end

@@ -1,6 +1,6 @@
 # set path to app that will be used to configure unicorn,
 # note the trailing slash in this example
-@dir = "/Library/WebServer/Documents/lab/sinatra/bookmarklets/"
+@dir = "/Library/WebServer/Documents/lab/sinatra/bkmrkd/"
 
 worker_processes 2
 working_directory @dir
@@ -12,7 +12,7 @@ timeout 30
 listen "#{@dir}tmp/sockets/unicorn.sock", :backlog => 64
 
 # Set process id path
-pid "#{@dir}tmp/pids/unicorn.pid"
+pid "#{@dir}tmp/pid/unicorn.pid"
 
 # Set log file paths
 stderr_path "#{@dir}log/unicorn.stderr.log"
