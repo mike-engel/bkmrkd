@@ -80,28 +80,25 @@ p {
   .bookmarks .pagination {
     font-size: 14px;
     font-size: 0.875rem;
-    padding: 30px 0; }
-    .bookmarks .pagination .previous_page {
+    padding: 0 0 30px 0; }
+    .bookmarks .pagination .pagination__previous-page {
       margin-right: 20px; }
-    .bookmarks .pagination .next_page {
+    .bookmarks .pagination .pagination__next-page {
       margin-left: 20px; }
     .bookmarks .pagination .disabled {
       opacity: 0.5;
       padding: 2px; }
     .bookmarks .pagination .current {
-      font-style: normal;
       margin-right: 5px;
-      padding: 2px; }
-    .bookmarks .pagination .current,
-    .bookmarks .pagination a {
+      padding: 2px;
+      border-bottom: 2px solid #2187F6; }
+    .bookmarks .pagination .pagination__page {
       margin-right: 5px; }
-      .bookmarks .pagination .current:nth-last-child(2), .bookmarks .pagination .current:last-child,
-      .bookmarks .pagination a:nth-last-child(2),
-      .bookmarks .pagination a:last-child {
+      .bookmarks .pagination .pagination__page:nth-last-child(2) {
         margin-right: 0; }
   .bookmarks .bookmark {
     margin: 0 0 50px 0; }
-    .bookmarks .bookmark:nth-last-child(2) {
+    .bookmarks .bookmark:last-child {
       margin: 0; }
   .bookmarks .bookmark__title {
     display: inline-block;
