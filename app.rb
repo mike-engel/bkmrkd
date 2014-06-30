@@ -20,12 +20,6 @@ helpers do
 
 end
 
-bookmarks.remove
-
-30.times do |n|
-    bookmarks.insert(id: n, title: "Testing #{n}", formatted_url: 'http://www.google.com', date_added: Time.now)
-end
-
 get '/' do
     if params[:page]
         @page_number = params[:page].to_i

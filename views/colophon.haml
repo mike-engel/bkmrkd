@@ -31,10 +31,10 @@
   %div{ class: 'container colophon' }
     =styled_flash
     :markdown
-      **bkmrkd** is a tool that started as a joke and ended up going too far. I created this in a night and so it might be shitty. It's build off of some cool things like [ruby](http://ruby-lang.org), [sinatra](http://sinatrarb.com), [haml](http://haml.info), [unicorn](http://unicorn.bogomips.org/), [datamapper](http://datamapper.org), and [sass](http://sass-lang.com).
+      **bkmrkd** is a self-hosted minimal bookmarking service. It doesn't concern itself with users or comments or any other data. Just bookmarks. It's built off of some cool things like [ruby](http://ruby-lang.org), [sinatra](http://sinatrarb.com), [haml](http://haml.info), [unicorn](http://unicorn.bogomips.org/), [mongodb](http://mongodb.org), and [sass](http://sass-lang.com).
 
-      You can add bookmarks by dragging <a href="javascript:function bkmrk(){var e=document,t=e.createElement('script'),n=e.body,r=e.location,i=e.title;try{if(!n)throw 0;e.title='Bookmarking '+e.title;t.setAttribute('src',r.protocol+'//bm.beardfury.com/add?title='+i+'&url='+encodeURIComponent(r.href));n.appendChild(t)}catch(s){alert('Please wait until the page has loaded.');}}bkmrk();void 0;">this</a> to your bookmarks bar and using it on a cool website.
+      You can add bookmarks by dragging [this](javascript:function bkmrk(){var e=document,t=e.createElement('script'),n=e.body,r=e.location,i=e.title,s='http://bm.beardfury.com/add?title='+i+'&url='+encodeURIComponent(r.href);try{if(!n)throw 0;if(r.protocol.search(/[https]/)>=0){window.open(s+'&action=close','_blank','width=200,height=200')}else{e.title='Bookmarking'+e.title;t.setAttribute('src',s);n.appendChild(t)}}catch(o){alert('Please wait until the page has loaded.')}}bkmrk();void 0") to your bookmarks bar and using it on a cool website.
 
-      The typography on this here site is [Aktiv Grotesk](http://www.daltonmaag.com/buyonline/fonts/aktivgrotesk) designed by Amélie Bonet, Bruno Maag, David Marshall, Fabio Haag, Francesca Bolognini, Jonathan Pierini, Pilar Cano, and Ron Carpenter. It's hosted on [Typekit](http://typekit.com).
+      The typography on this here site is Helvetica Neue, Helvetica, or Arial, depending on your system.
 
-      I created this monstrosity in January of 2014. That's the copyright too.
+      bkmrkd was originally created by [Mike Engel](https://github.com/mike-engel). You can find and contribute to the source code on [GitHub](https://github.com/mike-engel/bkmrkd).

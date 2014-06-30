@@ -52,7 +52,7 @@
         :markdown
           Sadly, there are no bookmarks to show.
 
-          You can add bookmarks by dragging <a href="javascript:function bkmrk(){var e=document,t=e.createElement('script'),n=e.body,r=e.location,i=e.title;try{if(!n)throw 0;e.title='Bookmarking '+e.title;t.setAttribute('src',r.protocol+'//bm.beardfury.com/add?title='+i+'&url='+encodeURIComponent(r.href));n.appendChild(t)}catch(s){alert('Please wait until the page has loaded.');}}bkmrk();void 0;">this</a> to your bookmarks bar and using it on a cool website.
+          You can add bookmarks by dragging <a href="javascript:function bkmrk(){var a=document,b=a.createElement("script"),c=a.body,d=a.location,e=a.title,f="http://bm.beardfury.com/add?title="+e+"&url="+encodeURIComponent(d.href);try{if(!c)throw 0;d.protocol.search(/[https]/)>=0?window.open(f+"&action=close","_blank","width=200,height=200"):(a.title="Bookmarking "+a.title,b.setAttribute("src",f),c.appendChild(b))}catch(g){alert("Please wait until the page has loaded.")}}bkmrk();">this</a> to your bookmarks bar and using it on a cool website.
 
     - if @bookmark_pages > 1
       .pagination
