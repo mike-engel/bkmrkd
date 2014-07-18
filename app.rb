@@ -59,6 +59,6 @@ get '/add' do
     meta.update( { '_id' => @id['_id'] }, { '$set' => { next_bookmark_id: @id['next_bookmark_id'] + 1 } } )
 
     if @action === 'close'
-        return 'javascript:window.close();'
+        return '<script>(function () { window.close(); } )()</script>'
     end
 end
