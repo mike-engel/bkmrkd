@@ -3,6 +3,9 @@ bkmrkd
 
 Bkmrkd is a self-hosted, lightweight bookmarking service run on Ruby and MongoDB
 
+![Home page](bkmrkd-home.png)
+![Colophon](bkmrkd-colophon.png)
+
 Installation
 ============
 
