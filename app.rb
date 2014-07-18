@@ -13,9 +13,10 @@ include Mongo
 
 db = MongoClient.new(ENV["DATABASE_URL"] || "localhost", 27017).db("bkmrkd")
 bookmarks = db.collection('bookmarks')
+meta = db.collection('meta')
 
 links_per_page = 25.0
-bookmark_next_id = 7
+meta.insert( { next_bookmark_id: bookmarks.count + 1 } )
 
 helpers do
 
@@ -30,10 +31,6 @@ get '/' do
 
     @bookmark_pages = (bookmarks.count / links_per_page).ceil
     @bookmarks = bookmarks.find.sort(id: :desc).skip(links_per_page * (@page_number - 1)).limit(links_per_page).to_a
-
-    puts "number of bookmarks: #{bookmarks.count}"
-    puts "page number: #{@page_number}"
-    puts "number of pages: #{@bookmark_pages}"
 
     haml :index
 end
@@ -54,11 +51,12 @@ get '/add' do
     @url = params['url']
     @callback = params['callback']
     @action = params['action']
+    @id = meta.find_one
     @formatted_url = @url.split('/')[2]
 
-    @bookmark = bookmarks.insert(id: bookmark_next_id, title: @title, url: @url, formatted_url: @formatted_url, date_added: Time.now)
+    @bookmark = bookmarks.insert(id: @id['next_bookmark_id'], title: @title, url: @url, formatted_url: @formatted_url, date_added: Time.now)
 
-    bookmark_next_id += 1
+    meta.update( { '_id' => @id['_id'] }, { '$set' => { next_bookmark_id: @id['next_bookmark_id'] + 1 } } )
 
     if @action === 'close'
         return 'javascript:window.close();'
