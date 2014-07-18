@@ -15,6 +15,7 @@ db = MongoClient.new(ENV["DATABASE_URL"] || "localhost", 27017).db("bkmrkd")
 bookmarks = db.collection('bookmarks')
 
 links_per_page = 25.0
+bookmark_next_id = 7
 
 helpers do
 
@@ -53,12 +54,13 @@ get '/add' do
     @url = params['url']
     @callback = params['callback']
     @action = params['action']
-    @id = bookmarks.count + 1
     @formatted_url = @url.split('/')[2]
 
-    @bookmark = bookmarks.insert(id: @id, title: @title, url: @url, formatted_url: @formatted_url, date_added: Time.now)
+    @bookmark = bookmarks.insert(id: bookmark_next_id, title: @title, url: @url, formatted_url: @formatted_url, date_added: Time.now)
+
+    bookmark_next_id += 1
 
     if @action === 'close'
-        return 'window.close();'
+        return 'javascript:window.close();'
     end
 end
