@@ -3,17 +3,21 @@
 import React from 'react'
 
 export var navigation = React.createClass({
-  render: function() {
-    let bkmrkClassString = this.props.page === 'bkmrks' ? 'active' : '',
-      colophonClassString = this.props.page === 'colophon' ? 'active' : ''
+  propTypes: {
+    page: React.PropTypes.string
+  },
+  render: function () {
+    let bkmrkClassString = this.props.page === 'bkmrks' ? 'active' : ''
+    let colophonClassString = this.props.page === 'colophon' ? 'active' : ''
 
-    return (<nav>
+    return (
+      <nav>
         <ul>
           <li>
-            <a href="/" class={bkmrkClassString}>Bkmrks</a>
+            <a href='/' className={bkmrkClassString}>Bkmrks</a>
           </li>
           <li>
-            <a href="/colophon" class={colophonClassString}>Colophon</a>
+            <a href='/colophon' className={colophonClassString}>Colophon</a>
           </li>
         </ul>
       </nav>
