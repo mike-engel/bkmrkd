@@ -1,6 +1,3 @@
 .DS_Store
 Thumbs.db
-.sass-cache/
-log/
-tmp/
-bundle/
+node_modules

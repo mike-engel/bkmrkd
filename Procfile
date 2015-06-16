@@ -1,1 +1,0 @@
-web: unicorn -p 3000 -c unicorn.rb -E production -D
