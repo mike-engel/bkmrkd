@@ -1,0 +1,59 @@
+{
+  "name": "bkmrkd",
+  "version": "2.0.0",
+  "description": "A simple self-hosted bookmark manager written in javascript",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mike-engel/bkmrkd.git"
+  },
+  "keywords": [
+    "bkmrkd",
+    "bookmarks",
+    "bookmark",
+    "manager",
+    "manager",
+    "bookmark"
+  ],
+  "author": "Mike Engel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mike-engel/bkmrkd/issues"
+  },
+  "homepage": "https://github.com/mike-engel/bkmrkd",
+  "dependencies": {
+    "body-parser": "^1.13.0",
+    "compression": "^1.5.0",
+    "cookie-parser": "^1.3.5",
+    "ejs": "^2.3.1",
+    "express": "^4.12.4",
+    "pm2": "^0.14.0",
+    "react": "^0.13.3",
+    "rethinkdb": "^2.0.0-2",
+    "socket.io": "^1.3.5",
+    "standard": "^4.2.1"
+  },
+  "devDependencies": {
+    "autoprefixer-core": "^5.2.0",
+    "babel": "^5.5.8",
+    "babelify": "^6.1.2",
+    "browser-sync": "^2.7.10",
+    "browserify": "^10.2.4",
+    "bundle-collapser": "^1.2.0",
+    "gulp": "^3.9.0",
+    "gulp-csslint": "^0.1.5",
+    "gulp-cssmin": "^0.1.7",
+    "gulp-if": "^1.2.5",
+    "gulp-less": "^3.0.3",
+    "gulp-postcss": "^5.1.8",
+    "gulp-react": "^3.0.1",
+    "gulp-uglify": "^1.2.0",
+    "pre-commit": "^1.0.10",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.2.2"
+  }
+}
