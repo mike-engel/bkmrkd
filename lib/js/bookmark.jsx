@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-export var bookmark = React.createClass({
+export default React.createClass({
   propTypes: {
     bookmark: React.PropTypes.object
   },

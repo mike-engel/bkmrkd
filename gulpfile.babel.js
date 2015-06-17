@@ -13,10 +13,10 @@ import gulpif from 'gulp-if'
 
 function evalWatch () {
   if ((process.env.NODE_ENV && process.env.NODE_ENV !== 'development') || process.argv[1] === 'dist') {
-    return false
+    return true
   }
 
-  return true
+  return false
 }
 
 gulp.task('styles', () => {
@@ -33,9 +33,10 @@ gulp.task('styles', () => {
 
 gulp.task('scripts', () => {
   let b = browserify({
-      entries: './lib/js/*.jsx',
+      entries: ['./lib/js/bkmrkd.js'],
       cache: {},
-      packageCache: {}
+      packageCache: {},
+      standalone: 'bkmrkd'
     })
 
   if (evalWatch()) {
@@ -52,4 +53,4 @@ gulp.task('scripts', () => {
     .pipe(gulp.dest('./dist/js'))
 })
 
-gulp.task('default', ['styles'])
+gulp.task('default', ['styles', 'scripts'])

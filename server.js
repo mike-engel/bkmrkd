@@ -5,13 +5,16 @@ var server = http.createServer(app)
 var io = require('socket.io').listen(server)
 var path = require('path')
 
-app.set('view-engine', 'ejs')
+app.set('view engine', 'ejs')
+app.use(express.static('./dist'))
 
 http.globalAgent.maxSockets = 1000
 
 app.route('/')
   .get(function (req, res) {
-    res.sendFile(path.join(__dirname, './views/index.html'))
+    res.render('index', {
+      markup: 'Hey'
+    })
   })
 
 app.route('colophon')

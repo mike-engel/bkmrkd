@@ -3,7 +3,7 @@
 import React from 'react'
 import Bookmark from './bookmark.jsx'
 
-export var bookmarks = React.createClass({
+export default React.createClass({
   propTypes: {
     bookmarks: React.PropTypes.array
   },
