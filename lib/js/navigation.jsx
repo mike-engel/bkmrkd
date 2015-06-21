@@ -11,16 +11,14 @@ export default React.createClass({
     let colophonClassString = this.props.page === 'colophon' ? 'active' : ''
 
     return (
-      <nav>
-        <ul>
-          <li className={bkmrkClassString}>
-            <a href='/'>Bkmrks</a>
-          </li>
-          <li className={colophonClassString}>
-            <a href='/colophon'>Colophon</a>
-          </li>
-        </ul>
-      </nav>
+      <ul>
+        <li className={bkmrkClassString}>
+          <a href='/'>Bkmrks</a>
+        </li>
+        <li className={colophonClassString}>
+          <a href='/colophon'>Colophon</a>
+        </li>
+      </ul>
     )
   }
 })

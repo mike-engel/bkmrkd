@@ -9,14 +9,14 @@ import source from 'vinyl-source-stream'
 import buffer from 'vinyl-buffer'
 import uglify from 'gulp-uglify'
 import gulpif from 'gulp-if'
-// import browsersync from 'browser-sync'
+import browsersync from 'browser-sync'
 
 function evalWatch () {
   if ((process.env.NODE_ENV && process.env.NODE_ENV !== 'development') || process.argv[1] === 'dist') {
-    return true
+    return false
   }
 
-  return false
+  return true
 }
 
 gulp.task('styles', () => {
@@ -29,6 +29,9 @@ gulp.task('styles', () => {
     ]))
     .pipe(csslint())
     .pipe(gulp.dest('./dist/css'))
+    .pipe(browsersync.stream({
+      once: true
+    }))
 })
 
 gulp.task('scripts', () => {
@@ -49,8 +52,22 @@ gulp.task('scripts', () => {
   b.bundle()
     .pipe(source('bkmrkd.js'))
     .pipe(buffer())
-    .pipe(gulpif(evalWatch(), uglify()))
+    .pipe(gulpif(!evalWatch(), uglify()))
     .pipe(gulp.dest('./dist/js'))
+    .pipe(browsersync.stream({
+      once: true
+    }))
 })
 
-gulp.task('default', ['styles', 'scripts'])
+gulp.task('browsersync', () => {
+  browsersync.init({
+    proxy: 'localhost:3000',
+    open: false,
+    notify: false
+  })
+})
+
+gulp.task('default', ['styles', 'scripts', 'browsersync'], () => {
+  gulp.watch('./lib/js/**/*', ['scripts'])
+  gulp.watch('./lib/less/**/*', ['styles'])
+})

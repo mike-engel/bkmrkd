@@ -4,7 +4,8 @@
   "description": "A simple self-hosted bookmark manager written in javascript",
   "main": "server.js",
   "scripts": {
-    "test": "standard"
+    "test": "standard",
+    "start": "babel-node server.js"
   },
   "repository": {
     "type": "git",

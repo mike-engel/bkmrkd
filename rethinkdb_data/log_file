@@ -1,0 +1,29 @@
+2015-06-20T22:27:25.657428000 0.360871s notice: Recursively removing directory /Users/mike/Projects/bkmrkd/rethinkdb_data/tmp
+2015-06-20T22:27:25.659041000 0.362486s notice: Initializing directory /Users/mike/Projects/bkmrkd/rethinkdb_data
+2015-06-20T22:27:25.659139000 0.362581s info: Creating a default database for your convenience. (This is because you ran 'rethinkdb' without 'create', 'serve', or '--join', and the directory '/Users/mike/Projects/bkmrkd/rethinkdb_data' did not already exist or is empty.)
+2015-06-20T22:27:25.659161000 0.362602s notice: Running rethinkdb 2.0.3 (CLANG 6.1.0 (clang-602.0.53))...
+2015-06-20T22:27:25.664738000 0.368181s notice: Running on Darwin 14.4.0 x86_64
+2015-06-20T22:27:25.664781000 0.368222s notice: Loading data from directory /Users/mike/Projects/bkmrkd/rethinkdb_data
+2015-06-20T22:27:25.853468000 0.556909s info: Automatically using cache size of 1088 MB
+2015-06-20T22:27:25.855020000 0.558461s notice: Listening for intracluster connections on port 29015
+2015-06-20T22:27:25.858823000 0.562264s notice: Listening for client driver connections on port 28015
+2015-06-20T22:27:25.858947000 0.562388s notice: Listening for administrative HTTP connections on port 8080
+2015-06-20T22:27:25.858950000 0.562390s notice: Listening on addresses: 127.0.0.1, ::1
+2015-06-20T22:27:25.858953000 0.562394s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2015-06-20T22:27:25.858956000 0.562397s notice: Server ready, "the_dude_local_w66" aacda1cb-5f98-43f6-864d-e9c7edbdaa16
+2015-06-20T22:27:46.434135000 21.136794s notice: Server got SIGINT from pid 423, uid 501; shutting down...
+2015-06-20T22:27:46.434296000 21.136955s notice: Shutting down client connections...
+2015-06-20T22:27:46.434515000 21.137174s notice: All client connections closed.
+2015-06-20T22:27:46.434527000 21.137186s notice: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)
+2015-06-20T22:27:46.437725000 21.140385s notice: Storage engine shut down.
+2015-06-20T22:40:58.720612000 0.370076s notice: Running rethinkdb 2.0.3 (CLANG 6.1.0 (clang-602.0.53))...
+2015-06-20T22:40:58.728008000 0.377468s notice: Running on Darwin 14.4.0 x86_64
+2015-06-20T22:40:58.728096000 0.377554s notice: Loading data from directory /Users/mike/Projects/bkmrkd/rethinkdb_data
+2015-06-20T22:40:58.771538000 0.420996s info: Automatically using cache size of 995 MB
+2015-06-20T22:40:58.773194000 0.422652s notice: Listening for intracluster connections on port 29015
+2015-06-20T22:40:58.776283000 0.425741s notice: Listening for client driver connections on port 28015
+2015-06-20T22:40:58.776404000 0.425862s notice: Listening for administrative HTTP connections on port 8080
+2015-06-20T22:40:58.776411000 0.425868s notice: Listening on addresses: 127.0.0.1, ::1
+2015-06-20T22:40:58.776416000 0.425873s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2015-06-20T22:40:58.776420000 0.425878s notice: Server ready, "the_dude_local_w66" aacda1cb-5f98-43f6-864d-e9c7edbdaa16
+2015-06-20T23:19:30.161020000 2311.720394s notice: Removing file /Users/mike/Projects/bkmrkd/rethinkdb_data/84716fc8-b100-4f5d-b090-c5a98ff6bf78
