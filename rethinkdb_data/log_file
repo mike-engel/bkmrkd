@@ -27,3 +27,5 @@
 2015-06-20T22:40:58.776416000 0.425873s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
 2015-06-20T22:40:58.776420000 0.425878s notice: Server ready, "the_dude_local_w66" aacda1cb-5f98-43f6-864d-e9c7edbdaa16
 2015-06-20T23:19:30.161020000 2311.720394s notice: Removing file /Users/mike/Projects/bkmrkd/rethinkdb_data/84716fc8-b100-4f5d-b090-c5a98ff6bf78
+2015-06-21T22:07:26.559144000 8507.770399s notice: Removing file /Users/mike/Projects/bkmrkd/rethinkdb_data/52c46ba3-5712-40b7-bbfc-4b00d8d3f355
+2015-06-21T23:23:42.797919000 13083.831599s notice: Removing file /Users/mike/Projects/bkmrkd/rethinkdb_data/f080fd50-ba36-4721-b426-017c0d89ed8e

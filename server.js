@@ -139,7 +139,26 @@ io.on('connection', (socket) => {
       })
     }
 
-    cursor.each(console.log)
+    cursor.each((err, bookmark) => {
+      if (err) {
+        console.log('Error subscribing for updates: ', err)
+
+        socket.emit('error', {
+          message: 'There\'s been an error subscribing for updates. Try refreshing the page.'
+        })
+      }
+
+      if (bookmark['old_val']) {
+        socket.emit('bookmark-update', {
+          old: bookmark['old_val'],
+          new: bookmark['new_val']
+        })
+      } else {
+        socket.emit('new-bookmark', {
+          bookmark: bookmark['new_val']
+        })
+      }
+    })
   })
 })
 
