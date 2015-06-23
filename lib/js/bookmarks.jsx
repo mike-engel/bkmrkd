@@ -2,8 +2,10 @@
 
 'use strict'
 
-import React from 'react'
+import React from 'react/addons'
 import Bookmark from './bookmark.jsx'
+
+const update = React.addons.update
 
 export default React.createClass({
   propTypes: {
@@ -15,22 +17,27 @@ export default React.createClass({
     }
   },
   addNewBookmark: function (bookmark) {
-    console.log('new bookmark: ', bookmark)
-
     this.setState({
-      bookmarks: [bookmark].concat(this.state.bookmarks)
+      bookmarks: update(this.state.bookmarks, {$push: [bookmark]})
     })
   },
   render: function () {
     socket.on('new-bookmark', (data) => {
-      console.log(this)
       this.addNewBookmark(data.bookmark)
     })
 
     if (this.state.bookmarks.length) {
       return (
         <ul className='bookmarks'>
-          {this.state.bookmarks.map(function (bookmark) {
+          {this.state.bookmarks.sort((a, b) => {
+            if (a.createdOn < b.createdOn) {
+              return 1
+            } else if (a.createdOn > b.createdOn) {
+              return -1
+            } else {
+              return 0
+            }
+          }).map((bookmark) => {
             return <Bookmark key={bookmark.id} bookmark={bookmark}/>
           })}
         </ul>

@@ -46,8 +46,19 @@ function createTable () {
         }
 
         console.info('creating the bookmarks table')
+        createIndex()
       })
     }
+  })
+}
+
+function createIndex () {
+  bkmrkd.table('bookmarks').indexCreate('createdOn').run(connection, (err, response) => {
+    if (err) {
+      throw new Error('Error creating the bookmarked index: ', err)
+    }
+
+    console.info('creating the bookmarks index')
   })
 }
 
@@ -93,7 +104,8 @@ app.route('/api/create')
 
     bkmrkd.table('bookmarks').insert({
       title: req.query.title,
-      url: req.query.url
+      url: req.query.url,
+      createdOn: new Date()
     }).run(connection, (err, response) => {
       if (err) {
         return res.status(500).json({
@@ -106,7 +118,7 @@ app.route('/api/create')
   })
 
 io.on('connection', (socket) => {
-  bkmrkd.table('bookmarks').run(connection, (err, cursor) => {
+  bkmrkd.table('bookmarks').limit(25).run(connection, (err, cursor) => {
     if (err) {
       console.log('Error getting the initial list of bookmarks: ', err)
 

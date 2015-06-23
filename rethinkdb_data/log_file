@@ -29,3 +29,6 @@
 2015-06-20T23:19:30.161020000 2311.720394s notice: Removing file /Users/mike/Projects/bkmrkd/rethinkdb_data/84716fc8-b100-4f5d-b090-c5a98ff6bf78
 2015-06-21T22:07:26.559144000 8507.770399s notice: Removing file /Users/mike/Projects/bkmrkd/rethinkdb_data/52c46ba3-5712-40b7-bbfc-4b00d8d3f355
 2015-06-21T23:23:42.797919000 13083.831599s notice: Removing file /Users/mike/Projects/bkmrkd/rethinkdb_data/f080fd50-ba36-4721-b426-017c0d89ed8e
+2015-06-22T21:18:28.142873000 17805.224893s notice: Removing file /Users/mike/Projects/bkmrkd/rethinkdb_data/fc5de59b-83ef-415f-8fd9-740f67f786a7
+2015-06-22T22:03:28.571751000 20505.548708s notice: Removing file /Users/mike/Projects/bkmrkd/rethinkdb_data/57bd8e8e-478d-45e9-b807-7fd378a848e4
+2015-06-22T22:09:54.305117000 20891.267135s notice: Removing file /Users/mike/Projects/bkmrkd/rethinkdb_data/64fe2e5f-3756-4da1-aac6-4ef5a947c864
