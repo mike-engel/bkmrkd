@@ -122,7 +122,7 @@ io.on('connection', (socket) => {
     if (err) {
       console.log('Error getting the initial list of bookmarks: ', err)
 
-      socket.emit('error', {
+      return socket.emit('error', {
         message: 'There\'s been an error getting the initial list of bookmarks. Try refreshing the page.'
       })
     }
@@ -131,7 +131,7 @@ io.on('connection', (socket) => {
       if (err) {
         console.log('Error getting the initial list of bookmarks: ', err)
 
-        socket.emit('error', {
+        return socket.emit('error', {
           message: 'There\'s been an error getting the initial list of bookmarks. Try refreshing the page.'
         })
       }
@@ -146,7 +146,7 @@ io.on('connection', (socket) => {
     if (err) {
       console.log('Error subscribing for updates: ', err)
 
-      socket.emit('error', {
+      return socket.emit('error', {
         message: 'There\'s been an error subscribing for updates. Try refreshing the page.'
       })
     }
@@ -155,7 +155,7 @@ io.on('connection', (socket) => {
       if (err) {
         console.log('Error subscribing for updates: ', err)
 
-        socket.emit('error', {
+        return socket.emit('error', {
           message: 'There\'s been an error subscribing for updates. Try refreshing the page.'
         })
       }
@@ -170,6 +170,22 @@ io.on('connection', (socket) => {
           bookmark: bookmark['new_val']
         })
       }
+    })
+  })
+
+  socket.on('destroy-bookmark', (data) => {
+    bkmrkd.table('bookmarks').get(data.id).delete().run(connection, (err, response) => {
+      if (err) {
+        console.log('Error subscribing for updates: ', err)
+
+        return socket.emit('error', {
+          message: 'There\'s been an error subscribing for updates. Try refreshing the page.'
+        })
+      }
+
+      socket.emit('bookmark-destroyed', {
+        id: data.id
+      })
     })
   })
 })

@@ -21,6 +21,20 @@ export default React.createClass({
       bookmarks: update(this.state.bookmarks, {$push: [bookmark]})
     })
   },
+  removeBookmark: function (id) {
+    let index = 0
+
+    this.state.bookmarks.forEach((bookmark, idx) => {
+      if (bookmark.id === id) {
+        index = idx
+        return
+      }
+    })
+
+    this.setState({
+      bookmarks: update(this.state.bookmarks, {$splice: [[index, 1]]})
+    })
+  },
   render: function () {
     socket.on('new-bookmark', (data) => {
       this.addNewBookmark(data.bookmark)
@@ -38,7 +52,9 @@ export default React.createClass({
               return 0
             }
           }).map((bookmark) => {
-            return <Bookmark key={bookmark.id} bookmark={bookmark}/>
+            const removeHelper = this.removeBookmark
+
+            return <Bookmark key={bookmark.id} bookmark={bookmark} removeHelper={removeHelper}/>
           })}
         </ul>
       )

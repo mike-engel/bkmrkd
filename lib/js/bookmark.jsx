@@ -1,13 +1,24 @@
+/* global socket */
+
 'use strict'
 
 import React from 'react'
 
 export default React.createClass({
   propTypes: {
-    bookmark: React.PropTypes.object
+    bookmark: React.PropTypes.object,
+    removeHelper: React.PropTypes.func
   },
-  destroyBookmark: function () {
-    // delete the bookmark
+  destroyBookmark: function (evt) {
+    evt.preventDefault()
+
+    socket.on('bookmark-destroyed', (data) => {
+      this.props.removeHelper(data.id)
+    })
+
+    socket.emit('destroy-bookmark', {
+      id: this.props.bookmark.id
+    })
   },
   getTimeString: function () {
     const months = {
@@ -24,7 +35,7 @@ export default React.createClass({
       10: 'November',
       11: 'December'
     }
-    const date = new Date(this.props.bookmark.date)
+    const date = new Date(this.props.bookmark.createdOn)
     const month = months[date.getMonth()]
     const day = date.getDate()
     const year = date.getFullYear()
@@ -49,9 +60,9 @@ export default React.createClass({
         <a href={this.props.bookmark.url}>
           <h2 className='bookmark-name'>{this.props.bookmark.title}</h2>
         </a>
-        <span className='date'>{this.getTimeString}</span>
-        <a href={this.getWebsite} className='website'>{this.getWebsite}</a>
-        <a href={'/api/destroy/' + this.props.bookmark.id}>Destroy</a>
+        <span className='date'>{this.getTimeString()}</span>
+        <a href={this.getWebsite()} className='website'>{this.getWebsite()}</a>
+        <a href={'/api/destroy/' + this.props.bookmark.id} onClick={this.destroyBookmark}>Destroy</a>
       </li>
     )
   }
