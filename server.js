@@ -3,6 +3,9 @@ import http from 'http'
 import socketIO from 'socket.io'
 import path from 'path'
 import rethink from 'rethinkdb'
+import React from 'react'
+import Navigation from './lib/js/navigation.jsx'
+import Bookmarks from './lib/js/bookmarks.jsx'
 
 const app = express()
 const server = http.Server(app)
@@ -82,8 +85,38 @@ http.globalAgent.maxSockets = 1000
 
 app.route('/')
   .get((req, res) => {
-    res.render('index', {
-      markup: '<h2 className="h1">No bookmarks yet! Place the script in your bookmarks bar and start bookmarking!</h2>'
+    const nav = React.createElement(Navigation, {
+      page: ''
+    })
+
+    bkmrkd.table('bookmarks').limit(25).run(connection, (err, cursor) => {
+      if (err) {
+        console.log('Error getting the initial list of bookmarks: ', err)
+
+        return res.status(500).json({
+          message: 'There\'s been an error getting the initial list of bookmarks.'
+        })
+      }
+
+      cursor.toArray((err, result) => {
+        if (err) {
+          console.log('Error getting the initial list of bookmarks: ', err)
+
+          return res.status(500).json({
+            message: 'There\'s been an error getting the initial list of bookmarks.'
+          })
+        }
+
+        const bookmarks = React.createElement(Bookmarks, {
+          bookmarks: result,
+          socket: {}
+        })
+
+        res.render('index', {
+          navigation: React.renderToString(nav),
+          markup: React.renderToString(bookmarks)
+        })
+      })
     })
   })
 

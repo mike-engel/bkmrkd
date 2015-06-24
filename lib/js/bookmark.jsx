@@ -1,5 +1,3 @@
-/* global socket */
-
 'use strict'
 
 import React from 'react'
@@ -7,18 +5,21 @@ import React from 'react'
 export default React.createClass({
   propTypes: {
     bookmark: React.PropTypes.object,
-    removeHelper: React.PropTypes.func
+    removeHelper: React.PropTypes.func,
+    socket: React.PropTypes.object
   },
   destroyBookmark: function (evt) {
     evt.preventDefault()
 
-    socket.on('bookmark-destroyed', (data) => {
-      this.props.removeHelper(data.id)
-    })
+    if (this.props.socket.on) {
+      this.props.socket.on('bookmark-destroyed', (data) => {
+        this.props.removeHelper(data.id)
+      })
 
-    socket.emit('destroy-bookmark', {
-      id: this.props.bookmark.id
-    })
+      this.props.socket.emit('destroy-bookmark', {
+        id: this.props.bookmark.id
+      })
+    }
   },
   getTimeString: function () {
     const months = {

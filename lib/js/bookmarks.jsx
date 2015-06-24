@@ -1,5 +1,3 @@
-/* global socket */
-
 'use strict'
 
 import React from 'react/addons'
@@ -9,11 +7,13 @@ const update = React.addons.update
 
 export default React.createClass({
   propTypes: {
-    bookmarks: React.PropTypes.array
+    bookmarks: React.PropTypes.array,
+    socket: React.PropTypes.object
   },
   getInitialState: function () {
     return {
-      bookmarks: this.props.bookmarks
+      bookmarks: this.props.bookmarks,
+      socket: this.props.socket
     }
   },
   addNewBookmark: function (bookmark) {
@@ -36,9 +36,13 @@ export default React.createClass({
     })
   },
   render: function () {
-    socket.on('new-bookmark', (data) => {
-      this.addNewBookmark(data.bookmark)
-    })
+    console.log(this.state, this.props)
+
+    if (this.state.socket.on) {
+      this.state.socket.on('new-bookmark', (data) => {
+        this.addNewBookmark(data.bookmark)
+      })
+    }
 
     if (this.state.bookmarks.length) {
       return (
@@ -54,7 +58,7 @@ export default React.createClass({
           }).map((bookmark) => {
             const removeHelper = this.removeBookmark
 
-            return <Bookmark key={bookmark.id} bookmark={bookmark} removeHelper={removeHelper}/>
+            return <Bookmark key={bookmark.id} bookmark={bookmark} removeHelper={removeHelper} socket={this.state.socket}/>
           })}
         </ul>
       )
