@@ -43,16 +43,20 @@ export default React.createClass({
     return `${month} ${day}, ${year}`
   },
   getWebsite: function () {
-    let url = this.props.bookmark.url
+    const url = this.props.bookmark.url
 
-    url.replace(/https\:\/\/|http\:\/\//, '')
-    url.replace(/www/, '')
+    let rootUrl = url
+    let name = url.replace(/https:\/\/|http:\/\/|www/, '')
 
-    if (url.indexOf('/') > 0) {
-      url = url.subStr(0, url.indexOf('/'))
+    if (name.indexOf('/') !== -1) {
+      name = name.substr(0, name.indexOf('/'))
+      rootUrl = rootUrl.substr(0, 8)
     }
 
-    return url
+    return {
+      name: name,
+      url: rootUrl
+    }
   },
   render: function () {
     return (
@@ -61,7 +65,7 @@ export default React.createClass({
           <h2 className='bookmark-name'>{this.props.bookmark.title}</h2>
         </a>
         <span className='date'>{this.getTimeString()}</span>
-        <a href={this.getWebsite()} className='website'>{this.getWebsite()}</a>
+        <a href={this.getWebsite().url} target='_blank' className='website'>{this.getWebsite().name}</a>
         <a href={'/api/destroy/' + this.props.bookmark.id} onClick={this.destroyBookmark}>Destroy</a>
       </li>
     )
