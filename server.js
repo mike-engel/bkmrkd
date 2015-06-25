@@ -1,7 +1,8 @@
 import express from 'express'
 import http from 'http'
 import socketIO from 'socket.io'
-import path from 'path'
+import compression from 'compression'
+import bodyParser from 'body-parser'
 import rethink from 'rethinkdb'
 import React from 'react'
 import Navigation from './lib/js/navigation.jsx'
@@ -10,6 +11,7 @@ import Bookmarks from './lib/js/bookmarks.jsx'
 const app = express()
 const server = http.Server(app)
 const io = socketIO(server)
+const env = process.env.NODE_ENV || 'development'
 
 let connection
 let bkmrkd
@@ -79,14 +81,25 @@ rethink.connect({
 })
 
 app.set('view engine', 'ejs')
-app.use(express.static('./dist'))
+app.set('x-powered-by', false)
+app.set('trust proxy', true)
+app.set('query parser', 'simple')
+
+app.use(compression())
+app.use(express.static('./dist', {
+  maxAge: env === 'development' ? 0 : 31500000000,
+  index: false
+}))
+app.use(bodyParser.urlencoded({
+  extended: false
+}))
 
 http.globalAgent.maxSockets = 1000
 
-app.route('/')
+app.route(/^\/(colophon)?/)
   .get((req, res) => {
     const nav = React.createElement(Navigation, {
-      page: ''
+      page: req.path === '/' ? '' : 'colophon'
     })
 
     bkmrkd.table('bookmarks').limit(25).run(connection, (err, cursor) => {
@@ -114,15 +127,11 @@ app.route('/')
 
         res.render('index', {
           navigation: React.renderToString(nav),
-          markup: React.renderToString(bookmarks)
+          bookmarks: React.renderToString(bookmarks),
+          page: req.path.substr(1)
         })
       })
     })
-  })
-
-app.route('/colophon')
-  .get((req, res) => {
-    res.sendFile(path.join(__dirname, './views/colophon.html'))
   })
 
 // /api/create?title=Some%20interesting%20title&url=http://google.com

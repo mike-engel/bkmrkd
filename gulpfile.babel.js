@@ -12,7 +12,7 @@ import gulpif from 'gulp-if'
 import browsersync from 'browser-sync'
 
 function evalWatch () {
-  if ((process.env.NODE_ENV && process.env.NODE_ENV !== 'development') || process.argv[1] === 'dist') {
+  if ((process.env.NODE_ENV && process.env.NODE_ENV !== 'development') || process.argv[2] === 'dist') {
     return false
   }
 
@@ -47,6 +47,7 @@ gulp.task('scripts', () => {
   }
 
   b.transform('babelify')
+  b.plugin('brfs')
   b.plugin('bundle-collapser/plugin')
 
   b.bundle()
@@ -68,6 +69,9 @@ gulp.task('browsersync', () => {
 })
 
 gulp.task('default', ['styles', 'scripts', 'browsersync'], () => {
-  gulp.watch('./lib/js/**/*', ['scripts'])
+  gulp.watch('./lib/js/**/*.js', ['scripts'])
+  gulp.watch('./lib/js/**/*.jsx', ['scripts'])
   gulp.watch('./lib/less/**/*', ['styles'])
 })
+
+gulp.task('dist', ['styles', 'scripts'])

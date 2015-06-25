@@ -36,8 +36,6 @@ export default React.createClass({
     })
   },
   render: function () {
-    console.log(this.state, this.props)
-
     if (this.state.socket.on) {
       this.state.socket.on('new-bookmark', (data) => {
         this.addNewBookmark(data.bookmark)

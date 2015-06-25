@@ -67,7 +67,7 @@ export default React.createClass({
         </a>
         <span className='date'>{this.getTimeString()}</span>
         <a href={this.getWebsite().url} target='_blank' className='website'>{this.getWebsite().name}</a>
-        <a href={'/api/destroy/' + this.props.bookmark.id} onClick={this.destroyBookmark}>Destroy</a>
+        <a href={'/api/destroy/' + this.props.bookmark.id} onClick={this.destroyBookmark} className='destroy'>destroy</a>
       </li>
     )
   }

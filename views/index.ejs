@@ -4,15 +4,162 @@
   <meta charset="utf-8">
   <meta name="viewport" content="initial-scale=1,user-scalable=no">
 
-  <title>Bkmrkd</title>
+  <title><%= page === '' ? 'bkmrkd' : 'Colophon – bkmrkd' %></title>
+
+  <style>
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    font: normal normal 16px/1.4 "Helvetica Neue", Helvetica, Arial, Sans-serif;
+    color: #34495E;
+  }
+
+  a {
+    color: #3498DB;
+    text-decoration: none;
+    transition: color 200ms;
+  }
+
+  a:hover,
+  a:active {
+    color: #2980B9;
+  }
+
+  ul {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .main-nav {
+    padding: 0 15px 0 15px;
+    background-color: #3498DB;
+  }
+
+  .main-nav a,
+  .main-nav .h1 {
+    color: white;
+  }
+
+  .h1 {
+    display: inline-block;
+    margin: 0;
+    padding-top: 5px;
+    font-size: 2.56rem;
+    letter-spacing: -0.05rem;
+  }
+
+  nav ul {
+    margin-bottom: 0;
+  }
+
+  nav li {
+    display: inline-block;
+    margin: 0 10px;
+  }
+
+  nav li:first-child {
+    margin-left: 0;
+  }
+
+  nav a {
+    display: block;
+    padding: 5px 0;
+  }
+
+  nav .active {
+    border-bottom: 3px solid white;
+  }
+
+  .no-js {
+    padding: 10px 15px;
+    margin: 0;
+    font-size: 0.875rem;
+    color: #685300;
+    background-color: #F1C40F;
+  }
+
+  .bookmarks-list,
+  .colophon {
+    position: absolute;
+    width: 100%;
+    height: calc(100% - 113px);
+    overflow: hidden;
+    transition: left 200ms;
+  }
+
+  .bookmarks-list {
+    left: -100%;
+  }
+
+  .colophon {
+    left: 100%;
+    padding: 9px 15px;
+  }
+
+  .bookmarks-list.active,
+  .colophon.active {
+    left: 0;
+    height: auto;
+  }
+
+  .bookmarks {
+    margin: 30px 15px;
+  }
+
+  .bookmarks li + li {
+    margin-top: 20px;
+  }
+
+  .bookmark-name {
+    margin: 0;
+    line-height: 1.2;
+    font-weight: 500;
+    font-size: 1.4rem;
+  }
+
+  .date,
+  .website,
+  .destroy {
+    font-size: 0.875rem;
+  }
+
+  .date:after,
+  .website:after {
+    content: '•';
+    margin: 0 5px;
+    color: #95A5A6;
+  }
+
+  .date {
+    color: #7F8C8D;
+  }
+
+  .destroy:hover,
+  .destroy:active {
+    color: #C0392B;
+  }
+  </style>
 </head>
 <body>
   <header class="main-nav">
     <h1 class="h1">bkmrkd</h1>
     <nav data-hook="main-nav"><%- navigation %></nav>
   </header>
-  <div data-hook="main-content"><%- markup %></div>
-  <script src="/socket.io/socket.io.js"></script>
+  <noscript>
+    <p class="no-js">Just so you know, you have javascript turned off. You won't receive updates until you refresh</p>
+  </noscript>
+  <div class="bookmarks-list <%= page === '' ? 'active' : '' %>" data-hook="bookmarks"><%- bookmarks %></div>
+  <div class="colophon <%= page === 'colophon' ? 'active' : '' %>" data-hook="colophon">
+    <h2 class="h2">Colophon</h2>
+    <p>bkmrkd was created by <a href="https://github.com/mike-engel">Mike Engel</a> as an experiment in creating a service tied to a bookmarklet. Since then it's been rewritten in <a href="https://nodejs.org">Node</a> and <a href="https://facebook.github.io/react/index.html">React</a>. It's used as a playground for new web dev techniques such as isomorphic rendering, service worker, etc.</p>
+    <p>To add bookmarks here, simply drag this <a href="javascript:void(0);">bookmarklet</a> to your bookmarks bar (or favorites bar or  whatever) and click it when you're on a page you want to bookmark.</p>
+    <p>You can view the code on <a href="https://github.com/mike-engel/bkmrkd">Github</a>, and file <a href="https://github.com/mike-engel/bkmrkd/issues">issues</a> there too.</p>
+  </div>
   <script src="/js/bkmrkd.js"></script>
 </body>
 </html>
