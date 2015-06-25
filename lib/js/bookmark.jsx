@@ -62,7 +62,7 @@ export default React.createClass({
   render: function () {
     return (
       <li>
-        <a href={this.props.bookmark.url}>
+        <a href={this.props.bookmark.url} target='_blank'>
           <h2 className='bookmark-name'>{this.props.bookmark.title}</h2>
         </a>
         <span className='date'>{this.getTimeString()}</span>
