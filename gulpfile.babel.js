@@ -1,8 +1,4 @@
 import gulp from 'gulp'
-import less from 'gulp-less'
-import autoprefixer from 'autoprefixer-core'
-import postcss from 'gulp-postcss'
-import csslint from 'gulp-csslint'
 import browserify from 'browserify'
 import watchify from 'watchify'
 import source from 'vinyl-source-stream'
@@ -18,21 +14,6 @@ function evalWatch () {
 
   return true
 }
-
-gulp.task('styles', () => {
-  gulp.src('./lib/less/bkmrkd.less')
-    .pipe(less())
-    .pipe(postcss([
-      autoprefixer({
-        browsers: ['last 2 versions']
-      })
-    ]))
-    .pipe(csslint())
-    .pipe(gulp.dest('./dist/css'))
-    .pipe(browsersync.stream({
-      once: true
-    }))
-})
 
 gulp.task('scripts', () => {
   let b = browserify({
@@ -68,10 +49,9 @@ gulp.task('browsersync', () => {
   })
 })
 
-gulp.task('default', ['styles', 'scripts', 'browsersync'], () => {
+gulp.task('default', ['scripts', 'browsersync'], () => {
   gulp.watch('./lib/js/**/*.js', ['scripts'])
   gulp.watch('./lib/js/**/*.jsx', ['scripts'])
-  gulp.watch('./lib/less/**/*', ['styles'])
 })
 
-gulp.task('dist', ['styles', 'scripts'])
+gulp.task('dist', ['scripts'])
