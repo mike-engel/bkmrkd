@@ -15,6 +15,7 @@
   body {
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
     font: normal normal 16px/1.4 "Helvetica Neue", Helvetica, Arial, Sans-serif;
     color: #34495E;
   }
@@ -86,6 +87,7 @@
   .bookmarks-list,
   .colophon {
     position: absolute;
+    top: 0;
     width: 100%;
     height: calc(100% - 113px);
     overflow: hidden;
@@ -103,6 +105,7 @@
 
   .bookmarks-list.active,
   .colophon.active {
+    position: relative;
     left: 0;
     height: auto;
   }
@@ -142,6 +145,14 @@
   .destroy:hover,
   .destroy:active {
     color: #C0392B;
+  }
+
+  .no-bookmarks {
+    margin: 0;
+    padding: 15px;
+    color: #34495E;
+    text-align: center;
+    background-color: #BDC3C7;
   }
   </style>
 </head>

@@ -70,7 +70,7 @@ function createIndex () {
 }
 
 function escapeRegExp (str) {
-  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&')
+  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\\\^\$\|]/g, '\\$&')
 }
 
 rethink.connect({
@@ -102,10 +102,10 @@ app.use(bodyParser.urlencoded({
 app.use(hpp())
 app.use(helmet.contentSecurityPolicy({
   defaultSrc: ["'self'"],
-  scriptSrc: ["'self'"],
-  styleSrc: ["'none'"],
+  scriptSrc: ["'self'", "'sha256-tiU2DTeAHzG5ooZjsp0XkWq9Dv0mWumq_F4c2E5A4FQ='"],
+  styleSrc: ["'unsafe-inline'"],
   imgSrc: ["'none'"],
-  connectSrc: ["'self'"],
+  connectSrc: ["'self'", 'ws:'],
   fontSrc: ["'none'"],
   objectSrc: ["'none'"],
   mediaSrc: ["'none'"],
@@ -118,16 +118,16 @@ app.use(helmet.noSniff())
 
 http.globalAgent.maxSockets = 1000
 
-app.route(/^\/(colophon)?/)
+app.route(/^\/(colophon)?$/)
   .get((req, res) => {
     const nav = React.createElement(Navigation, {
       page: req.path === '/' ? '' : 'colophon'
     })
 
-    bkmrkd.table('bookmarks').limit(25).run(connection, (err, cursor) => {
+    bkmrkd.table('bookmarks').orderBy({
+      index: rethink.desc('createdOn')
+    }).limit(25).run(connection, (err, cursor) => {
       if (err) {
-        console.log('Error getting the initial list of bookmarks: ', err)
-
         return res.status(500).json({
           message: 'There\'s been an error getting the initial list of bookmarks.'
         })
@@ -169,7 +169,7 @@ app.route('/api/create')
     bkmrkd.table('bookmarks').insert({
       title: escapeRegExp(req.query.title),
       url: escapeRegExp(req.query.url),
-      createdOn: new Date()
+      createdOn: rethink.now()
     }).run(connection, (err, response) => {
       if (err) {
         return res.status(500).json({
@@ -181,8 +181,15 @@ app.route('/api/create')
     })
   })
 
+app.route('*')
+  .get((req, res) => {
+    return res.status(404).send()
+  })
+
 io.on('connection', (socket) => {
-  bkmrkd.table('bookmarks').limit(25).run(connection, (err, cursor) => {
+  bkmrkd.table('bookmarks').orderBy({
+    index: rethink.desc('createdOn')
+  }).limit(25).run(connection, (err, cursor) => {
     if (err) {
       console.log('Error getting the initial list of bookmarks: ', err)
 
@@ -249,6 +256,38 @@ io.on('connection', (socket) => {
 
       socket.emit('bookmark-destroyed', {
         id: data.id
+      })
+    })
+  })
+
+  socket.on('get-bookmarks', (data) => {
+    bkmrkd.table('bookmarks').skip(25 * (data.page - 1)).limit(25).run(connection, (err, cursor) => {
+      if (err) {
+        console.log('Error getting another page of bookmarks: ', err)
+
+        return socket.emit('error', {
+          message: 'There\'s been an error getting more bookmarks. Try again.'
+        })
+      }
+
+      cursor.toArray((err, result) => {
+        if (err) {
+          console.log('Error getting another page of bookmarks: ', err)
+
+          return socket.emit('error', {
+            message: 'There\'s been an error getting more bookmarks. Try again.'
+          })
+        }
+
+        if (result.length) {
+          socket.emit('old-bookmarks', {
+            bookmarks: result
+          })
+        } else {
+          socket.emit('old-bookmarks', {
+            message: 'No more bookmarks!'
+          })
+        }
       })
     })
   })

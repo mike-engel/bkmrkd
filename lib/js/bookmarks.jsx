@@ -13,7 +13,10 @@ export default React.createClass({
   getInitialState: function () {
     return {
       bookmarks: this.props.bookmarks,
-      socket: this.props.socket
+      socket: this.props.socket,
+      page: 1,
+      endOfBookmarks: this.props.bookmarks.length < 25,
+      requesting: false
     }
   },
   addNewBookmark: function (bookmark) {
@@ -35,6 +38,52 @@ export default React.createClass({
       bookmarks: update(this.state.bookmarks, {$splice: [[index, 1]]})
     })
   },
+  handleScrollEvent: function (evt) {
+    evt = evt || window.event
+
+    if (window.pageYOffset >= (document.body.offsetHeight - window.innerHeight - 250)) {
+      this.getMoreBookmarks()
+    }
+  },
+  getMoreBookmarks: function () {
+    if (!this.state.endOfBookmarks && !this.state.requesting) {
+      this.setState({
+        requesting: true
+      })
+
+      this.state.socket.emit('get-bookmarks', {
+        page: this.state.page + 1
+      })
+    }
+
+    this.state.socket.on('old-bookmarks', (data) => {
+      if (data.bookmarks && this.state.bookmarks.indexOf(data.bookmarks[0] === -1)) {
+        this.setState({
+          bookmarks: update(this.state.bookmarks, {$push: data.bookmarks}),
+          page: this.state.page + 1
+        })
+      } else if (data.message) {
+        if (!document.body.querySelector('.no-bookmarks')) {
+          let noBookmarksMessage = document.createElement('p')
+
+          noBookmarksMessage.classList.add('no-bookmarks')
+          noBookmarksMessage.textContent = data.message
+
+          document.body.querySelector('[data-hook="bookmarks"]').appendChild(noBookmarksMessage)
+        }
+
+        this.setState({
+          endOfBookmarks: true
+        })
+
+        window.removeEventListener('scroll', this.handleScrollEvent)
+      }
+
+      this.setState({
+        requesting: false
+      })
+    })
+  },
   render: function () {
     if (this.state.socket.on) {
       this.state.socket.on('new-bookmark', (data) => {
@@ -42,13 +91,20 @@ export default React.createClass({
       })
     }
 
+    if (typeof window !== 'undefined' && !this.state.endOfBookmarks && this.state.page === 1) {
+      window.addEventListener('scroll', this.handleScrollEvent)
+    }
+
     if (this.state.bookmarks.length) {
       return (
         <ul className='bookmarks'>
           {this.state.bookmarks.sort((a, b) => {
-            if (a.createdOn < b.createdOn) {
+            const dateA = new Date(a.createdOn)
+            const dateB = new Date(b.createdOn)
+
+            if (dateA < dateB) {
               return 1
-            } else if (a.createdOn > b.createdOn) {
+            } else if (dateA > dateB) {
               return -1
             } else {
               return 0
