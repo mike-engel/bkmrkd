@@ -3,6 +3,8 @@ import http from 'http'
 import socketIO from 'socket.io'
 import compression from 'compression'
 import bodyParser from 'body-parser'
+import hpp from 'hpp'
+import helmet from 'helmet'
 import rethink from 'rethinkdb'
 import React from 'react'
 import Navigation from './lib/js/navigation.jsx'
@@ -93,6 +95,22 @@ app.use(express.static('./dist', {
 app.use(bodyParser.urlencoded({
   extended: false
 }))
+app.use(hpp())
+app.use(helmet.contentSecurityPolicy({
+  defaultSrc: ["'self'"],
+  scriptSrc: ["'self'"],
+  styleSrc: ["'none'"],
+  imgSrc: ["'none'"],
+  connectSrc: ["'self'"],
+  fontSrc: ["'none'"],
+  objectSrc: ["'none'"],
+  mediaSrc: ["'none'"],
+  frameSrc: ["'none'"]
+}))
+app.use(helmet.xssFilter())
+app.use(helmet.frameguard('deny'))
+app.use(helmet.ieNoOpen())
+app.use(helmet.noSniff())
 
 http.globalAgent.maxSockets = 1000
 

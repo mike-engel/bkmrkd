@@ -42,11 +42,13 @@ export default React.createClass({
     }
   },
   componentWillMount: function () {
-    window.addEventListener('popstate', function (evt) {
-      evt = evt || window.event
+    if (typeof window !== 'undefined') {
+      window.addEventListener('popstate', function (evt) {
+        evt = evt || window.event
 
-      this.changeTabs()
-    }.bind(this))
+        this.changeTabs()
+      }.bind(this))
+    }
   },
   render: function () {
     let bkmrkClassString = this.state.page === '' ? 'active' : ''
