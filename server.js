@@ -69,6 +69,10 @@ function createIndex () {
   })
 }
 
+function escapeRegExp (str) {
+  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&')
+}
+
 rethink.connect({
   host: 'localhost',
   post: 28015
@@ -163,8 +167,8 @@ app.route('/api/create')
     }
 
     bkmrkd.table('bookmarks').insert({
-      title: req.query.title,
-      url: req.query.url,
+      title: escapeRegExp(req.query.title),
+      url: escapeRegExp(req.query.url),
       createdOn: new Date()
     }).run(connection, (err, response) => {
       if (err) {
