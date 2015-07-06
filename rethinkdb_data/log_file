@@ -33,3 +33,18 @@
 2015-06-22T22:03:28.571751000 20505.548708s notice: Removing file /Users/mike/Projects/bkmrkd/rethinkdb_data/57bd8e8e-478d-45e9-b807-7fd378a848e4
 2015-06-22T22:09:54.305117000 20891.267135s notice: Removing file /Users/mike/Projects/bkmrkd/rethinkdb_data/64fe2e5f-3756-4da1-aac6-4ef5a947c864
 2015-06-23T22:33:26.382354000 38232.391785s notice: Removing file /Users/mike/Projects/bkmrkd/rethinkdb_data/89a60991-91f5-47fc-9088-eff4b6ab23ee
+2015-07-05T21:40:18.548423000 77258.989612s notice: Server got SIGTERM from pid 1, uid 0; shutting down...
+2015-07-05T21:40:18.553128000 77258.994315s notice: Shutting down client connections...
+2015-07-05T21:40:18.554708000 77258.995895s notice: All client connections closed.
+2015-07-05T21:40:18.554738000 77258.995925s notice: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)
+2015-07-05T21:40:18.580436000 77259.021623s notice: Storage engine shut down.
+2015-07-05T22:20:02.292195000 0.264363s notice: Running rethinkdb 2.0.3 (CLANG 6.1.0 (clang-602.0.53))...
+2015-07-05T22:20:02.299526000 0.271689s notice: Running on Darwin 14.4.0 x86_64
+2015-07-05T22:20:02.299614000 0.271775s notice: Loading data from directory /Users/mike/Projects/bkmrkd/rethinkdb_data
+2015-07-05T22:20:02.353641000 0.325803s info: Automatically using cache size of 218 MB
+2015-07-05T22:20:02.355450000 0.327612s notice: Listening for intracluster connections on port 29015
+2015-07-05T22:20:02.359472000 0.331633s notice: Listening for client driver connections on port 28015
+2015-07-05T22:20:02.359604000 0.331765s notice: Listening for administrative HTTP connections on port 8080
+2015-07-05T22:20:02.359610000 0.331771s notice: Listening on addresses: 127.0.0.1, ::1
+2015-07-05T22:20:02.359614000 0.331775s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2015-07-05T22:20:02.359618000 0.331779s notice: Server ready, "the_dude_local_w66" aacda1cb-5f98-43f6-864d-e9c7edbdaa16

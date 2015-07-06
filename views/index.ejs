@@ -36,6 +36,36 @@
     padding-left: 0;
   }
 
+  .alert {
+    position: fixed;
+    bottom: -100px;
+    left: 50%;
+    z-index: 9999;
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-size: 1rem;
+    font-weight: 500;
+    max-width: 90%;
+    color: white;
+    opacity: 0.0;
+    background-color: #C0392B;
+    border-radius: 3px;
+    transform: translateX(-50%);
+    transition: opacity 200ms, bottom 200ms;
+  }
+
+  .alert.visible {
+    bottom: 10px;
+    opacity: 1.0;
+  }
+
+  .alert span {
+    float: right;
+    margin-left: 20px;
+    color: white;
+  }
+
   .main-nav {
     padding: 0 15px 0 15px;
     background-color: #3498DB;
