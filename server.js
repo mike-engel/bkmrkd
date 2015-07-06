@@ -128,7 +128,7 @@ app.route(/^\/(colophon)?$/)
       index: rethink.desc('createdOn')
     }).limit(25).run(connection, (err, cursor) => {
       if (err) {
-        return res.status(500).json({
+        return res.render('500', {
           message: 'There\'s been an error getting the initial list of bookmarks.'
         })
       }
@@ -137,7 +137,7 @@ app.route(/^\/(colophon)?$/)
         if (err) {
           console.log('Error getting the initial list of bookmarks: ', err)
 
-          return res.status(500).json({
+          return res.render('500', {
             message: 'There\'s been an error getting the initial list of bookmarks.'
           })
         }
@@ -147,7 +147,7 @@ app.route(/^\/(colophon)?$/)
           socket: {}
         })
 
-        res.render('index', {
+        return res.render('index', {
           navigation: React.renderToString(nav),
           bookmarks: React.renderToString(bookmarks),
           page: req.path.substr(1)
@@ -161,8 +161,9 @@ app.route('/api/create')
   .get((req, res) => {
     if (!req.query.title && !req.query.url) {
       console.error('Need a title and url!')
-      return res.status(500).json({
-        message: 'Need a title and url for your bookmark!'
+
+      return res.render('500', {
+        message: 'Need a title and URL for your bookmark!'
       })
     }
 
@@ -172,8 +173,8 @@ app.route('/api/create')
       createdOn: rethink.now()
     }).run(connection, (err, response) => {
       if (err) {
-        return res.status(500).json({
-          message: 'Trouble saving your bookmark. Try again?'
+        return res.render('500', {
+          message: 'bkmrkd had trouble saving your bookmark. Try again?'
         })
       }
 

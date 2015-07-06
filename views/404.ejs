@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1,user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <title>404!</title>
+
+  <style>
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    font: normal normal 16px/1.4 "Helvetica Neue", Helvetica, Arial, Sans-serif;
+    color: #34495E;
+  }
+
+  a {
+    color: #3498DB;
+    text-decoration: none;
+    transition: color 200ms;
+  }
+
+  a:hover,
+  a:active {
+    color: #2980B9;
+  }
+
+  ul {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .alert {
+    position: fixed;
+    bottom: -100px;
+    left: 50%;
+    z-index: 9999;
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-size: 1rem;
+    font-weight: 500;
+    max-width: 90%;
+    color: white;
+    opacity: 0.0;
+    background-color: #C0392B;
+    border-radius: 3px;
+    transform: translateX(-50%);
+    transition: opacity 200ms, bottom 200ms;
+  }
+
+  .alert.visible {
+    bottom: 10px;
+    opacity: 1.0;
+  }
+
+  .alert span {
+    float: right;
+    margin-left: 20px;
+    color: white;
+  }
+
+  .main-nav {
+    padding: 0 15px 0 15px;
+    background-color: #3498DB;
+  }
+
+  .main-nav a,
+  .main-nav .h1 {
+    color: white;
+  }
+
+  .h1 {
+    display: inline-block;
+    margin: 0;
+    padding-top: 5px;
+    font-size: 2.56rem;
+    letter-spacing: -0.05rem;
+  }
+
+  nav ul {
+    margin-bottom: 0;
+  }
+
+  nav li {
+    display: inline-block;
+    margin: 0 10px;
+  }
+
+  nav li:first-child {
+    margin-left: 0;
+  }
+
+  nav a {
+    display: block;
+    padding: 5px 0;
+  }
+
+  nav .active {
+    border-bottom: 3px solid white;
+  }
+
+  .wrapper {
+    width: 90%;
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: 18px;
+    font-size: 1.125rem;
+  }
+  </style>
+</head>
+<body>
+  <header class="main-nav">
+    <h1 class="h1">bkmrkd</h1>
+    <nav data-hook="main-nav">
+      <ul>
+        <li>
+          <a href='/'>bkmrks</a>
+        </li>
+        <li className={colophonClassString}>
+          <a href='/colophon'>colophon</a>
+        </li>
+        <li>
+          <a href='javascript:void(0);'>bookmarklet</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <div class="wrapper">
+    <h1 class="h2">404!</h1>
+    <p>That page doesn't exist. Try one of the links above.</p>
+  </div>
+</body>
+</html>
