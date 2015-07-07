@@ -1,6 +1,7 @@
 'use strict'
 
 import React from 'react'
+import snippet from './snippet'
 
 export default React.createClass({
   propTypes: {
@@ -51,8 +52,8 @@ export default React.createClass({
     }
   },
   render: function () {
-    let bkmrkClassString = this.state.page === '' ? 'active' : ''
-    let colophonClassString = this.state.page === 'colophon' ? 'active' : ''
+    const bkmrkClassString = this.state.page === '' ? 'active' : ''
+    const colophonClassString = this.state.page === 'colophon' ? 'active' : ''
 
     return (
       <ul>
@@ -63,7 +64,7 @@ export default React.createClass({
           <a href='/colophon' onClick={this.navigateTabs}>colophon</a>
         </li>
         <li>
-          <a href='javascript:void(0);'>bookmarklet</a>
+          <a href={snippet}>bookmarklet</a>
         </li>
       </ul>
     )
