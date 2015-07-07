@@ -185,6 +185,51 @@
     text-align: center;
     background-color: #BDC3C7;
   }
+
+  @media (min-width: 768px) {
+    .main-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      width: 100%;
+      padding: 0 10%;
+    }
+
+    .bookmarks {
+      margin: 143px 10% 30px 10%;
+    }
+
+    .colophon {
+      margin-top: 113px;
+      padding-right: 10%;
+      padding-left: 10%;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    body {
+      font-size: 18px;
+    }
+
+    .main-nav {
+      padding: 0 20%;
+    }
+
+    .bookmarks {
+      margin-right: 20%;
+      margin-left: 20%;
+    }
+
+    .colophon {
+      padding-right: 20%;
+      padding-left: 20%;
+    }
+
+    .colophon p {
+      max-width: 600px;
+    }
+  }
   </style>
 </head>
 <body>
