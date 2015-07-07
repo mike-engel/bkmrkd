@@ -182,10 +182,15 @@ app.route('/api/create')
     })
   })
 
-app.route('*')
-  .get((req, res) => {
-    return res.status(404).send()
-  })
+app.use((req, res) => {
+  return res.status(404).render('404')
+})
+
+app.use((err, req, res, next) => {
+  if (err) {
+    return res.status(500).render('500')
+  }
+})
 
 io.on('connection', (socket) => {
   bkmrkd.table('bookmarks').orderBy({

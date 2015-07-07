@@ -6,10 +6,10 @@
   "scripts": {
     "test": "standard",
     "start": "babel-node server.js",
-    "stage": "NODE_ENV=stage pm2 start server.js -a bkmrkd --next-gen-js",
+    "stage": "NODE_ENV=stage pm2 start server.js --name bkmrkd --next-gen-js",
     "stageRestart": "NODE_ENV=stage pm2 restart bkmrkdStage",
     "stageStop": "NODE_ENV=stage pm2 stop bkmrkdStage",
-    "prod": "NODE_ENV=production pm2 start server.js -a bkmrkd --next-gen-js",
+    "prod": "NODE_ENV=production pm2 start server.js --name bkmrkd --next-gen-js",
     "prodRestart": "NODE_ENV=production pm2 restart bkmrkdProd",
     "prodStop": "NODE_ENV=production pm2 stop bkmrkdProd"
   },

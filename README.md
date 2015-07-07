@@ -1,49 +1,43 @@
 bkmrkd
 ======
 
-Bkmrkd is a self-hosted, lightweight bookmarking service run on Ruby and MongoDB
+Bkmrkd is a self-hosted, lightweight bookmarking service running on [node.js](https://nodejs.org), [react](https://facebook.github.io/react), and [rethinkdb](https://rethinkdb.com).
 
 ![Home page](bkmrkd-home.png)
 ![Colophon](bkmrkd-colophon.png)
 
-Installation
-============
+# installation
 
-## Assumptons
+## assumptons
 
-1. You have ruby >= 2.0.0 installed
-2. You have mongo installed
+1. You have node.js >= 0.12.0 installed
+2. You have rethinkdb installed and running
 
-## Running
+## running
 
-1. `gem install`
-2. `foreman start`
+```shell
+# install the required modules
+npm install
 
-Contributing
-============
+# run gulp for the first time
+gulp
 
-Please make a pull request!
+# if you want to run locally
+npm start
 
-License
-=======
-The MIT License (MIT)
+# to daemonize with pm2
+npm run prod
+```
 
-Copyright (c) <year> <copyright holders>
+# running in a production environment
+So you want to run this for real. On the web. That's awesome. Everyone will want this to be setup differently, but this is how I've approached it.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+1. Proxy through nginx. Listen on port 80 for a domain/subdomain and proxy_pass to the app running on port 3000.
+2. Use SSL certs (not required) to avoid a new window opening when bookmarking things.
+3. Use a variety of startup scripts and backup scripts.
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+# contributing
+Please make a pull request! bkmrkd follows the [js standard](https://github.com/feross/standard) styleguide.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
+# license
+[MIT](LICENSE.md)
