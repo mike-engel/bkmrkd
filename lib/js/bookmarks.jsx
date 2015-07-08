@@ -118,7 +118,7 @@ export default React.createClass({
       )
     } else {
       return (
-        <h2 className='h1'>No bookmarks yet! Place the script in your bookmarks bar and start bookmarking!</h2>
+        <h2 className='h2'>No bookmarks yet! Place the script in your bookmarks bar and start bookmarking!</h2>
       )
     }
   }
