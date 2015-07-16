@@ -52,7 +52,7 @@ export default React.createClass({
     let name = url.parse(bookmarkURL).hostname
 
     return {
-      name: unescape(name),
+      name: name,
       url: rootUrl
     }
   },
@@ -60,7 +60,7 @@ export default React.createClass({
     return (
       <li>
         <a href={this.props.bookmark.url} target='_blank'>
-          <h2 className='bookmark-name'>{this.props.bookmark.title}</h2>
+          <h2 className='bookmark-name'>{unescape(this.props.bookmark.title)}</h2>
         </a>
         <span className='date'>{this.getTimeString()}</span>
         <a href={this.getWebsite().url} target='_blank' className='website'>{this.getWebsite().name}</a>
