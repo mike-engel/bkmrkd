@@ -2,6 +2,7 @@
 
 import React from 'react'
 import url from 'url'
+import unescape from 'lodash.unescape'
 
 export default React.createClass({
   propTypes: {
@@ -50,10 +51,8 @@ export default React.createClass({
     let rootUrl = bookmarkURL
     let name = url.parse(bookmarkURL).hostname
 
-    console.log(url.parse(bookmarkURL))
-
     return {
-      name: name,
+      name: unescape(name),
       url: rootUrl
     }
   },
