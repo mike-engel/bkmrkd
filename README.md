@@ -5,6 +5,7 @@ Bkmrkd is a self-hosted, lightweight bookmarking service running on [node.js](ht
 
 [screenshots](#screenshots)  
 [installation](#installation)  
+[migrating from 1.0 to 2.0](#migrating-from-1.0-to-2.0)  
 [running in a production environment](#running-in-a-production-environment)  
 [contributing](#contributing)  
 [license](LICENSE.md)
@@ -45,6 +46,10 @@ npm run prod
 ## saving
 
 Simply drag the bookmarklet to your bookmarks bar and click it on a webpage you want to save. Simple.
+
+# migrating from 1.0 to 2.0
+
+I don't think there are enough instances of bkmrkd (plus it didn't work that well) to warrant an upgrade guide. If you want one though, let me know and I'll create a guide. You can also check out migrating from mongodb to rethinkdb.
 
 # running in a production environment
 So you want to run this for real. On the web. That's awesome. Everyone will want this to be setup differently, but this is how I've approached it.
