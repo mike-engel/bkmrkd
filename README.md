@@ -5,7 +5,7 @@ Bkmrkd is a self-hosted, lightweight bookmarking service running on [node.js](ht
 
 [screenshots](#screenshots)  
 [installation](#installation)  
-[migrating from 1.0 to 2.0](#migrating-from-1.0-to-2.0)  
+[migrating from 1.0 to 2.0](#migrating-from-10-to-20)  
 [running in a production environment](#running-in-a-production-environment)  
 [contributing](#contributing)  
 [license](LICENSE.md)
