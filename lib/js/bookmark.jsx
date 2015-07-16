@@ -1,6 +1,7 @@
 'use strict'
 
 import React from 'react'
+import url from 'url'
 
 export default React.createClass({
   propTypes: {
@@ -44,15 +45,12 @@ export default React.createClass({
     return `${month} ${day}, ${year}`
   },
   getWebsite: function () {
-    const url = this.props.bookmark.url
+    const bookmarkURL = this.props.bookmark.url
 
-    let rootUrl = url
-    let name = url.replace(/https:\/\/|http:\/\/|www/, '')
+    let rootUrl = bookmarkURL
+    let name = url.parse(bookmarkURL).hostname
 
-    if (name.indexOf('/') !== -1) {
-      name = name.substr(0, name.indexOf('/'))
-      rootUrl = rootUrl.substr(0, 8)
-    }
+    console.log(url.parse(bookmarkURL))
 
     return {
       name: name,

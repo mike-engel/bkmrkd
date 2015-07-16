@@ -7,6 +7,7 @@ import hpp from 'hpp'
 import helmet from 'helmet'
 import rethink from 'rethinkdb'
 import React from 'react'
+import escape from 'lodash.escape'
 import Navigation from './lib/js/navigation.jsx'
 import Bookmarks from './lib/js/bookmarks.jsx'
 
@@ -67,10 +68,6 @@ function createIndex () {
 
     console.info('creating the bookmarks index')
   })
-}
-
-function escapeRegExp (str) {
-  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\\\^\$\|]/g, '\\$&')
 }
 
 rethink.connect({
@@ -168,8 +165,8 @@ app.route('/api/create')
     }
 
     bkmrkd.table('bookmarks').insert({
-      title: escapeRegExp(req.query.title),
-      url: escapeRegExp(req.query.url),
+      title: escape(req.query.title),
+      url: escape(req.query.url),
       createdOn: rethink.now()
     }).run(connection, (err, response) => {
       if (err) {
