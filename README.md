@@ -3,8 +3,14 @@ bkmrkd
 
 Bkmrkd is a self-hosted, lightweight bookmarking service running on [node.js](https://nodejs.org), [react](https://facebook.github.io/react), and [rethinkdb](https://rethinkdb.com).
 
+# screenshots
+## desktop
 ![Home page](screenshots/desktop.png)
+
+## mobile
 ![Mobile](screenshots/mobile.png)
+
+## colophon
 ![Colophon](screenshots/colophon.png)
 
 # installation
