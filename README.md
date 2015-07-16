@@ -3,8 +3,9 @@ bkmrkd
 
 Bkmrkd is a self-hosted, lightweight bookmarking service running on [node.js](https://nodejs.org), [react](https://facebook.github.io/react), and [rethinkdb](https://rethinkdb.com).
 
-![Home page](bkmrkd-home.png)
-![Colophon](bkmrkd-colophon.png)
+![Home page](screenshots/desktop.png)
+![Mobile](screenshots/mobile.png)
+![Colophon](screenshots/colophon.png)
 
 # installation
 
@@ -20,7 +21,7 @@ Bkmrkd is a self-hosted, lightweight bookmarking service running on [node.js](ht
 npm install
 
 # run gulp for the first time
-gulp
+gulp dist
 
 # if you want to run locally
 npm start
@@ -28,6 +29,10 @@ npm start
 # to daemonize with pm2
 npm run prod
 ```
+
+## saving
+
+Simply drag the bookmarklet to your bookmarks bar and click it on a webpage you want to save. Simple.
 
 # running in a production environment
 So you want to run this for real. On the web. That's awesome. Everyone will want this to be setup differently, but this is how I've approached it.
