@@ -17,11 +17,11 @@ function evalWatch () {
 
 gulp.task('scripts', () => {
   let b = browserify({
-      entries: ['./lib/js/bkmrkd.js'],
-      cache: {},
-      packageCache: {},
-      standalone: 'bkmrkd'
-    })
+    entries: ['./lib/js/bkmrkd.js'],
+    cache: {},
+    packageCache: {},
+    standalone: 'bkmrkd'
+  })
 
   if (evalWatch()) {
     b = watchify(b)
