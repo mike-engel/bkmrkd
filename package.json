@@ -51,7 +51,7 @@
   "devDependencies": {
     "autoprefixer-core": "^6.0.1",
     "babel": "^6.0.2",
-    "babelify": "^6.4.0",
+    "babelify": "^7.1.0",
     "brfs": "^1.4.0",
     "browser-sync": "^2.9.11",
     "browserify": "^12.0.1",
