@@ -1,9 +1,8 @@
 'use strict'
 
-import React from 'react/addons'
+import React from 'react'
+import update from 'react-addons-update'
 import Bookmark from './bookmark.jsx'
-
-const update = React.addons.update
 
 export default React.createClass({
   propTypes: {

@@ -27,7 +27,13 @@ gulp.task('scripts', () => {
     b = watchify(b)
   }
 
-  b.transform('babelify')
+  b.transform('babelify', {
+    presets: [
+      'es2015',
+      'stage-0',
+      'react'
+    ]
+  })
   b.plugin('brfs')
   b.plugin('bundle-collapser/plugin')
 

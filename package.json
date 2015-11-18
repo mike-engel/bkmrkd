@@ -7,11 +7,11 @@
     "test": "standard",
     "start": "babel-node server.js",
     "stage": "NODE_ENV=stage pm2 start index.js --name bkmrkd",
-    "stageRestart": "NODE_ENV=stage pm2 restart bkmrkdStage",
-    "stageStop": "NODE_ENV=stage pm2 stop bkmrkdStage",
+    "stage:restart": "NODE_ENV=stage pm2 restart bkmrkdStage",
+    "stage:stop": "NODE_ENV=stage pm2 stop bkmrkdStage",
     "prod": "NODE_ENV=production pm2 start index.js --name bkmrkdProd",
-    "prodRestart": "NODE_ENV=production pm2 restart bkmrkdProd",
-    "prodStop": "NODE_ENV=production pm2 stop bkmrkdProd"
+    "prod:restart": "NODE_ENV=production pm2 restart bkmrkdProd",
+    "prod:stop": "NODE_ENV=production pm2 stop bkmrkdProd"
   },
   "repository": {
     "type": "git",
@@ -32,6 +32,10 @@
   },
   "homepage": "https://github.com/mike-engel/bkmrkd",
   "dependencies": {
+    "babel-cli": "^6.1.18",
+    "babel-preset-es2015": "^6.1.18",
+    "babel-preset-react": "^6.1.18",
+    "babel-preset-stage-0": "^6.1.18",
     "body-parser": "^1.14.1",
     "compression": "^1.6.0",
     "cookie-parser": "^1.4.0",
@@ -43,6 +47,7 @@
     "lodash.unescape": "^3.0.0",
     "pm2": "^0.15.10",
     "react": "^0.14.2",
+    "react-addons-update": "^0.14.2",
     "rethinkdb": "^2.2.0",
     "socket.io": "^1.3.7",
     "socket.io-client": "^1.3.7"
