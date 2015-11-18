@@ -1,18 +1,22 @@
 'use strict'
 
-import React from 'react'
+import React, { Component } from 'react'
 import snippet from './snippet'
 
-export default React.createClass({
-  propTypes: {
+export class Navigation extends Component {
+  static propTypes = {
     page: React.PropTypes.string
-  },
-  getInitialState: function () {
-    return {
+  }
+
+  constructor (props) {
+    super(props)
+
+    this.state = {
       page: this.props.page
     }
-  },
-  navigateTabs: function (evt) {
+  }
+
+  navigateTabs (evt) {
     evt = evt || window.event
 
     evt.preventDefault()
@@ -21,8 +25,9 @@ export default React.createClass({
     window.history.pushState({
       page: this.state.page
     }, null, evt.target.href)
-  },
-  changeTabs: function () {
+  }
+
+  changeTabs () {
     let bookmarks = document.querySelector('[data-hook="bookmarks"]')
     let colophon = document.querySelector('[data-hook="colophon"]')
 
@@ -41,8 +46,9 @@ export default React.createClass({
         page: ''
       })
     }
-  },
-  componentWillMount: function () {
+  }
+
+  componentWillMount () {
     if (typeof window !== 'undefined') {
       window.addEventListener('popstate', function (evt) {
         evt = evt || window.event
@@ -50,8 +56,9 @@ export default React.createClass({
         this.changeTabs()
       }.bind(this))
     }
-  },
-  render: function () {
+  }
+
+  render () {
     const bkmrkClassString = this.state.page === '' ? 'active' : ''
     const colophonClassString = this.state.page === 'colophon' ? 'active' : ''
 
@@ -69,4 +76,4 @@ export default React.createClass({
       </ul>
     )
   }
-})
+}

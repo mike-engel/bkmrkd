@@ -7,7 +7,9 @@ import hpp from 'hpp'
 import helmet from 'helmet'
 import rethink from 'rethinkdb'
 import React from 'react'
-import ReactDOMServer from 'react-dom/server'
+import { renderToString } from 'react-dom/server'
+// import { createStore } from 'redux'
+// import { Provider } from 'react-redux'
 import escape from 'lodash.escape'
 import Navigation from './lib/js/navigation.jsx'
 import Bookmarks from './lib/js/bookmarks.jsx'
@@ -146,8 +148,8 @@ app.route(/^\/(colophon)?$/)
         })
 
         return res.render('index', {
-          navigation: ReactDOMServer.renderToString(nav),
-          bookmarks: ReactDOMServer.renderToString(bookmarks),
+          navigation: renderToString(nav),
+          bookmarks: renderToString(bookmarks),
           page: req.path.substr(1)
         })
       })
