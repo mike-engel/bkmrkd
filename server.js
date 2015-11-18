@@ -7,6 +7,7 @@ import hpp from 'hpp'
 import helmet from 'helmet'
 import rethink from 'rethinkdb'
 import React from 'react'
+import ReactDOMServer from 'react-dom/server'
 import escape from 'lodash.escape'
 import Navigation from './lib/js/navigation.jsx'
 import Bookmarks from './lib/js/bookmarks.jsx'
@@ -145,8 +146,8 @@ app.route(/^\/(colophon)?$/)
         })
 
         return res.render('index', {
-          navigation: React.renderToString(nav),
-          bookmarks: React.renderToString(bookmarks),
+          navigation: ReactDOMServer.renderToString(nav),
+          bookmarks: ReactDOMServer.renderToString(bookmarks),
           page: req.path.substr(1)
         })
       })
