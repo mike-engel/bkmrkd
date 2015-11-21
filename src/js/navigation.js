@@ -1,33 +1,29 @@
 'use strict'
 
-import React, { Component } from 'react'
+import React, { CreateClass, PropTypes } from 'react'
 import snippet from './snippet'
 
-export class Navigation extends Component {
-  static propTypes = {
-    page: React.PropTypes.string
-  }
-
-  constructor (props) {
-    super(props)
-
-    this.state = {
+export default CreateClass({
+  propTypes: {
+    page: PropTypes.string
+  },
+  getInitialState: function () {
+    return {
       page: this.props.page
     }
-  }
-
-  navigateTabs (evt) {
+  },
+  navigateTabs: function (evt) {
     evt = evt || window.event
 
     evt.preventDefault()
 
     this.changeTabs()
+
     window.history.pushState({
       page: this.state.page
     }, null, evt.target.href)
-  }
-
-  changeTabs () {
+  },
+  changeTabs: function () {
     let bookmarks = document.querySelector('[data-hook="bookmarks"]')
     let colophon = document.querySelector('[data-hook="colophon"]')
 
@@ -46,9 +42,8 @@ export class Navigation extends Component {
         page: ''
       })
     }
-  }
-
-  componentWillMount () {
+  },
+  componentWillMount: function () {
     if (typeof window !== 'undefined') {
       window.addEventListener('popstate', function (evt) {
         evt = evt || window.event
@@ -56,9 +51,8 @@ export class Navigation extends Component {
         this.changeTabs()
       }.bind(this))
     }
-  }
-
-  render () {
+  },
+  render: function () {
     const bkmrkClassString = this.state.page === '' ? 'active' : ''
     const colophonClassString = this.state.page === 'colophon' ? 'active' : ''
 
@@ -76,4 +70,4 @@ export class Navigation extends Component {
       </ul>
     )
   }
-}
+})
