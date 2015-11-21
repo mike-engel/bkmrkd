@@ -1,18 +1,17 @@
 'use strict'
 
-import React from 'react'
+import React, { createClass as CreateClass, PropTypes } from 'react'
 import update from 'react-addons-update'
-import Bookmark from './bookmark.jsx'
+import Bookmark from './bookmark'
 
-export default React.createClass({
+export default CreateClass({
   propTypes: {
-    bookmarks: React.PropTypes.array,
-    socket: React.PropTypes.object
+    bookmarks: PropTypes.array,
+    socket: PropTypes.object
   },
   getInitialState: function () {
     return {
       bookmarks: this.props.bookmarks,
-      socket: this.props.socket,
       page: 1,
       endOfBookmarks: this.props.bookmarks.length < 25,
       requesting: false
@@ -50,12 +49,12 @@ export default React.createClass({
         requesting: true
       })
 
-      this.state.socket.emit('get-bookmarks', {
+      this.props.socket.emit('get-bookmarks', {
         page: this.state.page + 1
       })
     }
 
-    this.state.socket.on('old-bookmarks', (data) => {
+    this.props.socket.on('old-bookmarks', (data) => {
       if (data.bookmarks && this.state.bookmarks.indexOf(data.bookmarks[0] === -1)) {
         this.setState({
           bookmarks: update(this.state.bookmarks, {$push: data.bookmarks}),
@@ -84,8 +83,8 @@ export default React.createClass({
     })
   },
   render: function () {
-    if (this.state.socket.on) {
-      this.state.socket.on('new-bookmark', (data) => {
+    if (this.props.socket.on) {
+      this.props.socket.on('new-bookmark', (data) => {
         this.addNewBookmark(data.bookmark)
       })
     }
@@ -111,7 +110,7 @@ export default React.createClass({
           }).map((bookmark) => {
             const removeHelper = this.removeBookmark
 
-            return <Bookmark key={bookmark.id} bookmark={bookmark} removeHelper={removeHelper} socket={this.state.socket}/>
+            return <Bookmark key={bookmark.id} bookmark={bookmark} removeHelper={removeHelper} socket={this.props.socket}/>
           })}
         </ul>
       )

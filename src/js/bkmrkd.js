@@ -1,8 +1,9 @@
 'use strict'
 
 import React from 'react'
-import Bookmarks from './bookmarks.jsx'
-import Navigation from './navigation.jsx'
+import ReactDOM from 'react-dom'
+import Bookmarks from './bookmarks'
+import Navigation from './navigation'
 import io from 'socket.io-client'
 import snippet from './snippet'
 
@@ -55,7 +56,7 @@ function showError (message, actionable) {
 
 document.querySelector('[data-hook="bookmarklet-url"]').setAttribute('href', snippet)
 
-React.render(<Navigation page={window.location.pathname.substr(1)}/>, document.querySelector('[data-hook="main-nav"]'))
+ReactDOM.render(<Navigation page={window.location.pathname.substr(1)}/>, document.querySelector('[data-hook="main-nav"]'))
 
 socket.on('connect_error', () => {
   showError('bkmrkd couldn\'nt connect to the server. You won\'t receive updates. You can try refreshing the page.', true)

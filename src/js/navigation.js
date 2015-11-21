@@ -1,6 +1,6 @@
 'use strict'
 
-import React, { CreateClass, PropTypes } from 'react'
+import React, { createClass as CreateClass, PropTypes } from 'react'
 import snippet from './snippet'
 
 export default CreateClass({

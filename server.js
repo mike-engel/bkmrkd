@@ -11,8 +11,8 @@ import { renderToString } from 'react-dom/server'
 // import { createStore } from 'redux'
 // import { Provider } from 'react-redux'
 import escape from 'lodash.escape'
-import Navigation from './lib/js/navigation.jsx'
-import Bookmarks from './lib/js/bookmarks.jsx'
+import Navigation from './src/js/navigation'
+import Bookmarks from './src/js/bookmarks'
 
 const app = express()
 const server = http.Server(app)

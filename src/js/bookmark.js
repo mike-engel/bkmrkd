@@ -1,14 +1,14 @@
 'use strict'
 
-import React from 'react'
+import React, { createClass as CreateClass, PropTypes } from 'react'
 import url from 'url'
 import unescape from 'lodash.unescape'
 
-export default React.createClass({
+export default CreateClass({
   propTypes: {
-    bookmark: React.PropTypes.object,
-    removeHelper: React.PropTypes.func,
-    socket: React.PropTypes.object
+    bookmark: PropTypes.object,
+    removeHelper: PropTypes.func,
+    socket: PropTypes.object
   },
   destroyBookmark: function (evt) {
     evt.preventDefault()
