@@ -6,6 +6,7 @@ import { IndexRoute, Route } from 'react-router'
 import { combineReducers, compose, createStore } from 'redux'
 import { reduxReactRouter, routerStateReducer } from 'redux-router'
 import { createHistory } from 'history'
+import bkmrkdReducers from './helpers/reducers'
 import io from 'socket.io-client'
 import Bkmrkd from './containers/bkmrkd'
 import Colophon from './components/colophon'
@@ -13,14 +14,15 @@ import Bookmarks from './components/bookmarks'
 
 const socket = io.connect(window.location.protocol + '//' + window.location.host)
 const reducer = combineReducers({
-  router: routerStateReducer
+  router: routerStateReducer,
+  bkmrkd: bkmrkdReducers
 })
 const store = compose(
   reduxReactRouter({
     routes,
     createHistory
   })
-)(createStore)(reducer)
+)(createStore)(reducer, window.__initial_state || {})
 
 const routes = (
   <Provider store={store}>
