@@ -12,6 +12,8 @@ import Bkmrkd from './containers/bkmrkd'
 import Colophon from './components/colophon'
 import Bookmarks from './components/bookmarks'
 
+window.app = window.app || {}
+
 const socket = io.connect(window.location.protocol + '//' + window.location.host)
 const reducer = combineReducers({
   router: routerStateReducer,
@@ -22,7 +24,7 @@ const store = compose(
     routes,
     createHistory
   })
-)(createStore)(reducer, window.__initial_state || {})
+)(createStore)(reducer, window.app.__initialState || {})
 
 const routes = (
   <Provider store={store}>

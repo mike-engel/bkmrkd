@@ -1,21 +1,21 @@
 import React from 'react'
 import { IndexLink, Link } from 'react-router'
-import snippet from './snippet'
+import snippet from '../helpers/snippet'
 
-export default (props) => {
+export default ({ children }) => {
   return (
     <div className='app container'>
       <header className='main-nav'>
         <h1 className='h1'>bkmrkd</h1>
         <nav>
           <ul>
-            <li><IndexLink activeClassName='active'>bkmrks</IndexLink></li>
+            <li><IndexLink to='/' activeClassName='active'>bkmrks</IndexLink></li>
             <li><Link to='/colophon' activeClassName='active'>colophon</Link></li>
             <li><Link to={snippet}>bookmaarklet</Link></li>
           </ul>
         </nav>
       </header>
-      { this.props.children }
+      { children }
     </div>
   )
 }

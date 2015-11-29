@@ -11,8 +11,8 @@ import { renderToString } from 'react-dom/server'
 // import { createStore } from 'redux'
 // import { Provider } from 'react-redux'
 import escape from 'lodash.escape'
-import Navigation from './src/js/navigation'
-import Bookmarks from './src/js/bookmarks'
+import Bkmrkd from './src/js/containers/bkmrkd'
+import Bookmarks from './src/js/components/bookmarks'
 
 const app = express()
 const server = http.Server(app)
@@ -120,10 +120,6 @@ http.globalAgent.maxSockets = 1000
 
 app.route(/^\/(colophon)?$/)
   .get((req, res) => {
-    const nav = React.createElement(Navigation, {
-      page: req.path === '/' ? '' : 'colophon'
-    })
-
     bkmrkd.table('bookmarks').orderBy({
       index: rethink.desc('createdOn')
     }).limit(25).run(connection, (err, cursor) => {
@@ -146,10 +142,13 @@ app.route(/^\/(colophon)?$/)
           bookmarks: result,
           socket: {}
         })
+        const bkmrkd = React.createElement(Bkmrkd, {
+          children: bookmarks,
+          socket: {}
+        })
 
         return res.render('index', {
-          navigation: renderToString(nav),
-          bookmarks: renderToString(bookmarks),
+          app: renderToString(bkmrkd),
           page: req.path.substr(1)
         })
       })

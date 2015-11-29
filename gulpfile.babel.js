@@ -1,4 +1,5 @@
 import gulp from 'gulp'
+import { join } from 'path'
 import browserify from 'browserify'
 import watchify from 'watchify'
 import source from 'vinyl-source-stream'
@@ -15,9 +16,16 @@ function evalWatch () {
   return true
 }
 
+function handleError (err) {
+  if (err) {
+    console.error(`Error during the gulp build: ${err}`)
+    process.exit(1)
+  }
+}
+
 gulp.task('scripts', () => {
   let b = browserify({
-    entries: ['./lib/js/bkmrkd.js'],
+    entries: [join(__dirname, './src/js/main.js')],
     cache: {},
     packageCache: {},
     standalone: 'bkmrkd'
@@ -38,7 +46,8 @@ gulp.task('scripts', () => {
   b.plugin('bundle-collapser/plugin')
 
   b.bundle()
-    .pipe(source('bkmrkd.js'))
+    .on('error', handleError)
+    .pipe(source('main.js'))
     .pipe(buffer())
     .pipe(gulpif(!evalWatch(), uglify()))
     .pipe(gulp.dest('./dist/js'))
@@ -56,8 +65,7 @@ gulp.task('browsersync', () => {
 })
 
 gulp.task('default', ['scripts', 'browsersync'], () => {
-  gulp.watch('./lib/js/**/*.js', ['scripts'])
-  gulp.watch('./lib/js/**/*.jsx', ['scripts'])
+  gulp.watch('./src/js/**/*.js', ['scripts'])
 })
 
 gulp.task('dist', ['scripts'])
