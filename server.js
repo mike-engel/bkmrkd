@@ -8,11 +8,13 @@ import helmet from 'helmet'
 import rethink from 'rethinkdb'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
-// import { createStore } from 'redux'
-// import { Provider } from 'react-redux'
+import { createStore, compose, combineReducers } from 'redux'
+import { Provider } from 'react-redux'
+import { ReduxRouter, routerStateReducer } from 'redux-router'
+import { match, reduxReactRouter } from 'redux-router/server'
 import escape from 'lodash.escape'
-import Bkmrkd from './src/js/containers/bkmrkd'
-import Bookmarks from './src/js/components/bookmarks'
+import bkmrkdRoutes from './src/js/main'
+import { bookmarks, networkState } from './src/js/helpers/reducers'
 
 const app = express()
 const server = http.Server(app)
@@ -138,19 +140,34 @@ app.route(/^\/(colophon)?$/)
           })
         }
 
-        const bookmarks = React.createElement(Bookmarks, {
-          bookmarks: result,
-          socket: {}
+        const reducer = combineReducers({
+          router: routerStateReducer,
+          bookmarks,
+          networkState
         })
-        const bkmrkd = React.createElement(Bkmrkd, {
-          children: bookmarks,
-          socket: {}
+        const store = compose(
+          reduxReactRouter({
+            routes: bkmrkdRoutes
+          })
+        )(createStore)(reducer, {
+          bookmarks: result,
+          networkState: {}
         })
 
-        return res.render('index', {
-          app: renderToString(bkmrkd),
-          page: req.path.substr(1)
-        })
+        store.dispatch(match(req.url, (err, redirectLocation, renderProps) => {
+          if (err) {
+            console.error('Error matching the routes: ', err)
+          }
+
+          if (renderProps) {
+            return res.render('index', {
+              app: renderToString(<Provider store={store}><ReduxRouter {...renderProps} /></Provider>),
+              initialState: store.getState()
+            })
+          } else {
+            console.error('TODO: Page not found, handle this.')
+          }
+        }))
       })
     })
   })
@@ -187,6 +204,8 @@ app.use((req, res) => {
 
 app.use((err, req, res, next) => {
   if (err) {
+    console.error(err)
+
     return res.status(500).render('500')
   }
 })

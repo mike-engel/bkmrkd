@@ -7,13 +7,16 @@ import Bookmark from './bookmark'
 export default CreateClass({
   propTypes: {
     bookmarks: PropTypes.array,
+    networkState: PropTypes.object,
     socket: PropTypes.object
   },
   getInitialState: function () {
+    console.log('incoming props: ', this.props)
+
     return {
-      bookmarks: this.props.bookmarks,
+      bookmarks: this.props.bookmarks || [],
       page: 1,
-      endOfBookmarks: this.props.bookmarks.length < 25,
+      endOfBookmarks: this.props.bookmarks ? this.props.bookmarks.length < 25 : true,
       requesting: false
     }
   },
@@ -83,7 +86,7 @@ export default CreateClass({
     })
   },
   render: function () {
-    if (this.props.socket.on) {
+    if (this.props.socket && this.props.socket.on) {
       this.props.socket.on('new-bookmark', (data) => {
         this.addNewBookmark(data.bookmark)
       })

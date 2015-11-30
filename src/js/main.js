@@ -1,6 +1,7 @@
 'use strict'
 
 import React from 'react'
+import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { IndexRoute, Route } from 'react-router'
 import { combineReducers, compose, createStore } from 'redux'
@@ -12,28 +13,35 @@ import Bkmrkd from './containers/bkmrkd'
 import Colophon from './components/colophon'
 import Bookmarks from './components/bookmarks'
 
-window.app = window.app || {}
-
-const socket = io.connect(window.location.protocol + '//' + window.location.host)
-const reducer = combineReducers({
-  router: routerStateReducer,
-  bkmrkd: bkmrkdReducers
-})
-const store = compose(
-  reduxReactRouter({
-    routes,
-    createHistory
-  })
-)(createStore)(reducer, window.app.__initialState || {})
+let socket
 
 const routes = (
-  <Provider store={store}>
     <Route path='/' component={Bkmrkd} socket={socket}>
       <IndexRoute component={Bookmarks} />
       <Route path='/colophon' component={Colophon} />
     </Route>
-  </Provider>
 )
+
+if (typeof window !== 'undefined') {
+  window.app = window.app || {}
+
+  socket = io.connect(window.location.protocol + '//' + window.location.host)
+
+  const reducer = combineReducers({
+    router: routerStateReducer,
+    bookmarks: bkmrkdReducers
+  })
+  const store = compose(
+    reduxReactRouter({
+      routes,
+      createHistory
+    })
+  )(createStore)(reducer, window.app.__initialState || {})
+
+  render(<Provider store={store}>{routes}</Provider>, document.body.querySelector(''))
+}
+
+export default routes
 
 // socket.on('connect_error', () => {
 //   showError('bkmrkd couldn\'nt connect to the server. You won\'t receive updates. You can try refreshing the page.', true)

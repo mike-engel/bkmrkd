@@ -5,7 +5,11 @@
   <meta name="viewport" content="initial-scale=1,user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
 
-  <title><%= page === '' ? 'bkmrkd' : 'Colophon – bkmrkd' %></title>
+  <title><%= typeof page === 'undefined' || page === '' ? 'bkmrkd' : 'Colophon – bkmrkd' %></title>
+
+  <script>
+    window.app.__initialState = <%- JSON.stringify(initialState) %>
+  </script>
 
   <style>
   * {
