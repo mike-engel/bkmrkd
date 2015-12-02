@@ -8,6 +8,8 @@
   <title><%= typeof page === 'undefined' || page === '' ? 'bkmrkd' : 'Colophon – bkmrkd' %></title>
 
   <script>
+    window.app = window.app || {}
+
     window.app.__initialState = <%- JSON.stringify(initialState) %>
   </script>
 
@@ -218,6 +220,6 @@
     <p class="no-js">Just so you know, you have javascript turned off. You won't receive updates until you turn javascript on and refresh</p>
   </noscript>
   <div data-hook="app"><%- app %></div>
-    <!-- <script src="/js/main.js"></script> -->
+  <script src="/js/main.js"></script>
 </body>
 </html>

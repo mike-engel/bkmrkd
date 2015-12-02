@@ -20,6 +20,7 @@ function bkmrkd (props) {
     </div>
   )
 }
+
 export default connect((state) => ({
   networkStatus: state.networkStatus
 }))(bkmrkd)

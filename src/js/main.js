@@ -3,33 +3,31 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
-import { IndexRoute, Route } from 'react-router'
+import { IndexRoute, Route, Router } from 'react-router'
 import { combineReducers, compose, createStore } from 'redux'
 import { reduxReactRouter, routerStateReducer } from 'redux-router'
 import { createHistory } from 'history'
-import bkmrkdReducers from './helpers/reducers'
+import { bookmarks, networkState } from './helpers/reducers'
+import createBrowserHistory from 'history/lib/createBrowserHistory'
 import io from 'socket.io-client'
 import Bkmrkd from './containers/bkmrkd'
 import Colophon from './components/colophon'
 import Bookmarks from './components/bookmarks'
 
-let socket
-
 const routes = (
-    <Route path='/' component={Bkmrkd} socket={socket}>
-      <IndexRoute component={Bookmarks} />
-      <Route path='/colophon' component={Colophon} />
-    </Route>
+  <Route path='/' component={Bkmrkd}>
+    <IndexRoute component={Bookmarks} />
+    <Route path='/colophon' component={Colophon} />
+  </Route>
 )
 
 if (typeof window !== 'undefined') {
-  window.app = window.app || {}
-
-  socket = io.connect(window.location.protocol + '//' + window.location.host)
+  window.app.socket = io.connect(window.location.protocol + '//' + window.location.host)
 
   const reducer = combineReducers({
     router: routerStateReducer,
-    bookmarks: bkmrkdReducers
+    bookmarks,
+    networkState
   })
   const store = compose(
     reduxReactRouter({
@@ -38,7 +36,7 @@ if (typeof window !== 'undefined') {
     })
   )(createStore)(reducer, window.app.__initialState || {})
 
-  render(<Provider store={store}>{routes}</Provider>, document.body.querySelector(''))
+  render(<Provider store={store}><Router history={createBrowserHistory()}>{ routes }</Router></Provider>, document.body.querySelector('[data-hook="app"]'))
 }
 
 export default routes

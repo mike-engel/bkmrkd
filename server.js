@@ -104,7 +104,7 @@ app.use(bodyParser.urlencoded({
 app.use(hpp())
 app.use(helmet.contentSecurityPolicy({
   defaultSrc: ["'self'"],
-  scriptSrc: ["'self'", "'sha256-tiU2DTeAHzG5ooZjsp0XkWq9Dv0mWumq_F4c2E5A4FQ='"],
+  scriptSrc: ["'self'", "'unsafe-inline'"],
   styleSrc: ["'unsafe-inline'"],
   imgSrc: ["'none'"],
   connectSrc: ["'self'", 'ws:'],
