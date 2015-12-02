@@ -1,43 +1,21 @@
 'use strict'
 
-import React, { createClass as CreateClass, PropTypes } from 'react'
-import update from 'react-addons-update'
+import React, { createClass, PropTypes } from 'react'
+import { connect } from 'react-redux'
 import Bookmark from './bookmark'
 
-export default CreateClass({
+export const bookmarks = createClass({
   propTypes: {
-    bookmarks: PropTypes.array,
-    networkState: PropTypes.object,
+    bookmarks: PropTypes.array.isRequired,
+    dispatch: PropTypes.func.isRequired,
     socket: PropTypes.object
   },
   getInitialState: function () {
-    console.log('incoming props: ', this.props)
-
     return {
-      bookmarks: this.props.bookmarks || [],
       page: 1,
       endOfBookmarks: this.props.bookmarks ? this.props.bookmarks.length < 25 : true,
       requesting: false
     }
-  },
-  addNewBookmark: function (bookmark) {
-    this.setState({
-      bookmarks: update(this.state.bookmarks, {$push: [bookmark]})
-    })
-  },
-  removeBookmark: function (id) {
-    let index = 0
-
-    this.state.bookmarks.forEach((bookmark, idx) => {
-      if (bookmark.id === id) {
-        index = idx
-        return
-      }
-    })
-
-    this.setState({
-      bookmarks: update(this.state.bookmarks, {$splice: [[index, 1]]})
-    })
   },
   handleScrollEvent: function (evt) {
     evt = evt || window.event
@@ -47,59 +25,55 @@ export default CreateClass({
     }
   },
   getMoreBookmarks: function () {
-    if (!this.state.endOfBookmarks && !this.state.requesting) {
-      this.setState({
-        requesting: true
-      })
-
-      this.props.socket.emit('get-bookmarks', {
-        page: this.state.page + 1
-      })
-    }
-
-    this.props.socket.on('old-bookmarks', (data) => {
-      if (data.bookmarks && this.state.bookmarks.indexOf(data.bookmarks[0] === -1)) {
-        this.setState({
-          bookmarks: update(this.state.bookmarks, {$push: data.bookmarks}),
-          page: this.state.page + 1
-        })
-      } else if (data.message) {
-        if (!document.body.querySelector('.no-bookmarks')) {
-          let noBookmarksMessage = document.createElement('p')
-
-          noBookmarksMessage.classList.add('no-bookmarks')
-          noBookmarksMessage.textContent = data.message
-
-          document.body.querySelector('[data-hook="bookmarks"]').appendChild(noBookmarksMessage)
-        }
-
-        this.setState({
-          endOfBookmarks: true
-        })
-
-        window.removeEventListener('scroll', this.handleScrollEvent)
-      }
-
-      this.setState({
-        requesting: false
-      })
-    })
+    // if (!this.state.endOfBookmarks && !this.state.requesting) {
+    //   this.setState({
+    //     requesting: true
+    //   })
+    //
+    //   this.props.socket.emit('get-bookmarks', {
+    //     page: this.state.page + 1
+    //   })
+    // }
+    //
+    // this.props.socket.on('old-bookmarks', (data) => {
+    //   if (data.bookmarks && this.state.bookmarks.indexOf(data.bookmarks[0] === -1)) {
+    //     this.setState({
+    //       bookmarks: update(this.state.bookmarks, {$push: data.bookmarks}),
+    //       page: this.state.page + 1
+    //     })
+    //   } else if (data.message) {
+    //     if (!document.body.querySelector('.no-bookmarks')) {
+    //       let noBookmarksMessage = document.createElement('p')
+    //
+    //       noBookmarksMessage.classList.add('no-bookmarks')
+    //       noBookmarksMessage.textContent = data.message
+    //
+    //       document.body.querySelector('[data-hook="bookmarks"]').appendChild(noBookmarksMessage)
+    //     }
+    //
+    //     this.setState({
+    //       endOfBookmarks: true
+    //     })
+    //
+    //     window.removeEventListener('scroll', this.handleScrollEvent)
+    //   }
+    //
+    //   this.setState({
+    //     requesting: false
+    //   })
+    // })
   },
   render: function () {
-    if (this.props.socket && this.props.socket.on) {
-      this.props.socket.on('new-bookmark', (data) => {
-        this.addNewBookmark(data.bookmark)
-      })
-    }
-
     if (typeof window !== 'undefined' && !this.state.endOfBookmarks && this.state.page === 1) {
       window.addEventListener('scroll', this.handleScrollEvent)
     }
 
-    if (this.state.bookmarks.length) {
+    console.log('incoming props: \n', this.props)
+
+    if (this.props.bookmarks.length) {
       return (
         <ul className='bookmarks'>
-          {this.state.bookmarks.sort((a, b) => {
+          {this.props.bookmarks.sort((a, b) => {
             const dateA = new Date(a.createdOn)
             const dateB = new Date(b.createdOn)
 
@@ -111,9 +85,7 @@ export default CreateClass({
               return 0
             }
           }).map((bookmark) => {
-            const removeHelper = this.removeBookmark
-
-            return <Bookmark key={bookmark.id} bookmark={bookmark} removeHelper={removeHelper} socket={this.props.socket}/>
+            return <Bookmark key={bookmark.id} bookmark={bookmark} dispatch={this.props.dispatch} />
           })}
         </ul>
       )
@@ -124,3 +96,9 @@ export default CreateClass({
     }
   }
 })
+
+export default connect((state) => {
+  return {
+    bookmarks: state.bookmarks
+  }
+})(bookmarks)

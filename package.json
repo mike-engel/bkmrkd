@@ -48,7 +48,6 @@
     "lodash.unescape": "^3.0.0",
     "pm2": "^0.15.10",
     "react": "^0.14.3",
-    "react-addons-update": "^0.14.3",
     "react-dom": "^0.14.3",
     "react-redux": "^4.0.0",
     "react-router": "^1.0.0",

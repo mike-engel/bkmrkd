@@ -1,27 +1,26 @@
 'use strict'
 
-import React, { createClass as CreateClass, PropTypes } from 'react'
+import React, { createClass, PropTypes } from 'react'
 import url from 'url'
 import unescape from 'lodash.unescape'
 
-export default CreateClass({
+export default createClass({
   propTypes: {
-    bookmark: PropTypes.object,
-    removeHelper: PropTypes.func,
-    socket: PropTypes.object
+    bookmark: PropTypes.object.isRequired,
+    dispatch: PropTypes.func.isRequired
   },
   destroyBookmark: function (evt) {
     evt.preventDefault()
 
-    if (this.props.socket.on) {
-      this.props.socket.on('bookmark-destroyed', (data) => {
-        this.props.removeHelper(data.id)
-      })
-
-      this.props.socket.emit('destroy-bookmark', {
-        id: this.props.bookmark.id
-      })
-    }
+    // if (this.props.socket.on) {
+    //   this.props.socket.on('bookmark-destroyed', (data) => {
+    //     this.props.removeHelper(data.id)
+    //   })
+    //
+    //   this.props.socket.emit('destroy-bookmark', {
+    //     id: this.props.bookmark.id
+    //   })
+    // }
   },
   getTimeString: function () {
     const months = {
