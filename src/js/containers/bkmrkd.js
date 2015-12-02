@@ -12,7 +12,7 @@ function bkmrkd (props) {
           <ul>
             <li><IndexLink to='/' activeClassName='active'>bkmrkd</IndexLink></li>
             <li><Link to='/colophon' activeClassName='active'>colophon</Link></li>
-            <li><Link to={snippet}>bookmaarklet</Link></li>
+            <li><Link to={snippet}>bookmarklet</Link></li>
           </ul>
         </nav>
       </header>

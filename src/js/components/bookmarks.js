@@ -68,8 +68,6 @@ export const bookmarks = createClass({
       window.addEventListener('scroll', this.handleScrollEvent)
     }
 
-    console.log('incoming props: \n', this.props)
-
     if (this.props.bookmarks.length) {
       return (
         <ul className='bookmarks'>
