@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { IndexLink, Link } from 'react-router'
 import { connect } from 'react-redux'
 import snippet from '../helpers/snippet'
@@ -19,6 +19,10 @@ function bkmrkd (props) {
       { props.children }
     </div>
   )
+}
+
+bkmrkd.propTypes = {
+  children: PropTypes.node
 }
 
 export default connect((state) => ({
