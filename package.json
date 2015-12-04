@@ -50,7 +50,7 @@
   },
   "devDependencies": {
     "autoprefixer-core": "^6.0.1",
-    "babel": "^6.0.15",
+    "babel": "^6.3.13",
     "babelify": "^7.2.0",
     "brfs": "^1.4.0",
     "browser-sync": "^2.9.11",
