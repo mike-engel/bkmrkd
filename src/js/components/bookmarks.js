@@ -3,6 +3,7 @@
 import React, { createClass, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Bookmark from './bookmark'
+import { addBookmarks } from '../helpers/actions'
 
 export const bookmarks = createClass({
   propTypes: {
@@ -64,8 +65,14 @@ export const bookmarks = createClass({
     // })
   },
   render: function () {
-    if (typeof window !== 'undefined' && !this.state.endOfBookmarks && this.state.page === 1) {
-      window.addEventListener('scroll', this.handleScrollEvent)
+    if (typeof window !== 'undefined') {
+      if (!this.state.endOfBookmarks && this.state.page === 1) {
+        window.addEventListener('scroll', this.handleScrollEvent)
+      }
+
+      window.app.socket.on('bookmarks', data => {
+        this.props.dispatch(addBookmarks(data.bookmarks))
+      })
     }
 
     if (this.props.bookmarks.length) {

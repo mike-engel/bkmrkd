@@ -14,7 +14,7 @@ import { ReduxRouter, routerStateReducer } from 'redux-router'
 import { match, reduxReactRouter } from 'redux-router/server'
 import escape from 'lodash.escape'
 import bkmrkdRoutes from './src/js/main'
-import { bookmarks, networkState } from './src/js/helpers/reducers'
+import { bookmarks, networkState, toaster } from './src/js/helpers/reducers'
 
 const app = express()
 const server = http.Server(app)
@@ -143,7 +143,8 @@ app.route(/^\/(colophon)?$/)
         const reducer = combineReducers({
           router: routerStateReducer,
           bookmarks,
-          networkState
+          networkState,
+          toaster
         })
         const store = compose(
           reduxReactRouter({
@@ -151,7 +152,8 @@ app.route(/^\/(colophon)?$/)
           })
         )(createStore)(reducer, {
           bookmarks: result,
-          networkState: {}
+          networkState: {},
+          toaster: []
         })
 
         store.dispatch(match(req.url, (err, redirectLocation, renderProps) => {
@@ -211,32 +213,6 @@ app.use((err, req, res, next) => {
 })
 
 io.on('connection', (socket) => {
-  bkmrkd.table('bookmarks').orderBy({
-    index: rethink.desc('createdOn')
-  }).limit(25).run(connection, (err, cursor) => {
-    if (err) {
-      console.log('Error getting the initial list of bookmarks: ', err)
-
-      return socket.emit('error', {
-        message: 'There\'s been an error getting the initial list of bookmarks. Try refreshing the page.'
-      })
-    }
-
-    cursor.toArray((err, result) => {
-      if (err) {
-        console.log('Error getting the initial list of bookmarks: ', err)
-
-        return socket.emit('error', {
-          message: 'There\'s been an error getting the initial list of bookmarks. Try refreshing the page.'
-        })
-      }
-
-      socket.emit('bookmarks', {
-        bookmarks: result
-      })
-    })
-  })
-
   bkmrkd.table('bookmarks').changes().run(connection, (err, cursor) => {
     if (err) {
       console.log('Error subscribing for updates: ', err)

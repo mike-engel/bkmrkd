@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { ADD_BOOKMARKS, DESTROY_BOOKMARK, REQUEST_LOADING, REQUEST_SUCCESS, REQUEST_FAILURE } from './actionTypes'
+import { ADD_BOOKMARKS, DESTROY_BOOKMARK, REQUEST_LOADING, REQUEST_SUCCESS, REQUEST_FAILURE, ADD_TOAST } from './actionTypes'
 
 export default combineReducers({
   bookmarks,
@@ -40,6 +40,21 @@ export function networkState (state = {}, action) {
         state: 'FAILURE',
         error: action.message
       }
+    default:
+      return state
+  }
+}
+
+export function toaster (state = [], action) {
+  switch (action.type) {
+    case ADD_TOAST:
+      return [
+        ...state,
+        {
+          style: action.style,
+          message: action.message
+        }
+      ]
     default:
       return state
   }

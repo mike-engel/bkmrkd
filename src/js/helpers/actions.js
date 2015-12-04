@@ -1,4 +1,4 @@
-import { ADD_BOOKMARKS, DESTROY_BOOKMARK, REQUEST_LOADING, REQUEST_SUCCESS, REQUEST_FAILURE } from './actionTypes'
+import { ADD_BOOKMARKS, DESTROY_BOOKMARK, REQUEST_LOADING, REQUEST_SUCCESS, REQUEST_FAILURE, ADD_TOAST } from './actionTypes'
 
 export function destroyBookmark (bookmark) {
   return {
@@ -30,5 +30,13 @@ export function requestFailure (message) {
   return {
     type: REQUEST_FAILURE,
     message
+  }
+}
+
+export function addToast ({message, style}) {
+  return {
+    type: ADD_TOAST,
+    message,
+    style
   }
 }

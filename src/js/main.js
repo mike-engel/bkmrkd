@@ -7,12 +7,13 @@ import { IndexRoute, Route, Router } from 'react-router'
 import { combineReducers, compose, createStore } from 'redux'
 import { reduxReactRouter, routerStateReducer } from 'redux-router'
 import { createHistory } from 'history'
-import { bookmarks, networkState } from './helpers/reducers'
+import { bookmarks, networkState, toaster } from './helpers/reducers'
 import createBrowserHistory from 'history/lib/createBrowserHistory'
 import io from 'socket.io-client'
 import Bkmrkd from './containers/bkmrkd'
 import Colophon from './components/colophon'
 import Bookmarks from './components/bookmarks'
+import { addToast } from './helpers/actions'
 
 const routes = (
   <Route path='/' component={Bkmrkd}>
@@ -27,7 +28,8 @@ if (typeof window !== 'undefined') {
   const reducer = combineReducers({
     router: routerStateReducer,
     bookmarks,
-    networkState
+    networkState,
+    toaster
   })
   const store = compose(
     reduxReactRouter({
@@ -36,39 +38,54 @@ if (typeof window !== 'undefined') {
     })
   )(createStore)(reducer, window.app.__initialState || {})
 
+  window.app.socket.on('connect_error', () => {
+    store.dispatch(addToast({
+      message: 'bkmrkd couldn\'nt connect to the server. You won\'t receive updates. You can try refreshing the page.',
+      style: 'error'
+    }))
+  })
+
+  window.app.socket.on('connect_timeout', () => {
+    store.dispatch(addToast({
+      message: 'bkmrkd couldn\'nt connect to the server. You won\'t receive updates. You can try refreshing the page.',
+      style: 'error'
+    }))
+  })
+
+  window.app.socket.on('reconnecting', () => {
+    store.dispatch(addToast({
+      message: 'Trying to reconnect to the bkrmrkd server...',
+      style: 'warning'
+    }))
+  })
+
+  window.app.socket.on('reconnect', () => {
+    console.log('reconnected!')
+    // closeError()
+  })
+
+  window.app.socket.on('reconnect_error', () => {
+    store.dispatch(addToast({
+      message: 'bkmrkd couldn\'nt connect to the server. You won\'t receive updates. You can try refreshing the page.',
+      style: 'error'
+    }))
+  })
+
+  window.app.socket.on('reconnect_failed', () => {
+    store.dispatch(addToast({
+      message: 'bkmrkd couldn\'nt connect to the server. You won\'t receive updates. You can try refreshing the page.',
+      style: 'error'
+    }))
+  })
+
+  window.app.socket.on('error', data => {
+    store.dispatch(addToast({
+      message: data.message,
+      style: 'error'
+    }))
+  })
+
   render(<Provider store={store}><Router history={createBrowserHistory()}>{ routes }</Router></Provider>, document.body.querySelector('[data-hook="app"]'))
 }
 
 export default routes
-
-// socket.on('connect_error', () => {
-//   showError('bkmrkd couldn\'nt connect to the server. You won\'t receive updates. You can try refreshing the page.', true)
-// })
-//
-// socket.on('connect_timeout', () => {
-//   showError('bkmrkd couldn\'nt connect to the server. You won\'t receive updates. You can try refreshing the page.', true)
-// })
-//
-// socket.on('reconnecting', () => {
-//   showError('Trying to reconnect to the bkrmrkd server...')
-// })
-//
-// socket.on('reconnect', () => {
-//   closeError()
-// })
-//
-// socket.on('reconnect_error', () => {
-//   showError('bkmrkd couldn\'nt connect to the server. You won\'t receive updates. You can try refreshing the page.', true)
-// })
-//
-// socket.on('reconnect_failed', () => {
-//   showError('bkmrkd couldn\'nt connect to the server. You won\'t receive updates. You can try refreshing the page.', true)
-// })
-//
-// socket.on('error', data => {
-//   showError(data.message, true)
-// })
-//
-// socket.on('bookmarks', data => {
-//   ReactDOM.render(<Bookmarks bookmarks={data.bookmarks} socket={socket}/>, document.querySelector('[data-hook="bookmarks"]'))
-// })
