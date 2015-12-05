@@ -60,8 +60,10 @@ if (typeof window !== 'undefined') {
   })
 
   window.app.socket.on('reconnect', () => {
-    console.log('reconnected!')
-    // closeError()
+    store.dispatch(addToast({
+      message: 'Reconnected to the bkmrkd server',
+      style: 'success'
+    }))
   })
 
   window.app.socket.on('reconnect_error', () => {
@@ -80,7 +82,7 @@ if (typeof window !== 'undefined') {
 
   window.app.socket.on('error', data => {
     store.dispatch(addToast({
-      message: data.message,
+      message: `Socket error: ${data.message}`,
       style: 'error'
     }))
   })
