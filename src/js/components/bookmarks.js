@@ -70,8 +70,8 @@ export const bookmarks = createClass({
         window.addEventListener('scroll', this.handleScrollEvent)
       }
 
-      window.app.socket.on('bookmarks', data => {
-        this.props.dispatch(addBookmarks(data.bookmarks))
+      window.app.socket.on('new-bookmark', data => {
+        this.props.dispatch(addBookmarks(data.bookmark))
       })
     }
 
