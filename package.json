@@ -41,7 +41,7 @@
     "cookie-parser": "^1.4.0",
     "ejs": "^2.3.4",
     "express": "^4.13.3",
-    "helmet": "^0.14.0",
+    "helmet": "^0.15.0",
     "history": "^1.13.1",
     "hpp": "^0.2.0",
     "lodash.escape": "^3.0.0",
