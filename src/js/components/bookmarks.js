@@ -3,20 +3,15 @@
 import React, { createClass, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Bookmark from './bookmark'
-import { addBookmark, destroyBookmark } from '../helpers/actions'
+import { addBookmark, appendBookmarks, changePage, destroyBookmark, requestLoading, requestFinished } from '../helpers/actions'
+import { REQUEST_LOADING } from '../helpers/actionTypes'
 
 export const bookmarks = createClass({
   propTypes: {
     bookmarks: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired,
-    socket: PropTypes.object
-  },
-  getInitialState: function () {
-    return {
-      page: 1,
-      endOfBookmarks: this.props.bookmarks ? this.props.bookmarks.length < 25 : true,
-      requesting: false
-    }
+    networkState: PropTypes.string.isRequired,
+    page: PropTypes.number.isRequired
   },
   handleScrollEvent: function (evt) {
     evt = evt || window.event
@@ -26,47 +21,36 @@ export const bookmarks = createClass({
     }
   },
   getMoreBookmarks: function () {
-    // if (!this.state.endOfBookmarks && !this.state.requesting) {
-    //   this.setState({
-    //     requesting: true
-    //   })
-    //
-    //   this.props.socket.emit('get-bookmarks', {
-    //     page: this.state.page + 1
-    //   })
-    // }
-    //
-    // this.props.socket.on('old-bookmarks', (data) => {
-    //   if (data.bookmarks && this.state.bookmarks.indexOf(data.bookmarks[0] === -1)) {
-    //     this.setState({
-    //       bookmarks: update(this.state.bookmarks, {$push: data.bookmarks}),
-    //       page: this.state.page + 1
-    //     })
-    //   } else if (data.message) {
-    //     if (!document.body.querySelector('.no-bookmarks')) {
-    //       let noBookmarksMessage = document.createElement('p')
-    //
-    //       noBookmarksMessage.classList.add('no-bookmarks')
-    //       noBookmarksMessage.textContent = data.message
-    //
-    //       document.body.querySelector('[data-hook="bookmarks"]').appendChild(noBookmarksMessage)
-    //     }
-    //
-    //     this.setState({
-    //       endOfBookmarks: true
-    //     })
-    //
-    //     window.removeEventListener('scroll', this.handleScrollEvent)
-    //   }
-    //
-    //   this.setState({
-    //     requesting: false
-    //   })
-    // })
+    if (this.props.bookmarks.length % 25 !== 0 && this.props.networkState !== REQUEST_LOADING) {
+      this.props.dispatch(requestLoading())
+
+      window.app.socket.emit('get-bookmarks', {
+        page: this.props.page
+      })
+
+      window.app.socket.on('old-bookmarks', (data) => {
+        this.props.dispatch(requestFinished())
+        this.props.dispatch(appendBookmarks(data.bookmarks))
+        this.props.dispatch(changePage(this.props.page + 1))
+
+        if (data.bookmarks.length % 25 !== 0) {
+          window.removeEventListener('scroll', this.handleScrollEvent)
+        }
+      })
+    }
+  },
+  endOfBookmarks: function () {
+    if (this.props.bookmarks.length % 25 !== 0) {
+      return (
+        <li className='no-more-bookmarks'>
+          <p classsName='h2'>All out of bookmarks!</p>
+        </li>
+      )
+    }
   },
   render: function () {
     if (typeof window !== 'undefined') {
-      if (!this.state.endOfBookmarks && this.state.page === 1) {
+      if (this.props.bookmarks.length === 25) {
         window.addEventListener('scroll', this.handleScrollEvent)
       }
 
@@ -96,11 +80,12 @@ export const bookmarks = createClass({
           }).map((bookmark) => {
             return <Bookmark key={bookmark.id} bookmark={bookmark} dispatch={this.props.dispatch} />
           })}
+          {this.endOfBookmarks()}
         </ul>
       )
     } else {
       return (
-        <h2 className='h2'>No bookmarks yet! Place the script in your bookmarks bar and start bookmarking!</h2>
+        <h2 className='h2'>No bookmarks yet! Place the script in your bookmarks bar and start bookmarking.</h2>
       )
     }
   }
@@ -108,6 +93,8 @@ export const bookmarks = createClass({
 
 export default connect((state) => {
   return {
-    bookmarks: state.bookmarks
+    bookmarks: state.bookmarks,
+    networkState: state.networkState,
+    page: state.page
   }
 })(bookmarks)

@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { ADD_BOOKMARK, APPEND_BOOKMARKS, DESTROY_BOOKMARK, REQUEST_LOADING, REQUEST_SUCCESS, REQUEST_FAILURE, ADD_TOAST } from './actionTypes'
+import { ADD_BOOKMARK, APPEND_BOOKMARKS, ADD_TOAST, CHANGE_PAGE, DESTROY_BOOKMARK, REQUEST_LOADING, REQUEST_FINISHED } from './actionTypes'
 
 export default combineReducers({
   bookmarks,
@@ -40,21 +40,21 @@ export function bookmarks (state = [], action) {
   }
 }
 
-export function networkState (state = {}, action) {
+export function networkState (state = '', action) {
   switch (action.type) {
     case REQUEST_LOADING:
-      return {
-        state: 'LOADING'
-      }
-    case REQUEST_SUCCESS:
-      return {
-        state: 'SUCCESS'
-      }
-    case REQUEST_FAILURE:
-      return {
-        state: 'FAILURE',
-        error: action.message
-      }
+      return 'LOADING'
+    case REQUEST_FINISHED:
+      return ''
+    default:
+      return state
+  }
+}
+
+export function page (state = 1, action) {
+  switch (action.type) {
+    case CHANGE_PAGE:
+      return page
     default:
       return state
   }

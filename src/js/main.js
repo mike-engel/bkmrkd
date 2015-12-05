@@ -7,7 +7,7 @@ import { IndexRoute, Route, Router } from 'react-router'
 import { combineReducers, compose, createStore } from 'redux'
 import { reduxReactRouter, routerStateReducer } from 'redux-router'
 import { createHistory } from 'history'
-import { bookmarks, networkState, toaster } from './helpers/reducers'
+import { bookmarks, networkState, page, toaster } from './helpers/reducers'
 import createBrowserHistory from 'history/lib/createBrowserHistory'
 import io from 'socket.io-client'
 import Bkmrkd from './containers/bkmrkd'
@@ -25,18 +25,26 @@ const routes = (
 if (typeof window !== 'undefined') {
   window.app.socket = io.connect(window.location.protocol + '//' + window.location.host)
 
+  window.app.__initialState = window.app.__initialState || {
+    bookmarks: [],
+    networkState: '',
+    toaster: [],
+    page: 1
+  }
+
   const reducer = combineReducers({
     router: routerStateReducer,
     bookmarks,
     networkState,
-    toaster
+    toaster,
+    page
   })
   const store = compose(
     reduxReactRouter({
       routes,
       createHistory
     })
-  )(createStore)(reducer, window.app.__initialState || {})
+  )(createStore)(reducer, window.app.__initialState)
 
   window.app.socket.on('connect_error', () => {
     store.dispatch(addToast({

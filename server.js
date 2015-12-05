@@ -14,7 +14,7 @@ import { ReduxRouter, routerStateReducer } from 'redux-router'
 import { match, reduxReactRouter } from 'redux-router/server'
 import escape from 'lodash.escape'
 import bkmrkdRoutes from './src/js/main'
-import { bookmarks, networkState, toaster } from './src/js/helpers/reducers'
+import { bookmarks, networkState, page, toaster } from './src/js/helpers/reducers'
 
 const app = express()
 const server = http.Server(app)
@@ -144,7 +144,8 @@ app.route(/^\/(colophon)?$/)
           router: routerStateReducer,
           bookmarks,
           networkState,
-          toaster
+          toaster,
+          page
         })
         const store = compose(
           reduxReactRouter({
@@ -152,8 +153,9 @@ app.route(/^\/(colophon)?$/)
           })
         )(createStore)(reducer, {
           bookmarks: result,
-          networkState: {},
-          toaster: []
+          networkState: '',
+          toaster: [],
+          page: 1
         })
 
         store.dispatch(match(req.url, (err, redirectLocation, renderProps) => {

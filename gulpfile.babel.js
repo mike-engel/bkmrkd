@@ -33,7 +33,7 @@ gulp.task('scripts', () => {
 
   if (evalWatch()) {
     b = watchify(b)
-    b.plugin('browserify-hmr')
+    // b.plugin('browserify-hmr')
   }
 
   b.transform('babelify', {

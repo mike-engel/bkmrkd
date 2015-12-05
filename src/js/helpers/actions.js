@@ -1,4 +1,4 @@
-import { ADD_BOOKMARK, ADD_TOAST, APPEND_BOOKMARKS, DESTROY_BOOKMARK, REQUEST_LOADING, REQUEST_SUCCESS, REQUEST_FAILURE } from './actionTypes'
+import { ADD_BOOKMARK, ADD_TOAST, APPEND_BOOKMARKS, CHANGE_PAGE, DESTROY_BOOKMARK, REQUEST_LOADING, REQUEST_FINISHED } from './actionTypes'
 
 export function destroyBookmark (bookmarkID) {
   return {
@@ -21,29 +21,29 @@ export function appendBookmarks (bookmarks) {
   }
 }
 
+export function addToast ({message, style}) {
+  return {
+    type: ADD_TOAST,
+    message,
+    style
+  }
+}
+
+export function changePage (page) {
+  return {
+    type: CHANGE_PAGE,
+    page
+  }
+}
+
 export function requestLoading () {
   return {
     type: REQUEST_LOADING
   }
 }
 
-export function requestSuccess () {
+export function requestFinished () {
   return {
-    type: REQUEST_SUCCESS
-  }
-}
-
-export function requestFailure (message) {
-  return {
-    type: REQUEST_FAILURE,
-    message
-  }
-}
-
-export function addToast ({message, style}) {
-  return {
-    type: ADD_TOAST,
-    message,
-    style
+    type: REQUEST_FINISHED
   }
 }
