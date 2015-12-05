@@ -3,7 +3,7 @@
 import React, { createClass, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Bookmark from './bookmark'
-import { addBookmarks } from '../helpers/actions'
+import { addBookmarks, destroyBookmark } from '../helpers/actions'
 
 export const bookmarks = createClass({
   propTypes: {
@@ -72,6 +72,10 @@ export const bookmarks = createClass({
 
       window.app.socket.on('new-bookmark', data => {
         this.props.dispatch(addBookmarks(data.bookmark))
+      })
+
+      window.app.socket.on('bookmark-destroyed', (data) => {
+        this.props.dispatch(destroyBookmark(data.id))
       })
     }
 

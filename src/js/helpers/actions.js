@@ -1,9 +1,9 @@
 import { ADD_BOOKMARKS, DESTROY_BOOKMARK, REQUEST_LOADING, REQUEST_SUCCESS, REQUEST_FAILURE, ADD_TOAST } from './actionTypes'
 
-export function destroyBookmark (bookmark) {
+export function destroyBookmark (bookmarkID) {
   return {
     type: DESTROY_BOOKMARK,
-    bookmark
+    bookmarkID
   }
 }
 

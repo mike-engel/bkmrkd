@@ -14,11 +14,21 @@ export function bookmarks (state = [], action) {
         ...state
       ]
     case DESTROY_BOOKMARK:
-      const idx = state.indexOf(action.bookmark)
+      let bookmarkIdx = -1
+
+      state.forEach((bookmark, idx) => {
+        if (bookmark.id === action.bookmarkID) {
+          bookmarkIdx = idx
+        }
+      })
+
+      if (bookmarkIdx === -1) {
+        return state
+      }
 
       return [
-        ...state.slice(0, idx),
-        ...state.slice(idx + 1)
+        ...state.slice(0, bookmarkIdx),
+        ...state.slice(bookmarkIdx + 1)
       ]
     default:
       return state

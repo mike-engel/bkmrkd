@@ -12,15 +12,9 @@ export default createClass({
   destroyBookmark: function (evt) {
     evt.preventDefault()
 
-    // if (this.props.socket.on) {
-    //   this.props.socket.on('bookmark-destroyed', (data) => {
-    //     this.props.removeHelper(data.id)
-    //   })
-    //
-    //   this.props.socket.emit('destroy-bookmark', {
-    //     id: this.props.bookmark.id
-    //   })
-    // }
+    window.app.socket.emit('destroy-bookmark', {
+      id: this.props.bookmark.id
+    })
   },
   getTimeString: function () {
     const months = {
