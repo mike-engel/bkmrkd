@@ -11,7 +11,8 @@ export const bookmarks = createClass({
     bookmarks: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired,
     networkState: PropTypes.string.isRequired,
-    page: PropTypes.number.isRequired
+    page: PropTypes.number.isRequired,
+    location: PropTypes.object
   },
   handleScrollEvent: function (evt) {
     evt = evt || window.event
@@ -42,13 +43,15 @@ export const bookmarks = createClass({
   endOfBookmarks: function () {
     if (this.props.bookmarks.length % 25 !== 0) {
       return (
-        <li className='no-more-bookmarks'>
+        <div className='no-more-bookmarks'>
           <p classsName='h2'>All out of bookmarks!</p>
-        </li>
+        </div>
       )
     }
   },
   render: function () {
+    console.log('page: ', this.props.location.query.page)
+
     if (typeof window !== 'undefined') {
       if (this.props.bookmarks.length === 25) {
         window.addEventListener('scroll', this.handleScrollEvent)
@@ -65,23 +68,25 @@ export const bookmarks = createClass({
 
     if (this.props.bookmarks.length) {
       return (
-        <ul className='bookmarks'>
-          {this.props.bookmarks.sort((a, b) => {
-            const dateA = new Date(a.createdOn)
-            const dateB = new Date(b.createdOn)
+        <section className='bookmarks'>
+          <ul>
+            {this.props.bookmarks.sort((a, b) => {
+              const dateA = new Date(a.createdOn)
+              const dateB = new Date(b.createdOn)
 
-            if (dateA < dateB) {
-              return 1
-            } else if (dateA > dateB) {
-              return -1
-            } else {
-              return 0
-            }
-          }).map((bookmark) => {
-            return <Bookmark key={bookmark.id} bookmark={bookmark} dispatch={this.props.dispatch} />
-          })}
+              if (dateA < dateB) {
+                return 1
+              } else if (dateA > dateB) {
+                return -1
+              } else {
+                return 0
+              }
+            }).map((bookmark) => {
+              return <Bookmark key={bookmark.id} bookmark={bookmark} dispatch={this.props.dispatch} />
+            })}
+          </ul>
           {this.endOfBookmarks()}
-        </ul>
+        </section>
       )
     } else {
       return (

@@ -1,11 +1,4 @@
-import { ADD_BOOKMARK, ADD_TOAST, APPEND_BOOKMARKS, CHANGE_PAGE, DESTROY_BOOKMARK, REQUEST_LOADING, REQUEST_FINISHED } from './actionTypes'
-
-export function destroyBookmark (bookmarkID) {
-  return {
-    type: DESTROY_BOOKMARK,
-    bookmarkID
-  }
-}
+import { ADD_BOOKMARK, ADD_TOAST, APPEND_BOOKMARKS, CHANGE_PAGE, DESTROY_BOOKMARK, END_OF_BOOKMARKS, REQUEST_LOADING, REQUEST_FINISHED } from './actionTypes'
 
 export function addBookmark (bookmark) {
   return {
@@ -33,6 +26,19 @@ export function changePage (page) {
   return {
     type: CHANGE_PAGE,
     page
+  }
+}
+
+export function destroyBookmark (bookmarkID) {
+  return {
+    type: DESTROY_BOOKMARK,
+    bookmarkID
+  }
+}
+
+export function endOfBookmarks () {
+  return {
+    type: END_OF_BOOKMARKS
   }
 }
 

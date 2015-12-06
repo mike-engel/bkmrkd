@@ -14,7 +14,7 @@ import { ReduxRouter, routerStateReducer } from 'redux-router'
 import { match, reduxReactRouter } from 'redux-router/server'
 import escape from 'lodash.escape'
 import bkmrkdRoutes from './src/js/main'
-import { bookmarks, networkState, page, toaster } from './src/js/helpers/reducers'
+import { bookmarks, endOfBookmarks, networkState, page, toaster } from './src/js/helpers/reducers'
 
 const app = express()
 const server = http.Server(app)
@@ -75,6 +75,16 @@ function createIndex () {
   })
 }
 
+function countBookmarks (cb) {
+  bkmrkd.table('bookmarks').count().run(connection, (err, count) => {
+    if (err) {
+      console.error('Error counting the bookmarks!')
+    }
+
+    cb(count)
+  })
+}
+
 rethink.connect({
   host: 'localhost',
   post: 28015
@@ -122,56 +132,62 @@ http.globalAgent.maxSockets = 1000
 
 app.route(/^\/(colophon)?$/)
   .get((req, res) => {
-    bkmrkd.table('bookmarks').orderBy({
-      index: rethink.desc('createdOn')
-    }).limit(25).run(connection, (err, cursor) => {
-      if (err) {
-        return res.render('500', {
-          message: 'There\'s been an error getting the initial list of bookmarks.'
-        })
-      }
+    const pageNumber = +req.query.page || 1
 
-      cursor.toArray((err, result) => {
+    countBookmarks((bookmarkCount) => {
+      bkmrkd.table('bookmarks').orderBy({
+        index: rethink.desc('createdOn')
+      }).skip(25 * (pageNumber - 1)).limit(25).run(connection, (err, cursor) => {
         if (err) {
-          console.log('Error getting the initial list of bookmarks: ', err)
-
           return res.render('500', {
             message: 'There\'s been an error getting the initial list of bookmarks.'
           })
         }
 
-        const reducer = combineReducers({
-          router: routerStateReducer,
-          bookmarks,
-          networkState,
-          toaster,
-          page
-        })
-        const store = compose(
-          reduxReactRouter({
-            routes: bkmrkdRoutes
-          })
-        )(createStore)(reducer, {
-          bookmarks: result,
-          networkState: '',
-          toaster: [],
-          page: 1
-        })
-
-        store.dispatch(match(req.url, (err, redirectLocation, renderProps) => {
+        cursor.toArray((err, result) => {
           if (err) {
-            console.error('Error matching the routes: ', err)
+            console.log('Error getting the initial list of bookmarks: ', err)
+
+            return res.render('500', {
+              message: 'There\'s been an error getting the initial list of bookmarks.'
+            })
           }
 
-          if (renderProps) {
-            return res.render('index', {
-              app: renderToString(<Provider store={store}><ReduxRouter {...renderProps} /></Provider>),
-              initialState: store.getState()
+          const reducer = combineReducers({
+            router: routerStateReducer,
+            bookmarks,
+            endOfBookmarks,
+            networkState,
+            toaster,
+            page
+          })
+          const store = compose(
+            reduxReactRouter({
+              routes: bkmrkdRoutes
             })
-          } else {
-            console.error('TODO: Page not found, handle this.')
-          }
-        }))
+          )(createStore)(reducer, {
+            bookmarks: result,
+            networkState: '',
+            toaster: [],
+            page: pageNumber,
+            endOfBookmarks: (25 * (pageNumber)) > bookmarkCount
+          })
+
+          store.dispatch(match(req.url, (err, redirectLocation, renderProps) => {
+            if (err) {
+              console.error('Error matching the routes: ', err)
+            }
+
+            if (renderProps) {
+              return res.render('index', {
+                app: renderToString(<Provider store={store}><ReduxRouter {...renderProps} /></Provider>),
+                initialState: store.getState()
+              })
+            } else {
+              console.error('TODO: Page not found, handle this.')
+            }
+          }))
+        })
       })
     })
   })
