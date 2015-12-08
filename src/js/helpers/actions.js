@@ -7,13 +7,6 @@ export function addBookmark (bookmark) {
   }
 }
 
-export function updateBookmarks (bookmarks) {
-  return {
-    type: UPDATE_BOOKMARKS,
-    bookmarks
-  }
-}
-
 export function addToast ({message, style}) {
   return {
     type: ADD_TOAST,
@@ -52,5 +45,12 @@ export function requestLoading () {
 export function requestFinished () {
   return {
     type: REQUEST_FINISHED
+  }
+}
+
+export function updateBookmarks (bookmarks) {
+  return {
+    type: UPDATE_BOOKMARKS,
+    bookmarks
   }
 }
