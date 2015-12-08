@@ -7,7 +7,7 @@ import { IndexRoute, Route, Router } from 'react-router'
 import { combineReducers, compose, createStore } from 'redux'
 import { reduxReactRouter, routerStateReducer } from 'redux-router'
 import { createHistory } from 'history'
-import { bookmarks, networkState, page, toaster } from './helpers/reducers'
+import { bookmarks, endOfBookmarks, networkState, page, toaster } from './helpers/reducers'
 import createBrowserHistory from 'history/lib/createBrowserHistory'
 import io from 'socket.io-client'
 import Bkmrkd from './containers/bkmrkd'
@@ -29,7 +29,8 @@ if (typeof window !== 'undefined') {
     bookmarks: [],
     networkState: '',
     toaster: [],
-    page: 1
+    page: 1,
+    endOfBookmarks: false
   }
 
   const reducer = combineReducers({
@@ -37,7 +38,8 @@ if (typeof window !== 'undefined') {
     bookmarks,
     networkState,
     toaster,
-    page
+    page,
+    endOfBookmarks
   })
   const store = compose(
     reduxReactRouter({

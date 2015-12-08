@@ -1,4 +1,4 @@
-import { ADD_BOOKMARK, ADD_TOAST, APPEND_BOOKMARKS, CHANGE_PAGE, DESTROY_BOOKMARK, END_OF_BOOKMARKS, REQUEST_LOADING, REQUEST_FINISHED } from './actionTypes'
+import { ADD_BOOKMARK, ADD_TOAST, CHANGE_PAGE, DESTROY_BOOKMARK, END_OF_BOOKMARKS, REQUEST_LOADING, REQUEST_FINISHED, UPDATE_BOOKMARKS } from './actionTypes'
 
 export function addBookmark (bookmark) {
   return {
@@ -7,9 +7,9 @@ export function addBookmark (bookmark) {
   }
 }
 
-export function appendBookmarks (bookmarks) {
+export function updateBookmarks (bookmarks) {
   return {
-    type: APPEND_BOOKMARKS,
+    type: UPDATE_BOOKMARKS,
     bookmarks
   }
 }
@@ -36,9 +36,10 @@ export function destroyBookmark (bookmarkID) {
   }
 }
 
-export function endOfBookmarks () {
+export function endOfBookmarks (end) {
   return {
-    type: END_OF_BOOKMARKS
+    type: END_OF_BOOKMARKS,
+    end
   }
 }
 

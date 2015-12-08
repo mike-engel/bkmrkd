@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { ADD_BOOKMARK, APPEND_BOOKMARKS, ADD_TOAST, CHANGE_PAGE, DESTROY_BOOKMARK, END_OF_BOOKMARKS, REQUEST_LOADING, REQUEST_FINISHED } from './actionTypes'
+import { ADD_BOOKMARK, ADD_TOAST, CHANGE_PAGE, DESTROY_BOOKMARK, END_OF_BOOKMARKS, REQUEST_LOADING, REQUEST_FINISHED, UPDATE_BOOKMARKS } from './actionTypes'
 
 export default combineReducers({
   bookmarks,
@@ -13,11 +13,8 @@ export function bookmarks (state = [], action) {
         action.bookmark,
         ...state
       ]
-    case APPEND_BOOKMARKS:
-      return [
-        ...state,
-        action.bookmarks
-      ]
+    case UPDATE_BOOKMARKS:
+      return action.bookmarks
     case DESTROY_BOOKMARK:
       let bookmarkIdx = -1
 
@@ -43,7 +40,7 @@ export function bookmarks (state = [], action) {
 export function endOfBookmarks (state = false, action) {
   switch (action.type) {
     case END_OF_BOOKMARKS:
-      return true
+      return action.end
     default:
       return state
   }
@@ -63,7 +60,7 @@ export function networkState (state = '', action) {
 export function page (state = 1, action) {
   switch (action.type) {
     case CHANGE_PAGE:
-      return page
+      return action.page
     default:
       return state
   }

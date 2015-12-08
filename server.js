@@ -242,10 +242,10 @@ io.on('connection', (socket) => {
 
     cursor.each((err, bookmark) => {
       if (err) {
-        console.log('Error subscribing for updates: ', err)
+        console.log('Error getting the bookmarks: ', err)
 
         return socket.emit('error', {
-          message: 'There\'s been an error subscribing for updates. Try refreshing the page.'
+          message: 'There\'s been an error getting the bookmarks. Try again.'
         })
       }
 
@@ -265,10 +265,10 @@ io.on('connection', (socket) => {
   socket.on('destroy-bookmark', (data) => {
     bkmrkd.table('bookmarks').get(data.id).delete().run(connection, (err, response) => {
       if (err) {
-        console.log('Error subscribing for updates: ', err)
+        console.log('Error deleting the bookmark: ', err)
 
         return socket.emit('error', {
-          message: 'There\'s been an error subscribing for updates. Try refreshing the page.'
+          message: 'There\'s been an error deleting the bookmark. Try again.'
         })
       }
 
@@ -279,16 +279,8 @@ io.on('connection', (socket) => {
   })
 
   socket.on('get-bookmarks', (data) => {
-    bkmrkd.table('bookmarks').skip(25 * (data.page - 1)).limit(25).run(connection, (err, cursor) => {
-      if (err) {
-        console.log('Error getting another page of bookmarks: ', err)
-
-        return socket.emit('error', {
-          message: 'There\'s been an error getting more bookmarks. Try again.'
-        })
-      }
-
-      cursor.toArray((err, result) => {
+    countBookmarks((bookmarkCount) => {
+      bkmrkd.table('bookmarks').skip(25 * (data.page - 1)).limit(25).run(connection, (err, cursor) => {
         if (err) {
           console.log('Error getting another page of bookmarks: ', err)
 
@@ -297,15 +289,26 @@ io.on('connection', (socket) => {
           })
         }
 
-        if (result.length) {
-          socket.emit('old-bookmarks', {
-            bookmarks: result
-          })
-        } else {
-          socket.emit('old-bookmarks', {
-            message: 'No more bookmarks!'
-          })
-        }
+        cursor.toArray((err, result) => {
+          if (err) {
+            console.log('Error getting another page of bookmarks: ', err)
+
+            return socket.emit('error', {
+              message: 'There\'s been an error getting more bookmarks. Try again.'
+            })
+          }
+
+          if (result.length) {
+            socket.emit('old-bookmarks', {
+              bookmarks: result,
+              endOfBookmarks: (25 * (data.page)) > bookmarkCount
+            })
+          } else {
+            socket.emit('old-bookmarks', {
+              message: 'No more bookmarks!'
+            })
+          }
+        })
       })
     })
   })

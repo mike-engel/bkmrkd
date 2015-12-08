@@ -123,6 +123,8 @@
 
   .bookmarks,
   .colophon {
+    margin-right: 15px;
+    margin-left: 15px;
     padding-top: 1px;
   }
 
@@ -167,11 +169,24 @@
     background-color: #BDC3C7;
   }
 
-  .no-more-bookmarks {
-    margin: 0;
-    padding: 5px;
-    color: #34495E;
-    font-weight: 600;
+  .pagination {
+    padding-top: 1px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+
+  .pagination__link {
+    margin-right: 3em;
+    line-height: 1;
+  }
+
+  .pagination__link.disabled {
+    opacity: 0.5;
+  }
+
+  .pagination__link.disabled:hover,
+  .pagination__link.disabled:active {
+    cursor: default;
   }
 
   @media (min-width: 768px) {
