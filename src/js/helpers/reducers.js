@@ -43,7 +43,7 @@ export function endOfBookmarks (state = false, action) {
 export function networkState (state = '', action) {
   switch (action.type) {
     case REQUEST_LOADING:
-      return 'LOADING'
+      return REQUEST_LOADING
     case REQUEST_FINISHED:
       return ''
     default:
