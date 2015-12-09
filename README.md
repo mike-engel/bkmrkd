@@ -2,6 +2,7 @@ bkmrkd
 ======
 
 [![Build Status](https://travis-ci.org/mike-engel/bkmrkd.svg?branch=redux-tests-43)](https://travis-ci.org/mike-engel/bkmrkd)
+![Dependencies](https://david-dm.org/mike-engel/bkmrkd.svg)
 
 Bkmrkd is a self-hosted, lightweight bookmarking service running on [node.js](https://nodejs.org), [react](https://facebook.github.io/react), and [rethinkdb](https://rethinkdb.com).
 
