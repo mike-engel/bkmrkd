@@ -4,7 +4,7 @@
   "description": "A simple self-hosted bookmark manager written in javascript",
   "main": "server.js",
   "scripts": {
-    "test": "standard && browserify -t babelify test/index.js | tape-run | tap-spec",
+    "test": "standard && browserify -t babelify test/index.js | tape-run --browser phantom | tap-spec",
     "start": "babel-node server.js",
     "stage": "NODE_ENV=stage pm2 start index.js --name bkmrkd",
     "stage:restart": "NODE_ENV=stage pm2 restart bkmrkdStage",
@@ -75,6 +75,7 @@
     "gulp-postcss": "^6.0.1",
     "gulp-react": "^3.1.0",
     "gulp-uglify": "^1.5.1",
+    "phantomjs": "^1.9.19",
     "pre-commit": "^1.1.2",
     "react-transform-hmr": "^1.0.1",
     "redux-router": "^1.0.0-beta5",
