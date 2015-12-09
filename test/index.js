@@ -1,1 +1,2 @@
-import actions from './helpers/actions'
+import './helpers/actions'
+import './helpers/reducers'

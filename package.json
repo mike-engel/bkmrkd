@@ -90,8 +90,7 @@
   "standard": {
     "parser": "babel-eslint",
     "ignore": [
-      "dist/**/*",
-      "test/index.js"
+      "dist/**/*"
     ]
   }
 }

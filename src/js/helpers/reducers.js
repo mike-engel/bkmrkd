@@ -1,10 +1,4 @@
-import { combineReducers } from 'redux'
 import { ADD_BOOKMARK, ADD_TOAST, CHANGE_PAGE, DESTROY_BOOKMARK, END_OF_BOOKMARKS, REQUEST_LOADING, REQUEST_FINISHED, UPDATE_BOOKMARKS } from './actionTypes'
-
-export default combineReducers({
-  bookmarks,
-  networkState
-})
 
 export function bookmarks (state = [], action) {
   switch (action.type) {
