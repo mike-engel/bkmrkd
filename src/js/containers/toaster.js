@@ -1,15 +1,15 @@
 import React, { createClass, PropTypes } from 'react'
-import toast from '../components/toast'
+import Toast from '../components/toast'
 
 export default createClass({
   propTypes: {
-    alerts: PropTypes.object.isRequired
+    toasts: PropTypes.array.isRequired
   },
   render: function () {
     return (
       <div className='toaster'>
-        {this.props.alerts.map((data) => {
-          return <toast data={data} />
+        {this.props.toasts.map((data, idx) => {
+          return <Toast key={idx} data={data} />
         })}
       </div>
     )
