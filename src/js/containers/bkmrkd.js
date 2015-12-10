@@ -1,9 +1,8 @@
 import React, { PropTypes } from 'react'
 import { IndexLink, Link } from 'react-router'
-import { connect } from 'react-redux'
 import snippet from '../helpers/snippet'
 
-function bkmrkd (props) {
+export default function Bkmrkd (props) {
   return (
     <div className='app container'>
       <header className='main-nav'>
@@ -21,10 +20,6 @@ function bkmrkd (props) {
   )
 }
 
-bkmrkd.propTypes = {
+Bkmrkd.propTypes = {
   children: PropTypes.node
 }
-
-export default connect((state) => ({
-  networkStatus: state.networkStatus
-}))(bkmrkd)

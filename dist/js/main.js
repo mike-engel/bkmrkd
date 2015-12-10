@@ -34453,6 +34453,7 @@ exports.default = function () {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = Bkmrkd;
 
 var _react = require(259);
 
@@ -34460,15 +34461,13 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = require(126);
 
-var _reactRedux = require(102);
-
 var _snippet = require(306);
 
 var _snippet2 = _interopRequireDefault(_snippet);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function bkmrkd(props) {
+function Bkmrkd(props) {
   return _react2.default.createElement(
     'div',
     { className: 'app container' },
@@ -34520,17 +34519,11 @@ function bkmrkd(props) {
   );
 }
 
-bkmrkd.propTypes = {
+Bkmrkd.propTypes = {
   children: _react.PropTypes.node
 };
 
-exports.default = (0, _reactRedux.connect)(function (state) {
-  return {
-    networkStatus: state.networkStatus
-  };
-})(bkmrkd);
-
-},{"102":102,"126":126,"259":259,"306":306}],303:[function(require,module,exports){
+},{"126":126,"259":259,"306":306}],303:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
