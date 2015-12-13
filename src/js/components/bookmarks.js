@@ -13,7 +13,6 @@ export const bookmarks = createClass({
     dispatch: PropTypes.func.isRequired,
     networkState: PropTypes.string.isRequired,
     page: PropTypes.number.isRequired,
-    location: PropTypes.object,
     endOfBookmarks: PropTypes.bool.isRequired
   },
   getMoreBookmarks: function (evt) {

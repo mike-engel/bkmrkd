@@ -34143,9 +34143,11 @@ exports.default = (0, _react.createClass)({
   destroyBookmark: function destroyBookmark(evt) {
     evt.preventDefault();
 
-    window.app.socket.emit('destroy-bookmark', {
-      id: this.props.bookmark.id
-    });
+    if (typeof window !== 'undefined') {
+      window.app.socket.emit('destroy-bookmark', {
+        id: this.props.bookmark.id
+      });
+    }
   },
   getTimeString: function getTimeString() {
     var months = {
@@ -34244,7 +34246,6 @@ var bookmarks = exports.bookmarks = (0, _react.createClass)({
     dispatch: _react.PropTypes.func.isRequired,
     networkState: _react.PropTypes.string.isRequired,
     page: _react.PropTypes.number.isRequired,
-    location: _react.PropTypes.object,
     endOfBookmarks: _react.PropTypes.bool.isRequired
   },
   getMoreBookmarks: function getMoreBookmarks(evt) {
