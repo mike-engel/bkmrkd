@@ -58,6 +58,21 @@ So you want to run this for real. On the web. That's awesome. Everyone will want
 2. Use SSL certs to avoid a new window opening when bookmarking things.
 3. Use a variety of startup scripts and backup scripts.
 
+# developing
+
+To work on bkmrkd locally, you'll want to start the node server and run gulp.
+
+```shell
+# make sure rethinkdb is running
+rethinkdb --daemon
+
+# start the server in development mode
+npm start
+
+# in another window or tab, start gulp and watch for file changes
+gulp
+```
+
 # contributing
 Please make a pull request! bkmrkd follows the [js standard](https://github.com/feross/standard) styleguide.
 
