@@ -5,6 +5,18 @@ import watchify from 'watchify'
 import source from 'vinyl-source-stream'
 import buffer from 'vinyl-buffer'
 import uglify from 'gulp-uglify'
+import sourcemaps from 'gulp-sourcemaps'
+import postcss from 'gulp-postcss'
+import cssImport from 'postcss-import'
+import cssnano from 'cssnano'
+import cssnext from 'cssnext'
+import customMedia from 'postcss-custom-media'
+import rgbaFallback from 'postcss-color-rgba-fallback'
+import vmin from 'postcss-vmin'
+import pixrem from 'pixrem'
+import nested from 'postcss-nested'
+import mqPacker from 'css-mqpacker'
+import autoprefixer from 'autoprefixer'
 import gulpif from 'gulp-if'
 import browsersync from 'browser-sync'
 
@@ -50,8 +62,36 @@ gulp.task('scripts', () => {
     .on('error', handleError)
     .pipe(source('main.js'))
     .pipe(buffer())
+    .pipe(sourcemaps.init())
     .pipe(gulpif(!evalWatch(), uglify()))
+    .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('./dist/js'))
+    .pipe(browsersync.stream({
+      once: true
+    }))
+})
+
+gulp.task('styles', () => {
+  return gulp.src('./src/css/main.css')
+    .pipe(sourcemaps.init())
+    .pipe(postcss([
+      cssImport(),
+      nested(),
+      cssnano(),
+      cssnext(),
+      customMedia(),
+      rgbaFallback(),
+      vmin(),
+      pixrem(),
+      mqPacker({
+        sort: true
+      }),
+      autoprefixer({
+        browsers: ['last 2 versions']
+      })
+    ]))
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest('./dist/css/'))
     .pipe(browsersync.stream({
       once: true
     }))
@@ -65,8 +105,9 @@ gulp.task('browsersync', () => {
   })
 })
 
-gulp.task('default', ['scripts', 'browsersync'], () => {
+gulp.task('default', ['scripts', 'styles', 'browsersync'], () => {
   gulp.watch('./src/js/**/*.js', ['scripts'])
+  gulp.watch('./src/css/**/*.css', ['styles'])
 })
 
 gulp.task('dist', ['scripts'])

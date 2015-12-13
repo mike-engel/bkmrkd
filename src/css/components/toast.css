@@ -1,0 +1,29 @@
+.toast {
+  position: fixed;
+  bottom: -100px;
+  left: 50%;
+  z-index: 9999;
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 16px;
+  font-size: 1rem;
+  font-weight: 500;
+  max-width: 90%;
+  color: white;
+  opacity: 0.0;
+  background-color: var(--toastColor);
+  border-radius: 3px;
+  transform: translateX(-50%);
+  transition: opacity 200ms, bottom var(--transitionTime);
+
+  .visible {
+    bottom: 10px;
+    opacity: 1.0;
+  }
+
+  span {
+    float: right;
+    margin-left: 20px;
+    color: var(--white);
+  }
+}

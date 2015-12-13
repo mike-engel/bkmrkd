@@ -1,0 +1,56 @@
+.bookmarks,
+.colophon {
+  margin-right: 15px;
+  margin-left: 15px;
+  padding-top: 1px;
+
+  @media (--medium) {
+    margin: 143px 10% 30px 10%;
+  }
+
+  @media (--large) {
+    margin-right: 20%;
+    margin-left: 20%;
+  }
+}
+
+.bookmarks li + li {
+  margin-top: 20px;
+}
+
+.bookmark-name {
+  margin: 0;
+  line-height: 1.2;
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+
+.date,
+.website,
+.destroy {
+  font-size: 0.8125rem;
+}
+
+.date:after,
+.website:after {
+  content: '•';
+  margin: 0 5px;
+  color: #95A5A6;
+}
+
+.date {
+  color: var(--grey);
+}
+
+.destroy:hover,
+.destroy:active {
+  color: var(--linkHoverColor);
+}
+
+.no-bookmarks {
+  margin: 0;
+  padding: 15px;
+  color: var(--textColor);
+  text-align: center;
+  background-color: var(--yellow);
+}
