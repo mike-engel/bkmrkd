@@ -115,7 +115,7 @@ app.use(hpp())
 app.use(helmet.contentSecurityPolicy({
   defaultSrc: ["'self'"],
   scriptSrc: ["'self'", "'unsafe-inline'"],
-  styleSrc: ["'unsafe-inline'"],
+  styleSrc: ["'self'"],
   imgSrc: ["'none'"],
   connectSrc: ["'self'", 'ws:'],
   fontSrc: ["'none'"],

@@ -1,0 +1,15 @@
+:root {
+  --white: #FFF;
+  --grey: #7F8C8D;
+  --yellow: #BDC3C7;
+
+  --textColor: #34495E;
+  --linkColor: #3498DB;
+  --linkHoverColor: #2980B9;
+  --toastColor: #C0392B;
+
+  --transitionTime: 200ms;
+}
+
+@custom-media --medium (min-width: 768px);
+@custom-media --large (min-width: 1024px);
