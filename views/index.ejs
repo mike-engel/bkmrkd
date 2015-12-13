@@ -5,7 +5,13 @@
   <meta name="viewport" content="initial-scale=1,user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
 
-  <title><%= page === '' ? 'bkmrkd' : 'Colophon – bkmrkd' %></title>
+  <title><%= typeof page === 'undefined' || page === '' ? 'bkmrkd' : 'Colophon – bkmrkd' %></title>
+
+  <script>
+    window.app = window.app || {}
+
+    window.app.__initialState = <%- JSON.stringify(initialState) %>
+  </script>
 
   <style>
   * {
@@ -115,34 +121,11 @@
     background-color: #F1C40F;
   }
 
-  .bookmarks-list,
+  .bookmarks,
   .colophon {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: calc(100% - 113px);
-    overflow: hidden;
-    transition: left 200ms;
-  }
-
-  .bookmarks-list {
-    left: -100%;
-  }
-
-  .colophon {
-    left: 100%;
-    padding: 9px 15px;
-  }
-
-  .bookmarks-list.active,
-  .colophon.active {
-    position: relative;
-    left: 0;
-    height: auto;
-  }
-
-  .bookmarks {
-    margin: 30px 15px;
+    margin-right: 15px;
+    margin-left: 15px;
+    padding-top: 1px;
   }
 
   .bookmarks li + li {
@@ -184,6 +167,26 @@
     color: #34495E;
     text-align: center;
     background-color: #BDC3C7;
+  }
+
+  .pagination {
+    padding-top: 1px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+
+  .pagination__link {
+    margin-right: 3em;
+    line-height: 1;
+  }
+
+  .pagination__link.disabled {
+    opacity: 0.5;
+  }
+
+  .pagination__link.disabled:hover,
+  .pagination__link.disabled:active {
+    cursor: default;
   }
 
   @media (min-width: 768px) {
@@ -235,20 +238,10 @@
   </style>
 </head>
 <body>
-  <header class="main-nav">
-    <h1 class="h1">bkmrkd</h1>
-    <nav data-hook="main-nav"><%- navigation %></nav>
-  </header>
   <noscript>
-    <p class="no-js">Just so you know, you have javascript turned off. You won't receive updates until you refresh</p>
+    <p class="no-js">Just so you know, you have javascript turned off. You won't receive updates until you turn javascript on and refresh</p>
   </noscript>
-  <div class="bookmarks-list <%= page === '' ? 'active' : '' %>" data-hook="bookmarks"><%- bookmarks %></div>
-  <div class="colophon <%= page === 'colophon' ? 'active' : '' %>" data-hook="colophon">
-    <h2 class="h2">Colophon</h2>
-    <p>bkmrkd was created by <a href="https://github.com/mike-engel">Mike Engel</a> as an experiment in creating a service tied to a bookmarklet. Since then it's been rewritten in <a href="https://nodejs.org">Node</a> and <a href="https://facebook.github.io/react/index.html">React</a>. It's used as a playground for new web dev techniques such as isomorphic rendering, service worker, etc.</p>
-    <p>To add bookmarks here, simply drag this <a href="javascript:void(0);" data-hook="bookmarklet-url">bookmarklet</a> to your bookmarks bar (or favorites bar or  whatever) and click it when you're on a page you want to bookmark.</p>
-    <p>You can view the code on <a href="https://github.com/mike-engel/bkmrkd">Github</a>, and file <a href="https://github.com/mike-engel/bkmrkd/issues">issues</a> there too.</p>
-  </div>
-  <script src="/js/bkmrkd.js"></script>
+  <div data-hook="app"><%- app %></div>
+  <script src="/js/main.js"></script>
 </body>
 </html>

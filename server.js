@@ -7,9 +7,14 @@ import hpp from 'hpp'
 import helmet from 'helmet'
 import rethink from 'rethinkdb'
 import React from 'react'
+import { renderToString } from 'react-dom/server'
+import { createStore, compose, combineReducers } from 'redux'
+import { Provider } from 'react-redux'
+import { ReduxRouter, routerStateReducer } from 'redux-router'
+import { match, reduxReactRouter } from 'redux-router/server'
 import escape from 'lodash.escape'
-import Navigation from './lib/js/navigation.jsx'
-import Bookmarks from './lib/js/bookmarks.jsx'
+import bkmrkdRoutes from './src/js/main'
+import { bookmarks, endOfBookmarks, networkState, page, toaster } from './src/js/helpers/reducers'
 
 const app = express()
 const server = http.Server(app)
@@ -70,6 +75,16 @@ function createIndex () {
   })
 }
 
+function countBookmarks (cb) {
+  bkmrkd.table('bookmarks').count().run(connection, (err, count) => {
+    if (err) {
+      console.error('Error counting the bookmarks!')
+    }
+
+    cb(count)
+  })
+}
+
 rethink.connect({
   host: 'localhost',
   post: 28015
@@ -99,7 +114,7 @@ app.use(bodyParser.urlencoded({
 app.use(hpp())
 app.use(helmet.contentSecurityPolicy({
   defaultSrc: ["'self'"],
-  scriptSrc: ["'self'", "'sha256-tiU2DTeAHzG5ooZjsp0XkWq9Dv0mWumq_F4c2E5A4FQ='"],
+  scriptSrc: ["'self'", "'unsafe-inline'"],
   styleSrc: ["'unsafe-inline'"],
   imgSrc: ["'none'"],
   connectSrc: ["'self'", 'ws:'],
@@ -117,37 +132,61 @@ http.globalAgent.maxSockets = 1000
 
 app.route(/^\/(colophon)?$/)
   .get((req, res) => {
-    const nav = React.createElement(Navigation, {
-      page: req.path === '/' ? '' : 'colophon'
-    })
+    const pageNumber = +req.query.page || 1
 
-    bkmrkd.table('bookmarks').orderBy({
-      index: rethink.desc('createdOn')
-    }).limit(25).run(connection, (err, cursor) => {
-      if (err) {
-        return res.render('500', {
-          message: 'There\'s been an error getting the initial list of bookmarks.'
-        })
-      }
-
-      cursor.toArray((err, result) => {
+    countBookmarks((bookmarkCount) => {
+      bkmrkd.table('bookmarks').orderBy({
+        index: rethink.desc('createdOn')
+      }).skip(25 * (pageNumber - 1)).limit(25).run(connection, (err, cursor) => {
         if (err) {
-          console.log('Error getting the initial list of bookmarks: ', err)
-
           return res.render('500', {
             message: 'There\'s been an error getting the initial list of bookmarks.'
           })
         }
 
-        const bookmarks = React.createElement(Bookmarks, {
-          bookmarks: result,
-          socket: {}
-        })
+        cursor.toArray((err, result) => {
+          if (err) {
+            console.error('Error getting the initial list of bookmarks: ', err)
 
-        return res.render('index', {
-          navigation: React.renderToString(nav),
-          bookmarks: React.renderToString(bookmarks),
-          page: req.path.substr(1)
+            return res.render('500', {
+              message: 'There\'s been an error getting the initial list of bookmarks.'
+            })
+          }
+
+          const reducer = combineReducers({
+            router: routerStateReducer,
+            bookmarks,
+            endOfBookmarks,
+            networkState,
+            toaster,
+            page
+          })
+          const store = compose(
+            reduxReactRouter({
+              routes: bkmrkdRoutes
+            })
+          )(createStore)(reducer, {
+            bookmarks: result,
+            networkState: '',
+            toaster: [],
+            page: pageNumber,
+            endOfBookmarks: (25 * (pageNumber)) > bookmarkCount
+          })
+
+          store.dispatch(match(req.url, (err, redirectLocation, renderProps) => {
+            if (err) {
+              console.error('Error matching the routes: ', err)
+            }
+
+            if (renderProps) {
+              return res.render('index', {
+                app: renderToString(<Provider store={store}><ReduxRouter {...renderProps} /></Provider>),
+                initialState: store.getState()
+              })
+            } else {
+              console.error('TODO: Page not found, handle this.')
+            }
+          }))
         })
       })
     })
@@ -185,40 +224,16 @@ app.use((req, res) => {
 
 app.use((err, req, res, next) => {
   if (err) {
+    console.error(err)
+
     return res.status(500).render('500')
   }
 })
 
 io.on('connection', (socket) => {
-  bkmrkd.table('bookmarks').orderBy({
-    index: rethink.desc('createdOn')
-  }).limit(25).run(connection, (err, cursor) => {
-    if (err) {
-      console.log('Error getting the initial list of bookmarks: ', err)
-
-      return socket.emit('error', {
-        message: 'There\'s been an error getting the initial list of bookmarks. Try refreshing the page.'
-      })
-    }
-
-    cursor.toArray((err, result) => {
-      if (err) {
-        console.log('Error getting the initial list of bookmarks: ', err)
-
-        return socket.emit('error', {
-          message: 'There\'s been an error getting the initial list of bookmarks. Try refreshing the page.'
-        })
-      }
-
-      socket.emit('bookmarks', {
-        bookmarks: result
-      })
-    })
-  })
-
   bkmrkd.table('bookmarks').changes().run(connection, (err, cursor) => {
     if (err) {
-      console.log('Error subscribing for updates: ', err)
+      console.error('Error subscribing for updates: ', err)
 
       return socket.emit('error', {
         message: 'There\'s been an error subscribing for updates. Try refreshing the page.'
@@ -227,10 +242,10 @@ io.on('connection', (socket) => {
 
     cursor.each((err, bookmark) => {
       if (err) {
-        console.log('Error subscribing for updates: ', err)
+        console.error('Error getting the bookmarks: ', err)
 
         return socket.emit('error', {
-          message: 'There\'s been an error subscribing for updates. Try refreshing the page.'
+          message: 'There\'s been an error getting the bookmarks. Try again.'
         })
       }
 
@@ -250,10 +265,10 @@ io.on('connection', (socket) => {
   socket.on('destroy-bookmark', (data) => {
     bkmrkd.table('bookmarks').get(data.id).delete().run(connection, (err, response) => {
       if (err) {
-        console.log('Error subscribing for updates: ', err)
+        console.error('Error deleting the bookmark: ', err)
 
         return socket.emit('error', {
-          message: 'There\'s been an error subscribing for updates. Try refreshing the page.'
+          message: 'There\'s been an error deleting the bookmark. Try again.'
         })
       }
 
@@ -264,33 +279,36 @@ io.on('connection', (socket) => {
   })
 
   socket.on('get-bookmarks', (data) => {
-    bkmrkd.table('bookmarks').skip(25 * (data.page - 1)).limit(25).run(connection, (err, cursor) => {
-      if (err) {
-        console.log('Error getting another page of bookmarks: ', err)
-
-        return socket.emit('error', {
-          message: 'There\'s been an error getting more bookmarks. Try again.'
-        })
-      }
-
-      cursor.toArray((err, result) => {
+    countBookmarks((bookmarkCount) => {
+      bkmrkd.table('bookmarks').skip(25 * (data.page - 1)).limit(25).run(connection, (err, cursor) => {
         if (err) {
-          console.log('Error getting another page of bookmarks: ', err)
+          console.error('Error getting another page of bookmarks: ', err)
 
           return socket.emit('error', {
             message: 'There\'s been an error getting more bookmarks. Try again.'
           })
         }
 
-        if (result.length) {
-          socket.emit('old-bookmarks', {
-            bookmarks: result
-          })
-        } else {
-          socket.emit('old-bookmarks', {
-            message: 'No more bookmarks!'
-          })
-        }
+        cursor.toArray((err, result) => {
+          if (err) {
+            console.error('Error getting another page of bookmarks: ', err)
+
+            return socket.emit('error', {
+              message: 'There\'s been an error getting more bookmarks. Try again.'
+            })
+          }
+
+          if (result.length) {
+            socket.emit('old-bookmarks', {
+              bookmarks: result,
+              endOfBookmarks: (25 * (data.page)) > bookmarkCount
+            })
+          } else {
+            socket.emit('old-bookmarks', {
+              message: 'No more bookmarks!'
+            })
+          }
+        })
       })
     })
   })
