@@ -1,0 +1,16 @@
+{
+  "development": {
+    "port": 3000,
+    "snippetHost": "http://localhost:3000",
+    "cert": "./ssl/server.crt",
+    "certKey": "./ssl/server.key",
+    "publicKeyPins": ["TROyeItK/2uzqYisNiSlkJshWmxQqMH+M9OJD4N+JEM=", "TROyeItK/2uzqYisNiSlkJshWmxQqMH+M9OJD4N+JEM="]
+  },
+  "production": {
+    "port": 3000,
+    "snippetHost": "http://bkmrkd.com",
+    "cert": "./ssl/server.crt",
+    "certKey": "./ssl/server.key",
+    "publicKeyPins": ["TROyeItK/2uzqYisNiSlkJshWmxQqMH+M9OJD4N+JEM=", "TROyeItK/2uzqYisNiSlkJshWmxQqMH+M9OJD4N+JEM="]
+  }
+}
