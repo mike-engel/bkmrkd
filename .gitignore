@@ -4,5 +4,5 @@ node_modules
 rethinkdb_data
 *.log
 *.orig
-ssl/
-!ssl/README.md
+/ssl/*
+!/ssl/README.md

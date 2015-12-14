@@ -131,8 +131,16 @@ app.use(helmet.contentSecurityPolicy({
 }))
 app.use(helmet.xssFilter())
 app.use(helmet.frameguard('deny'))
+app.use(helmet.hsts({
+  maxAge: 31500000000,
+  includeSubdomains: true
+}))
 app.use(helmet.ieNoOpen())
 app.use(helmet.noSniff())
+app.use(helmet.hpkp({
+  maxAge: 7776000000,
+  sha256s: config[env].publicKeyPins
+}))
 
 app.route(/^\/(colophon)?$/)
   .get((req, res) => {
