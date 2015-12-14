@@ -1,0 +1,14 @@
+{
+  "development": {
+    "port": 3000,
+    "snippetHost": "http://localhost:3000",
+    "cert": "./ssl/server.crt",
+    "certKey": "./ssl/server.key"
+  },
+  "production": {
+    "port": 3000,
+    "snippetHost": "http://bkmrkd.com",
+    "cert": "./ssl/server.crt",
+    "certKey": "./ssl/server.key"
+  }
+}
