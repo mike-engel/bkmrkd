@@ -1,6 +1,6 @@
 {
   "name": "bkmrkd",
-  "version": "2.0.0",
+  "version": "2.3.0",
   "description": "A simple self-hosted bookmark manager written in javascript",
   "main": "server.js",
   "scripts": {
@@ -11,8 +11,18 @@
     "stage:stop": "NODE_ENV=stage pm2 stop bkmrkdStage",
     "prod": "NODE_ENV=production pm2 start index.js --name bkmrkdProd",
     "prod:restart": "NODE_ENV=production pm2 restart bkmrkdProd",
-    "prod:stop": "NODE_ENV=production pm2 stop bkmrkdProd"
+    "prod:stop": "NODE_ENV=production pm2 stop bkmrkdProd",
+    "compile:server": "babel ./server.js --out-file ./tmp/server.js",
+    "compile:src": "babel src/js --out-dir tmp/src/js",
+    "postinstall": "mkdir -p tmp/config;cp ./config/environments.json ./tmp/config/environments.json;npm run compile:server;npm run compile:src"
   },
+  "bin": {
+    "bkmrkd": "./bin/cmd.js"
+  },
+  "engines": {
+    "node": ">= 4.2"
+  },
+  "preferGlobal": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/mike-engel/bkmrkd.git"
@@ -56,7 +66,8 @@
     "rethinkdb": "^2.2.0",
     "socket.io": "^1.3.7",
     "socket.io-client": "^1.3.7",
-    "spdy": "^3.0.0"
+    "spdy": "^3.0.0",
+    "subarg": "^1.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.1.2",

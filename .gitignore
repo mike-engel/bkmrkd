@@ -6,3 +6,4 @@ rethinkdb_data
 *.orig
 /ssl/*
 !/ssl/README.md
+tmp
