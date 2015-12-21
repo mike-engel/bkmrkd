@@ -1,4 +1,5 @@
 import fs from 'fs'
+import path from 'path'
 import express from 'express'
 import spdy from 'spdy'
 import socketIO from 'socket.io'
@@ -14,21 +15,32 @@ import { Provider } from 'react-redux'
 import { ReduxRouter, routerStateReducer } from 'redux-router'
 import { match, reduxReactRouter } from 'redux-router/server'
 import escape from 'lodash.escape'
-import config from './config/environments'
+import subarg from 'subarg'
+import defaultConfig from './config/environments'
 import bkmrkdRoutes from './src/js/main'
 import { bookmarks, endOfBookmarks, networkState, page, toaster } from './src/js/helpers/reducers'
 
 const env = process.env.NODE_ENV || 'development'
+const args = subarg(process.argv.slice(2))
+const config = args.c || args.config || process.env.BKMRKD_CONFIG_PATH ? readConfig() : defaultConfig
+const port = config[env].port || args.p || args.port || 3000
 const spdyOptions = {
   key: fs.readFileSync(config[env].certKey),
   cert: fs.readFileSync(config[env].cert)
 }
-const app = express()
-const server = spdy.createServer(spdyOptions, app)
+
+export const app = express()
+export const server = spdy.createServer(spdyOptions, app)
 const io = socketIO(server)
 
 let connection
 let bkmrkd
+
+function readConfig () {
+  return fs.readFileSync(path.resolve(process.cwd(), args.c || args.config || process.env.BKMRKD_CONFIG_PATH), {
+    encoding: 'utf8'
+  })
+}
 
 function createDatabase () {
   rethink.dbList().run(connection, (err, dbs) => {
@@ -326,5 +338,5 @@ io.on('connection', (socket) => {
   })
 })
 
-server.listen(3000)
+server.listen(port)
 console.info('Bkmrkd has been started on port 3000.')
