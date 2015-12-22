@@ -7,6 +7,7 @@ import errorRoutes from './routes/errors'
 import socketRoutes from './routes/sockets'
 import { apiRouter } from './routes/api'
 import { mainRouter } from './routes/main'
+import { searchRouter } from './routes/search'
 
 const env = process.env.NODE_ENV || 'development'
 const port = config[env].port || args.p || args.port || 3000
@@ -22,6 +23,7 @@ appConfig(app)
 
 app.use('/', mainRouter)
 app.use('/api', apiRouter)
+app.use('/search', searchRouter)
 
 socketRoutes(server)
 

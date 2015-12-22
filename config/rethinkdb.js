@@ -7,6 +7,7 @@ const rethinkdbPort = config[env].rethinkdbPort || args.rethinkdbPort || 28015
 
 export let connection
 export let bkmrkd
+export let bookmarks
 
 function createDatabase () {
   rethink.dbList().run(connection, (err, dbs) => {
@@ -43,9 +44,12 @@ function createTable () {
         }
 
         console.info('creating the bookmarks table')
+
         createIndex()
       })
     }
+
+    bookmarks = bkmrkd.table('bookmarks')
   })
 }
 
