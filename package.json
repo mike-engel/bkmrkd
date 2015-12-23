@@ -74,7 +74,7 @@
     "autoprefixer-core": "^6.0.1",
     "babel": "^6.1.18",
     "babel-eslint": "^4.1.5",
-    "babel-plugin-react-transform": "^1.1.1",
+    "babel-plugin-react-transform": "^2.0.0",
     "babelify": "^7.2.0",
     "brfs": "^1.4.1",
     "browser-sync": "^2.10.0",
