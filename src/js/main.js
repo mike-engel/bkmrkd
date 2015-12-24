@@ -6,19 +6,21 @@ import { Provider } from 'react-redux'
 import { IndexRoute, Route, Router } from 'react-router'
 import { combineReducers, compose, createStore } from 'redux'
 import { reduxReactRouter, routerStateReducer } from 'redux-router'
-import { createHistory } from 'history'
+import history from './helpers/history'
 import { bookmarks, endOfBookmarks, networkState, page, toaster } from './helpers/reducers'
-import createBrowserHistory from 'history/lib/createBrowserHistory'
+import { createHistory } from 'history'
 import io from 'socket.io-client'
 import Bkmrkd from './containers/bkmrkd'
 import Colophon from './components/colophon'
 import Bookmarks from './components/bookmarks'
 import { addToast } from './helpers/actions'
+import { Search } from './components/search'
 
 const routes = (
   <Route path='/' component={Bkmrkd}>
     <IndexRoute component={Bookmarks} />
     <Route path='/colophon' component={Colophon} />
+    <Route path='/search' component={Search} />
   </Route>
 )
 
@@ -97,7 +99,7 @@ if (typeof window !== 'undefined') {
     }))
   })
 
-  render(<Provider store={store}><Router history={createBrowserHistory()}>{ routes }</Router></Provider>, document.body.querySelector('[data-hook="app"]'))
+  render(<Provider store={store}><Router history={history}>{ routes }</Router></Provider>, document.body.querySelector('[data-hook="app"]'))
 }
 
 export default routes
