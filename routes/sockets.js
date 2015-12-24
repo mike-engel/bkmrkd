@@ -1,6 +1,8 @@
 import socketIO from 'socket.io'
 import { bkmrkd, connection } from '../config/rethinkdb'
 import countBookmarks from '../helpers/countBookmarks'
+import getBookmarks from '../helpers/getBookmarks'
+import searchBookmarks from '../helpers/searchBookmarks'
 
 export default function (server) {
   const io = socketIO(server)
@@ -55,43 +57,32 @@ export default function (server) {
 
     socket.on('get-bookmarks', (data) => {
       countBookmarks((bookmarkCount) => {
-        bkmrkd.table('bookmarks').skip(25 * (data.page - 1)).limit(25).run(connection, (err, cursor) => {
+        getBookmarks(data.page, 25, (err, results) => {
           if (err) {
-            console.error('Error getting another page of bookmarks: ', err)
-
             return socket.emit('error', {
-              message: 'There\'s been an error getting more bookmarks. Try again.'
+              message: err.message
             })
           }
 
-          cursor.toArray((err, result) => {
-            if (err) {
-              console.error('Error getting another page of bookmarks: ', err)
-
-              return socket.emit('error', {
-                message: 'There\'s been an error getting more bookmarks. Try again.'
-              })
-            }
-
-            if (result.length) {
-              socket.emit('old-bookmarks', {
-                bookmarks: result,
-                endOfBookmarks: (25 * (data.page)) > bookmarkCount
-              })
-            } else {
-              socket.emit('old-bookmarks', {
-                message: 'No more bookmarks!'
-              })
-            }
+          return socket.emit('old-bookmarks', {
+            bookmarks: results,
+            endOfBookmarks: (25 * (data.page)) > bookmarkCount
           })
         })
       })
     })
 
     socket.on('search', (data) => {
-      console.log('got data: ', data)
-      return socket.emit('search-results', {
-        message: 'hello!'
+      searchBookmarks(data.term, (err, results) => {
+        if (err) {
+          return socket.emit('error', {
+            message: err.message
+          })
+        }
+
+        return socket.emit('search-results', {
+          bookmarks: results
+        })
       })
     })
   })

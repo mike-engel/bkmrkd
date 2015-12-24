@@ -4,7 +4,8 @@ import { setSearchTerm } from '../helpers/actions'
 export class SearchForm extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
-    history: PropTypes.object.isRequired
+    history: PropTypes.object.isRequired,
+    searchTerm: PropTypes.string
   }
 
   constructor (props) {
@@ -29,7 +30,7 @@ export class SearchForm extends Component {
         role='form'
         onSubmit={this.handleSubmit.bind(this)}>
         <label htmlFor='search-term'>Search</label>
-        <input type='search' name='term' id='search-term' placeholder='search' />
+        <input type='search' name='term' id='search-term' placeholder={this.props.searchTerm || 'search'} />
       </form>
     )
   }

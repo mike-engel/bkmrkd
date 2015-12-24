@@ -34751,6 +34751,8 @@ var _bookmark = require(303);
 
 var _bookmark2 = _interopRequireDefault(_bookmark);
 
+var _actions = require(310);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -34758,9 +34760,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-// import { requestLoading, requestFinished, updateBookmarks } from '../helpers/actions'
-// import { REQUEST_LOADING } from '../helpers/actionTypes'
 
 var Search = (function (_Component) {
   _inherits(Search, _Component);
@@ -34774,20 +34773,26 @@ var Search = (function (_Component) {
   _createClass(Search, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
+      var _this2 = this;
+
       if (typeof window !== 'undefined') {
+        this.props.dispatch((0, _actions.requestLoading)());
+
         window.app.socket.emit('search', {
           term: this.props.searchTerm
         });
 
         window.app.socket.on('search-results', function (data) {
-          console.log(data);
+          _this2.props.dispatch((0, _actions.requestFinished)());
+
+          _this2.props.dispatch((0, _actions.updateBookmarks)(data.bookmarks));
         });
       }
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       if (this.props.bookmarks.length) {
         return _react2.default.createElement(
@@ -34808,7 +34813,7 @@ var Search = (function (_Component) {
                 return 0;
               }
             }).map(function (bookmark) {
-              return _react2.default.createElement(_bookmark2.default, { key: bookmark.id, bookmark: bookmark, dispatch: _this2.props.dispatch });
+              return _react2.default.createElement(_bookmark2.default, { key: bookmark.id, bookmark: bookmark, dispatch: _this3.props.dispatch });
             })
           )
         );
@@ -34845,7 +34850,7 @@ exports.default = (0, _reactRedux.connect)(function (state) {
   };
 })(Search);
 
-},{"104":104,"261":261,"303":303}],307:[function(require,module,exports){
+},{"104":104,"261":261,"303":303,"310":310}],307:[function(require,module,exports){
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -34904,7 +34909,7 @@ var SearchForm = exports.SearchForm = (function (_Component) {
           { htmlFor: 'search-term' },
           'Search'
         ),
-        _react2.default.createElement('input', { type: 'search', name: 'term', id: 'search-term', placeholder: 'search' })
+        _react2.default.createElement('input', { type: 'search', name: 'term', id: 'search-term', placeholder: this.props.searchTerm || 'search' })
       );
     }
   }]);
@@ -34914,7 +34919,8 @@ var SearchForm = exports.SearchForm = (function (_Component) {
 
 SearchForm.propTypes = {
   dispatch: _react.PropTypes.func.isRequired,
-  history: _react.PropTypes.object.isRequired
+  history: _react.PropTypes.object.isRequired,
+  searchTerm: _react.PropTypes.string
 };
 
 },{"261":261,"310":310}],308:[function(require,module,exports){
@@ -34953,7 +34959,9 @@ function Bkmrkd(props) {
         { className: 'h1' },
         'bkmrkd'
       ),
-      _react2.default.createElement(_searchForm.SearchForm, { dispatch: props.dispatch, history: props.history }),
+      _react2.default.createElement(_searchForm.SearchForm, { dispatch: props.dispatch,
+        history: props.history,
+        searchTerm: props.searchTerm }),
       _react2.default.createElement(
         'nav',
         null,
@@ -34997,12 +35005,14 @@ function Bkmrkd(props) {
 Bkmrkd.propTypes = {
   children: _react.PropTypes.node,
   dispatch: _react.PropTypes.func.isRequired,
-  history: _react.PropTypes.object.isRequired
+  history: _react.PropTypes.object.isRequired,
+  searchTerm: _react.PropTypes.string
 };
 
 exports.default = (0, _reactRedux.connect)(function (state) {
   return {
-    dispatch: state.dispatch
+    dispatch: state.dispatch,
+    searchTerm: state.searchTerm
   };
 })(Bkmrkd);
 

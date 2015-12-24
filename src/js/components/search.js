@@ -3,8 +3,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Bookmark from './bookmark'
-// import { requestLoading, requestFinished, updateBookmarks } from '../helpers/actions'
-// import { REQUEST_LOADING } from '../helpers/actionTypes'
+import { requestLoading, requestFinished, updateBookmarks } from '../helpers/actions'
 
 class Search extends Component {
   static propTypes = {
@@ -20,12 +19,16 @@ class Search extends Component {
 
   componentDidMount () {
     if (typeof window !== 'undefined') {
+      this.props.dispatch(requestLoading())
+
       window.app.socket.emit('search', {
         term: this.props.searchTerm
       })
 
       window.app.socket.on('search-results', (data) => {
-        console.log(data)
+        this.props.dispatch(requestFinished())
+
+        this.props.dispatch(updateBookmarks(data.bookmarks))
       })
     }
   }

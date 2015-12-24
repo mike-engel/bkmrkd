@@ -9,7 +9,9 @@ export function Bkmrkd (props) {
     <div className='app container'>
       <header className='main-nav'>
         <h1 className='h1'>bkmrkd</h1>
-        <SearchForm dispatch={props.dispatch} history={props.history} />
+        <SearchForm dispatch={props.dispatch}
+          history={props.history}
+          searchTerm={props.searchTerm} />
         <nav>
           <ul>
             <li><IndexLink to='/' activeClassName='active'>bkmrkd</IndexLink></li>
@@ -26,11 +28,13 @@ export function Bkmrkd (props) {
 Bkmrkd.propTypes = {
   children: PropTypes.node,
   dispatch: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  searchTerm: PropTypes.string
 }
 
 export default connect((state) => {
   return {
-    dispatch: state.dispatch
+    dispatch: state.dispatch,
+    searchTerm: state.searchTerm
   }
 })(Bkmrkd)
