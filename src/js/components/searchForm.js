@@ -22,7 +22,7 @@ export class SearchForm extends Component {
         role='form'
         onSubmit={this.handleSubmit}>
         <label htmlFor='search-term'>Search</label>
-        <input type='search' name='term' id='search-term' />
+        <input type='search' name='term' id='search-term' placeholder='search' />
       </form>
     )
   }
