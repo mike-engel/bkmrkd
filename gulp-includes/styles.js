@@ -1,4 +1,5 @@
 import gulp from 'gulp'
+import { join } from 'path'
 import postcss from 'gulp-postcss'
 import cssImport from 'postcss-import'
 import cssnano from 'cssnano'
@@ -14,7 +15,7 @@ import sourcemaps from 'gulp-sourcemaps'
 import browsersync from 'browser-sync'
 
 export default gulp.task('styles', () => {
-  return gulp.src('../src/css/main.css')
+  return gulp.src(join(__dirname, '../src/css/main.css'))
     .pipe(sourcemaps.init())
     .pipe(postcss([
       cssImport(),
@@ -33,7 +34,7 @@ export default gulp.task('styles', () => {
       })
     ]))
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest('../dist/css/'))
+    .pipe(gulp.dest(join(__dirname, '../dist/css/')))
     .pipe(browsersync.stream({
       once: true
     }))

@@ -41,7 +41,7 @@ export default gulp.task('scripts', () => {
     .pipe(sourcemaps.init())
     .pipe(gulpif(!shouldWatch(), uglify()))
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest('../dist/js'))
+    .pipe(gulp.dest(join(__dirname, '../dist/js')))
     .pipe(browsersync.stream({
       once: true
     }))
