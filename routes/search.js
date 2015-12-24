@@ -1,37 +1,20 @@
 import express from 'express'
-import { bookmarks, connection } from '../config/rethinkdb'
+import searchBookmarks from '../helpers/searchBookmarks'
 
 export const searchRouter = express.Router()
 
 // /search?term=funny%20dogs
 searchRouter.route('/')
   .get((req, res) => {
-    const searchTerm = req.query.term.toLowerCase()
+    const searchTerm = (req.query.term || '').toLowerCase()
 
-    console.log(searchTerm)
-
-    bookmarks.filter((bookmark) => {
-      return bookmark('title').downcase().match(searchTerm)
-        .or(bookmark('url').downcase().match(searchTerm))
-    }).run(connection, (err, cursor) => {
+    searchBookmarks(searchTerm, (err, results) => {
       if (err) {
-        console.error('Error searching for bookmarks: ', err)
         return res.status(500).json({
-          message: 'There was an error searching through the bookmarks.'
+          message: err.message
         })
       }
 
-      cursor.toArray((err, results) => {
-        if (err) {
-          console.error('Error searching for bookmarks: ', err)
-          return res.status(500).json({
-            message: 'There was an error searching through the bookmarks.'
-          })
-        }
-
-        console.log(results)
-
-        return res.status(200).send()
-      })
+      return res.status(200).send()
     })
   })

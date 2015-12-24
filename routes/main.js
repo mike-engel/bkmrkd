@@ -1,14 +1,7 @@
 import express from 'express'
-import rethink from 'rethinkdb'
-import React from 'react'
-import { renderToString } from 'react-dom/server'
-import { createStore, compose, combineReducers } from 'redux'
-import { Provider } from 'react-redux'
-import { ReduxRouter, routerStateReducer } from 'redux-router'
-import { match, reduxReactRouter } from 'redux-router/server'
-import { bkmrkd, connection } from '../config/rethinkdb'
-import bkmrkdRoutes from '../src/js/main'
-import { bookmarks, endOfBookmarks, networkState, page, toaster } from '../src/js/helpers/reducers'
+import getBookmarks from '../helpers/getBookmarks'
+import createStore from '../helpers/createStore'
+import renderApp from '../helpers/renderApp'
 import countBookmarks from '../helpers/countBookmarks'
 
 export const mainRouter = express.Router()
@@ -18,58 +11,37 @@ mainRouter.route(/^\/(colophon)?$/)
     const pageNumber = +req.query.page || 1
 
     countBookmarks((bookmarkCount) => {
-      bkmrkd.table('bookmarks').orderBy({
-        index: rethink.desc('createdOn')
-      }).skip(25 * (pageNumber - 1)).limit(25).run(connection, (err, cursor) => {
+      getBookmarks(pageNumber, 25, (err, results) => {
         if (err) {
-          return res.render('500', {
-            message: 'There\'s been an error getting the initial list of bookmarks.'
+          return res.status(500).json({
+            message: err.message
           })
         }
 
-        cursor.toArray((err, result) => {
-          if (err) {
-            console.error('Error getting the initial list of bookmarks: ', err)
+        const store = createStore({
+          bookmarks: results,
+          endOfBookmarks: (25 * (pageNumber)) > bookmarkCount,
+          networkState: '',
+          page: pageNumber,
+          searchTerm: '',
+          toaster: []
+        })
 
-            return res.render('500', {
-              message: 'There\'s been an error getting the initial list of bookmarks.'
+        renderApp(store, req.url, (err, appMarkup) => {
+          if (err) {
+            return res.status(500).json({
+              message: err.message
             })
           }
 
-          const reducer = combineReducers({
-            router: routerStateReducer,
-            bookmarks,
-            endOfBookmarks,
-            networkState,
-            toaster,
-            page
-          })
-          const store = compose(
-            reduxReactRouter({
-              routes: bkmrkdRoutes
+          if (appMarkup) {
+            return res.render('index', {
+              app: appMarkup,
+              initialState: store.getState()
             })
-          )(createStore)(reducer, {
-            bookmarks: result,
-            networkState: '',
-            toaster: [],
-            page: pageNumber,
-            endOfBookmarks: (25 * (pageNumber)) > bookmarkCount
-          })
-
-          store.dispatch(match(req.url, (err, redirectLocation, renderProps) => {
-            if (err) {
-              console.error('Error matching the routes: ', err)
-            }
-
-            if (renderProps) {
-              return res.render('index', {
-                app: renderToString(<Provider store={store}><ReduxRouter {...renderProps} /></Provider>),
-                initialState: store.getState()
-              })
-            } else {
-              console.error('TODO: Page not found, handle this.')
-            }
-          }))
+          } else {
+            console.error('TODO: Page not found, handle this.')
+          }
         })
       })
     })

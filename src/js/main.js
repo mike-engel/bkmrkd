@@ -7,14 +7,14 @@ import { IndexRoute, Route, Router } from 'react-router'
 import { combineReducers, compose, createStore } from 'redux'
 import { reduxReactRouter, routerStateReducer } from 'redux-router'
 import history from './helpers/history'
-import { bookmarks, endOfBookmarks, networkState, page, toaster } from './helpers/reducers'
+import { bookmarks, endOfBookmarks, networkState, page, searchTerm, toaster } from './helpers/reducers'
 import { createHistory } from 'history'
 import io from 'socket.io-client'
 import Bkmrkd from './containers/bkmrkd'
 import Colophon from './components/colophon'
 import Bookmarks from './components/bookmarks'
 import { addToast } from './helpers/actions'
-import { Search } from './components/search'
+import Search from './components/search'
 
 const routes = (
   <Route path='/' component={Bkmrkd}>
@@ -32,7 +32,8 @@ if (typeof window !== 'undefined') {
     networkState: '',
     toaster: [],
     page: 1,
-    endOfBookmarks: false
+    endOfBookmarks: false,
+    searchTerm: ''
   }
 
   const reducer = combineReducers({
@@ -41,7 +42,8 @@ if (typeof window !== 'undefined') {
     networkState,
     toaster,
     page,
-    endOfBookmarks
+    endOfBookmarks,
+    searchTerm
   })
   const store = compose(
     reduxReactRouter({

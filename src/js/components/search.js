@@ -10,19 +10,18 @@ class Search extends Component {
   static propTypes = {
     bookmarks: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired,
-    networkState: PropTypes.string.isRequired
+    networkState: PropTypes.string.isRequired,
+    searchTerm: PropTypes.string.isRequired
   }
 
   constructor (props) {
     super(props)
-
-    console.log(props)
   }
 
   componentDidMount () {
     if (typeof window !== 'undefined') {
       window.app.socket.emit('search', {
-        term: 'test'
+        term: this.props.searchTerm
       })
 
       window.app.socket.on('search-results', (data) => {
@@ -66,6 +65,7 @@ class Search extends Component {
 export default connect((state) => {
   return {
     bookmarks: state.bookmarks,
-    networkState: state.networkState
+    networkState: state.networkState,
+    searchTerm: state.searchTerm
   }
 })(Search)

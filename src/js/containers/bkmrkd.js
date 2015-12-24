@@ -1,14 +1,15 @@
 import React, { PropTypes } from 'react'
 import { IndexLink, Link } from 'react-router'
+import { connect } from 'react-redux'
 import { SearchForm } from '../components/searchForm'
 import snippet from '../helpers/snippet'
 
-export default function Bkmrkd (props) {
+export function Bkmrkd (props) {
   return (
     <div className='app container'>
       <header className='main-nav'>
         <h1 className='h1'>bkmrkd</h1>
-        <SearchForm />
+        <SearchForm dispatch={props.dispatch} history={props.history} />
         <nav>
           <ul>
             <li><IndexLink to='/' activeClassName='active'>bkmrkd</IndexLink></li>
@@ -23,5 +24,13 @@ export default function Bkmrkd (props) {
 }
 
 Bkmrkd.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
+  dispatch: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired
 }
+
+export default connect((state) => {
+  return {
+    dispatch: state.dispatch
+  }
+})(Bkmrkd)

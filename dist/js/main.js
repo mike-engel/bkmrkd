@@ -34768,10 +34768,7 @@ var Search = (function (_Component) {
   function Search(props) {
     _classCallCheck(this, Search);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Search).call(this, props));
-
-    console.log(props);
-    return _this;
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(Search).call(this, props));
   }
 
   _createClass(Search, [{
@@ -34779,7 +34776,7 @@ var Search = (function (_Component) {
     value: function componentDidMount() {
       if (typeof window !== 'undefined') {
         window.app.socket.emit('search', {
-          term: 'test'
+          term: this.props.searchTerm
         });
 
         window.app.socket.on('search-results', function (data) {
@@ -34837,12 +34834,14 @@ var Search = (function (_Component) {
 Search.propTypes = {
   bookmarks: _react.PropTypes.array.isRequired,
   dispatch: _react.PropTypes.func.isRequired,
-  networkState: _react.PropTypes.string.isRequired
+  networkState: _react.PropTypes.string.isRequired,
+  searchTerm: _react.PropTypes.string.isRequired
 };
 exports.default = (0, _reactRedux.connect)(function (state) {
   return {
     bookmarks: state.bookmarks,
-    networkState: state.networkState
+    networkState: state.networkState,
+    searchTerm: state.searchTerm
   };
 })(Search);
 
@@ -34860,9 +34859,7 @@ var _react = require(261);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _history = require(311);
-
-var _history2 = _interopRequireDefault(_history);
+var _actions = require(310);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -34886,9 +34883,11 @@ var SearchForm = exports.SearchForm = (function (_Component) {
     value: function handleSubmit(evt) {
       evt.preventDefault();
 
-      var term = evt.target.value;
+      var term = evt.target.querySelector('#search-term').value;
 
-      _history2.default.replaceState(null, '/search?term=' + term);
+      this.props.dispatch((0, _actions.setSearchTerm)(term));
+
+      this.props.history.push('/search?term=' + term);
     }
   }, {
     key: 'render',
@@ -34896,10 +34895,10 @@ var SearchForm = exports.SearchForm = (function (_Component) {
       return _react2.default.createElement(
         'form',
         { className: 'form search-form',
-          action: '/search',
+          action: 'search',
           method: 'GET',
           role: 'form',
-          onSubmit: this.handleSubmit },
+          onSubmit: this.handleSubmit.bind(this) },
         _react2.default.createElement(
           'label',
           { htmlFor: 'search-term' },
@@ -34913,19 +34912,26 @@ var SearchForm = exports.SearchForm = (function (_Component) {
   return SearchForm;
 })(_react.Component);
 
-},{"261":261,"311":311}],308:[function(require,module,exports){
+SearchForm.propTypes = {
+  dispatch: _react.PropTypes.func.isRequired,
+  history: _react.PropTypes.object.isRequired
+};
+
+},{"261":261,"310":310}],308:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = Bkmrkd;
+exports.Bkmrkd = Bkmrkd;
 
 var _react = require(261);
 
 var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = require(128);
+
+var _reactRedux = require(104);
 
 var _searchForm = require(307);
 
@@ -34947,7 +34953,7 @@ function Bkmrkd(props) {
         { className: 'h1' },
         'bkmrkd'
       ),
-      _react2.default.createElement(_searchForm.SearchForm, null),
+      _react2.default.createElement(_searchForm.SearchForm, { dispatch: props.dispatch, history: props.history }),
       _react2.default.createElement(
         'nav',
         null,
@@ -34989,10 +34995,18 @@ function Bkmrkd(props) {
 }
 
 Bkmrkd.propTypes = {
-  children: _react.PropTypes.node
+  children: _react.PropTypes.node,
+  dispatch: _react.PropTypes.func.isRequired,
+  history: _react.PropTypes.object.isRequired
 };
 
-},{"128":128,"261":261,"307":307,"313":313}],309:[function(require,module,exports){
+exports.default = (0, _reactRedux.connect)(function (state) {
+  return {
+    dispatch: state.dispatch
+  };
+})(Bkmrkd);
+
+},{"104":104,"128":128,"261":261,"307":307,"313":313}],309:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35005,6 +35019,7 @@ var DESTROY_BOOKMARK = exports.DESTROY_BOOKMARK = 'DESTROY_BOOKMARK';
 var END_OF_BOOKMARKS = exports.END_OF_BOOKMARKS = 'END_OF_BOOKMARKS';
 var REQUEST_LOADING = exports.REQUEST_LOADING = 'REQUEST_LOADING';
 var REQUEST_FINISHED = exports.REQUEST_FINISHED = 'REQUEST_FINISHED';
+var SEARCH_TERM = exports.SEARCH_TERM = 'SEARCH_TERM';
 var UPDATE_BOOKMARKS = exports.UPDATE_BOOKMARKS = 'UPDATE_BOOKMARKS';
 
 },{}],310:[function(require,module,exports){
@@ -35021,6 +35036,7 @@ exports.endOfBookmarks = endOfBookmarks;
 exports.requestLoading = requestLoading;
 exports.requestFinished = requestFinished;
 exports.updateBookmarks = updateBookmarks;
+exports.setSearchTerm = setSearchTerm;
 
 var _actionTypes = require(309);
 
@@ -35082,6 +35098,13 @@ function updateBookmarks(bookmarks) {
   };
 }
 
+function setSearchTerm(term) {
+  return {
+    type: _actionTypes.SEARCH_TERM,
+    term: term
+  };
+}
+
 },{"309":309}],311:[function(require,module,exports){
 'use strict';
 
@@ -35107,6 +35130,7 @@ exports.bookmarks = bookmarks;
 exports.endOfBookmarks = endOfBookmarks;
 exports.networkState = networkState;
 exports.page = page;
+exports.searchTerm = searchTerm;
 exports.toaster = toaster;
 
 var _actionTypes = require(309);
@@ -35174,6 +35198,18 @@ function page() {
   switch (action.type) {
     case _actionTypes.CHANGE_PAGE:
       return action.page;
+    default:
+      return state;
+  }
+}
+
+function searchTerm() {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
+  var action = arguments[1];
+
+  switch (action.type) {
+    case _actionTypes.SEARCH_TERM:
+      return action.term;
     default:
       return state;
   }
@@ -35263,6 +35299,8 @@ var _actions = require(310);
 
 var _search = require(306);
 
+var _search2 = _interopRequireDefault(_search);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var routes = _react2.default.createElement(
@@ -35270,7 +35308,7 @@ var routes = _react2.default.createElement(
   { path: '/', component: _bkmrkd2.default },
   _react2.default.createElement(_reactRouter.IndexRoute, { component: _bookmarks2.default }),
   _react2.default.createElement(_reactRouter.Route, { path: '/colophon', component: _colophon2.default }),
-  _react2.default.createElement(_reactRouter.Route, { path: '/search', component: _search.Search })
+  _react2.default.createElement(_reactRouter.Route, { path: '/search', component: _search2.default })
 );
 
 if (typeof window !== 'undefined') {
@@ -35282,7 +35320,8 @@ if (typeof window !== 'undefined') {
       networkState: '',
       toaster: [],
       page: 1,
-      endOfBookmarks: false
+      endOfBookmarks: false,
+      searchTerm: ''
     };
 
     var reducer = (0, _redux.combineReducers)({
@@ -35291,7 +35330,8 @@ if (typeof window !== 'undefined') {
       networkState: _reducers.networkState,
       toaster: _reducers.toaster,
       page: _reducers.page,
-      endOfBookmarks: _reducers.endOfBookmarks
+      endOfBookmarks: _reducers.endOfBookmarks,
+      searchTerm: _reducers.searchTerm
     });
     var store = (0, _redux.compose)((0, _reduxRouter.reduxReactRouter)({
       routes: routes,

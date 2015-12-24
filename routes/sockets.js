@@ -87,5 +87,12 @@ export default function (server) {
         })
       })
     })
+
+    socket.on('search', (data) => {
+      console.log('got data: ', data)
+      return socket.emit('search-results', {
+        message: 'hello!'
+      })
+    })
   })
 }
