@@ -34537,14 +34537,17 @@ var bookmarks = exports.bookmarks = (0, _react.createClass)({
 
     if (this.props.networkState !== _actionTypes.REQUEST_LOADING) {
       (function () {
-        var action = evt.target.getAttribute('data-hook');
-
+        var action = undefined;
         var pageIncrementer = 0;
 
-        if (action === 'previous' && _this.props.page !== 1) {
-          pageIncrementer = -1;
-        } else if (action === 'next' && !_this.props.endOfBookmarks) {
-          pageIncrementer = 1;
+        if (evt) {
+          action = evt.target.getAttribute('data-hook');
+
+          if (action === 'previous' && _this.props.page !== 1) {
+            pageIncrementer = -1;
+          } else if (action === 'next' && !_this.props.endOfBookmarks) {
+            pageIncrementer = 1;
+          }
         }
 
         _this.props.dispatch((0, _actions.requestLoading)());
@@ -34572,7 +34575,7 @@ var bookmarks = exports.bookmarks = (0, _react.createClass)({
         _reactRouter.Link,
         { to: this.props.page === 1 ? 'javascript:void(0)' : '/?page=' + (this.props.page - 1),
           className: this.props.page === 1 ? 'pagination__link disabled' : 'pagination__link',
-          onClick: this.getMoreBookmarks,
+          onClick: this.props.page === 1 ? function () {} : this.getMoreBookmarks,
           disabled: this.props.page === 1,
           'data-hook': 'previous' },
         '❮ Previous'
@@ -34581,7 +34584,7 @@ var bookmarks = exports.bookmarks = (0, _react.createClass)({
         _reactRouter.Link,
         { to: this.props.endOfBookmarks ? 'javascript:void(0)' : '/?page=' + (this.props.page + 1),
           className: this.props.endOfBookmarks ? 'pagination__link disabled' : 'pagination__link',
-          onClick: this.getMoreBookmarks,
+          onClick: this.props.endOfBookmarks ? function () {} : this.getMoreBookmarks,
           disabled: this.props.endOfBookmarks,
           'data-hook': 'next' },
         'Next ❯'
@@ -34591,6 +34594,12 @@ var bookmarks = exports.bookmarks = (0, _react.createClass)({
   componentDidUpdate: function componentDidUpdate() {
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
+  },
+  componentWillMount: function componentWillMount() {
+    this.getMoreBookmarks();
+  },
+  componentWillUnmount: function componentWillUnmount() {
+    this.props.dispatch((0, _actions.changePage)(1));
   },
   render: function render() {
     var _this2 = this;

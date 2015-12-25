@@ -17,30 +17,35 @@ export const bookmarks = createClass({
   },
   getMoreBookmarks: function (evt) {
     if (this.props.networkState !== REQUEST_LOADING) {
-      const action = evt.target.getAttribute('data-hook')
-
+      let action
       let pageIncrementer = 0
 
-      if (action === 'previous' && this.props.page !== 1) {
-        pageIncrementer = -1
-      } else if (action === 'next' && !this.props.endOfBookmarks) {
-        pageIncrementer = 1
+      if (evt) {
+        action = evt.target.getAttribute('data-hook')
+
+        if (action === 'previous' && this.props.page !== 1) {
+          pageIncrementer = -1
+        } else if (action === 'next' && !this.props.endOfBookmarks) {
+          pageIncrementer = 1
+        }
       }
 
       this.props.dispatch(requestLoading())
 
-      window.app.socket.emit('get-bookmarks', {
-        page: this.props.page + pageIncrementer
-      })
+      if (typeof window !== 'undefined') {
+        window.app.socket.emit('get-bookmarks', {
+          page: this.props.page + pageIncrementer
+        })
 
-      window.app.socket.on('old-bookmarks', (data) => {
-        this.props.dispatch(requestFinished())
-        this.props.dispatch(updateBookmarks(data.bookmarks))
-        this.props.dispatch(changePage(this.props.page + pageIncrementer))
-        this.props.dispatch(endOfBookmarks(data.endOfBookmarks))
+        window.app.socket.on('old-bookmarks', (data) => {
+          this.props.dispatch(requestFinished())
+          this.props.dispatch(updateBookmarks(data.bookmarks))
+          this.props.dispatch(changePage(this.props.page + pageIncrementer))
+          this.props.dispatch(endOfBookmarks(data.endOfBookmarks))
 
-        pageIncrementer = 0
-      })
+          pageIncrementer = 0
+        })
+      }
     }
   },
   pagination: function () {
@@ -48,12 +53,12 @@ export const bookmarks = createClass({
       <div className='pagination'>
         <Link to={this.props.page === 1 ? 'javascript:void(0)' : `/?page=${this.props.page - 1}`}
           className={this.props.page === 1 ? 'pagination__link disabled' : 'pagination__link'}
-          onClick={this.getMoreBookmarks}
+          onClick={this.props.page === 1 ? () => {} : this.getMoreBookmarks}
           disabled={this.props.page === 1}
           data-hook='previous'>&#x276e; Previous</Link>
         <Link to={this.props.endOfBookmarks ? 'javascript:void(0)' : `/?page=${this.props.page + 1}`}
           className={this.props.endOfBookmarks ? 'pagination__link disabled' : 'pagination__link'}
-          onClick={this.getMoreBookmarks}
+          onClick={this.props.endOfBookmarks ? () => {} : this.getMoreBookmarks}
           disabled={this.props.endOfBookmarks}
           data-hook='next'>Next &#x276f;</Link>
       </div>
@@ -62,6 +67,12 @@ export const bookmarks = createClass({
   componentDidUpdate: function () {
     document.documentElement.scrollTop = 0
     document.body.scrollTop = 0
+  },
+  componentWillMount: function () {
+    this.getMoreBookmarks()
+  },
+  componentWillUnmount: function () {
+    this.props.dispatch(changePage(1))
   },
   render: function () {
     if (typeof window !== 'undefined') {

@@ -37,7 +37,7 @@ test('bookmarks component with some bookmarks', (t) => {
 
   t.ok(markup.children().length, 'It renders the bookmark')
   t.ok(Bookmarks.prototype.__reactAutoBindMap.pagination.called, 'It called pagination at least once')
-  t.notOk(Bookmarks.prototype.__reactAutoBindMap.getMoreBookmarks.called, 'It didn\'t call getMoreBookmarks at least once')
+  t.ok(Bookmarks.prototype.__reactAutoBindMap.getMoreBookmarks.called, 'It didn\'t call getMoreBookmarks at least once')
   t.equal(Bookmarks.prototype.componentDidUpdate.callCount, 0, 'It didn\'t call componentDidUpdate yet')
 
   t.equal(markup.render().find('li').length, 3, 'It renders the three bookmarks as Bookmark components')
@@ -67,7 +67,7 @@ test('bookmarks component with no bookmarks', (t) => {
 
   t.ok(markup.children().length, 'It renders the bookmark')
   t.notOk(Bookmarks.prototype.__reactAutoBindMap.pagination.called, 'It doesn\'t call pagination at least once')
-  t.notOk(Bookmarks.prototype.__reactAutoBindMap.getMoreBookmarks.called, 'It didn\'t call getMoreBookmarks at least once')
+  t.ok(Bookmarks.prototype.__reactAutoBindMap.getMoreBookmarks.called, 'It didn\'t call getMoreBookmarks at least once')
   t.equal(Bookmarks.prototype.componentDidUpdate.callCount, 0, 'It didn\'t call componentDidUpdate yet')
 
   t.equal(markup.render().find('li').length, 0, 'It renders no Bookmark components')
@@ -255,7 +255,7 @@ test('bookmarks component with a lot of bookmarks', (t) => {
     preventDefault: sinon.spy()
   })
 
-  t.equal(Bookmarks.prototype.__reactAutoBindMap.getMoreBookmarks.callCount, 1, 'It calls getMoreBookmarks when pagination is clicked')
+  t.equal(Bookmarks.prototype.__reactAutoBindMap.getMoreBookmarks.callCount, 2, 'It calls getMoreBookmarks when pagination is clicked')
 
   Bookmarks.prototype.__reactAutoBindMap.getMoreBookmarks.restore()
 
