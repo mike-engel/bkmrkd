@@ -34811,6 +34811,7 @@ var _createClass = (function () { function defineProperties(target, props) { for
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.Search = undefined;
 
 var _react = require(261);
 
@@ -34832,7 +34833,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Search = (function (_Component) {
+var Search = exports.Search = (function (_Component) {
   _inherits(Search, _Component);
 
   function Search(props) {
@@ -34842,8 +34843,8 @@ var Search = (function (_Component) {
   }
 
   _createClass(Search, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
+    key: 'componentWillMount',
+    value: function componentWillMount() {
       var _this2 = this;
 
       if (typeof window !== 'undefined') {
@@ -34896,7 +34897,7 @@ var Search = (function (_Component) {
             'h2',
             { className: 'h2' },
             'Couldn\'t find anything for ',
-            this.props,
+            this.props.searchTerm,
             '.'
           )
         );

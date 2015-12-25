@@ -2,7 +2,7 @@ import React from 'react'
 import test from 'tape'
 import sinon from 'sinon'
 import { shallow } from 'enzyme'
-import Bookmark from '../../src/js/components/bookmark'
+import Bookmark from '../../../src/js/components/bookmark'
 
 test('bookmark component', (t) => {
   sinon.spy(Bookmark.prototype, 'getTimeString')

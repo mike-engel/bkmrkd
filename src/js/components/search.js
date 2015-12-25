@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import Bookmark from './bookmark'
 import { requestLoading, requestFinished, updateBookmarks } from '../helpers/actions'
 
-class Search extends Component {
+export class Search extends Component {
   static propTypes = {
     bookmarks: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired,
@@ -17,7 +17,7 @@ class Search extends Component {
     super(props)
   }
 
-  componentDidMount () {
+  componentWillMount () {
     if (typeof window !== 'undefined') {
       this.props.dispatch(requestLoading())
 
@@ -58,7 +58,7 @@ class Search extends Component {
     } else {
       return (
         <section className='bookmarks search-results'>
-          <h2 className='h2'>Couldn't find anything for {this.props}.</h2>
+          <h2 className='h2'>Couldn't find anything for {this.props.searchTerm}.</h2>
         </section>
       )
     }

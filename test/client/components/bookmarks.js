@@ -2,7 +2,7 @@ import React from 'react'
 import test from 'tape'
 import sinon from 'sinon'
 import { shallow } from 'enzyme'
-import { Bookmarks } from '../../src/js/components/bookmarks'
+import { Bookmarks } from '../../../src/js/components/bookmarks'
 
 test('bookmarks component with some bookmarks', (t) => {
   sinon.spy(Bookmarks.prototype, 'getMoreBookmarks')

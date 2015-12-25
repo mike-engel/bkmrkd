@@ -1,7 +1,7 @@
 import React from 'react'
 import test from 'tape'
 import { shallow } from 'enzyme'
-import Toast from '../../src/js/components/toast'
+import Toast from '../../../src/js/components/toast'
 
 test('toast component', (t) => {
   const toast = {
