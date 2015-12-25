@@ -34552,18 +34552,20 @@ var bookmarks = exports.bookmarks = (0, _react.createClass)({
 
         _this.props.dispatch((0, _actions.requestLoading)());
 
-        window.app.socket.emit('get-bookmarks', {
-          page: _this.props.page + pageIncrementer
-        });
+        if (typeof window !== 'undefined') {
+          window.app.socket.emit('get-bookmarks', {
+            page: _this.props.page + pageIncrementer
+          });
 
-        window.app.socket.on('old-bookmarks', function (data) {
-          _this.props.dispatch((0, _actions.requestFinished)());
-          _this.props.dispatch((0, _actions.updateBookmarks)(data.bookmarks));
-          _this.props.dispatch((0, _actions.changePage)(_this.props.page + pageIncrementer));
-          _this.props.dispatch((0, _actions.endOfBookmarks)(data.endOfBookmarks));
+          window.app.socket.on('old-bookmarks', function (data) {
+            _this.props.dispatch((0, _actions.requestFinished)());
+            _this.props.dispatch((0, _actions.updateBookmarks)(data.bookmarks));
+            _this.props.dispatch((0, _actions.changePage)(_this.props.page + pageIncrementer));
+            _this.props.dispatch((0, _actions.endOfBookmarks)(data.endOfBookmarks));
 
-          pageIncrementer = 0;
-        });
+            pageIncrementer = 0;
+          });
+        }
       })();
     }
   },
