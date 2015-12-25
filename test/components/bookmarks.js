@@ -2,11 +2,11 @@ import React from 'react'
 import test from 'tape'
 import sinon from 'sinon'
 import { shallow } from 'enzyme'
-import { bookmarks as Bookmarks } from '../../src/js/components/bookmarks'
+import { Bookmarks } from '../../src/js/components/bookmarks'
 
 test('bookmarks component with some bookmarks', (t) => {
-  sinon.spy(Bookmarks.prototype.__reactAutoBindMap, 'getMoreBookmarks')
-  sinon.spy(Bookmarks.prototype.__reactAutoBindMap, 'pagination')
+  sinon.spy(Bookmarks.prototype, 'getMoreBookmarks')
+  sinon.spy(Bookmarks.prototype, 'pagination')
   sinon.spy(Bookmarks.prototype, 'componentDidUpdate')
 
   const bookmarks = [
@@ -36,8 +36,8 @@ test('bookmarks component with some bookmarks', (t) => {
     endOfBookmarks={true} />) // eslint-disable-line
 
   t.ok(markup.children().length, 'It renders the bookmark')
-  t.ok(Bookmarks.prototype.__reactAutoBindMap.pagination.called, 'It called pagination at least once')
-  t.ok(Bookmarks.prototype.__reactAutoBindMap.getMoreBookmarks.called, 'It didn\'t call getMoreBookmarks at least once')
+  t.ok(Bookmarks.prototype.pagination.called, 'It called pagination at least once')
+  t.ok(Bookmarks.prototype.getMoreBookmarks.called, 'It didn\'t call getMoreBookmarks at least once')
   t.equal(Bookmarks.prototype.componentDidUpdate.callCount, 0, 'It didn\'t call componentDidUpdate yet')
 
   t.equal(markup.render().find('li').length, 3, 'It renders the three bookmarks as Bookmark components')
@@ -46,16 +46,16 @@ test('bookmarks component with some bookmarks', (t) => {
   t.equal(markup.find('.pagination').length, 1, 'It renders the pagination links')
   t.equal(markup.find('.pagination__link.disabled').length, 2, 'It renders the disabled links')
 
-  Bookmarks.prototype.__reactAutoBindMap.pagination.restore()
-  Bookmarks.prototype.__reactAutoBindMap.getMoreBookmarks.restore()
+  Bookmarks.prototype.pagination.restore()
+  Bookmarks.prototype.getMoreBookmarks.restore()
   Bookmarks.prototype.componentDidUpdate.restore()
 
   t.end()
 })
 
 test('bookmarks component with no bookmarks', (t) => {
-  sinon.spy(Bookmarks.prototype.__reactAutoBindMap, 'getMoreBookmarks')
-  sinon.spy(Bookmarks.prototype.__reactAutoBindMap, 'pagination')
+  sinon.spy(Bookmarks.prototype, 'getMoreBookmarks')
+  sinon.spy(Bookmarks.prototype, 'pagination')
   sinon.spy(Bookmarks.prototype, 'componentDidUpdate')
 
   const bookmarks = []
@@ -66,8 +66,8 @@ test('bookmarks component with no bookmarks', (t) => {
     endOfBookmarks={true} />) // eslint-disable-line
 
   t.ok(markup.children().length, 'It renders the bookmark')
-  t.notOk(Bookmarks.prototype.__reactAutoBindMap.pagination.called, 'It doesn\'t call pagination at least once')
-  t.ok(Bookmarks.prototype.__reactAutoBindMap.getMoreBookmarks.called, 'It didn\'t call getMoreBookmarks at least once')
+  t.notOk(Bookmarks.prototype.pagination.called, 'It doesn\'t call pagination at least once')
+  t.ok(Bookmarks.prototype.getMoreBookmarks.called, 'It didn\'t call getMoreBookmarks at least once')
   t.equal(Bookmarks.prototype.componentDidUpdate.callCount, 0, 'It didn\'t call componentDidUpdate yet')
 
   t.equal(markup.render().find('li').length, 0, 'It renders no Bookmark components')
@@ -76,15 +76,15 @@ test('bookmarks component with no bookmarks', (t) => {
 
   t.ok(markup.find('.no-bookmarks'), 'It renders the no bookmarks message')
 
-  Bookmarks.prototype.__reactAutoBindMap.pagination.restore()
-  Bookmarks.prototype.__reactAutoBindMap.getMoreBookmarks.restore()
+  Bookmarks.prototype.pagination.restore()
+  Bookmarks.prototype.getMoreBookmarks.restore()
   Bookmarks.prototype.componentDidUpdate.restore()
 
   t.end()
 })
 
 test('bookmarks component with a lot of bookmarks', (t) => {
-  sinon.stub(Bookmarks.prototype.__reactAutoBindMap, 'getMoreBookmarks')
+  sinon.stub(Bookmarks.prototype, 'getMoreBookmarks')
 
   const bookmarks = [
     {
@@ -255,9 +255,9 @@ test('bookmarks component with a lot of bookmarks', (t) => {
     preventDefault: sinon.spy()
   })
 
-  t.equal(Bookmarks.prototype.__reactAutoBindMap.getMoreBookmarks.callCount, 2, 'It calls getMoreBookmarks when pagination is clicked')
+  t.equal(Bookmarks.prototype.getMoreBookmarks.callCount, 2, 'It calls getMoreBookmarks when pagination is clicked')
 
-  Bookmarks.prototype.__reactAutoBindMap.getMoreBookmarks.restore()
+  Bookmarks.prototype.getMoreBookmarks.restore()
 
   t.end()
 })

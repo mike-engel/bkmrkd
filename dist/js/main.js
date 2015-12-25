@@ -34401,6 +34401,8 @@ if (WebSocket) ws.prototype = WebSocket.prototype;
 },{}],303:[function(require,module,exports){
 'use strict';
 
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -34419,92 +34421,121 @@ var _lodash2 = _interopRequireDefault(_lodash);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (0, _react.createClass)({
-  propTypes: {
-    bookmark: _react.PropTypes.object.isRequired,
-    dispatch: _react.PropTypes.func.isRequired
-  },
-  destroyBookmark: function destroyBookmark(evt) {
-    evt.preventDefault();
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-    if (typeof window !== 'undefined') {
-      window.app.socket.emit('destroy-bookmark', {
-        id: this.props.bookmark.id
-      });
-    }
-  },
-  getTimeString: function getTimeString() {
-    var months = {
-      0: 'January',
-      1: 'February',
-      2: 'March',
-      3: 'April',
-      4: 'May',
-      5: 'June',
-      6: 'July',
-      7: 'August',
-      8: 'September',
-      9: 'October',
-      10: 'November',
-      11: 'December'
-    };
-    var date = new Date(this.props.bookmark.createdOn);
-    var month = months[date.getMonth()];
-    var day = date.getDate();
-    var year = date.getFullYear();
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-    return month + ' ' + day + ', ' + year;
-  },
-  getWebsite: function getWebsite() {
-    var bookmarkURL = this.props.bookmark.url;
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-    var rootUrl = bookmarkURL;
-    var name = _url2.default.parse(bookmarkURL).hostname;
+var Bookmark = (function (_Component) {
+  _inherits(Bookmark, _Component);
 
-    return {
-      name: name,
-      url: rootUrl
-    };
-  },
-  render: function render() {
-    return _react2.default.createElement(
-      'li',
-      null,
-      _react2.default.createElement(
-        'a',
-        { href: this.props.bookmark.url, target: '_blank' },
-        _react2.default.createElement(
-          'h2',
-          { className: 'bookmark-name' },
-          (0, _lodash2.default)(this.props.bookmark.title)
-        )
-      ),
-      _react2.default.createElement(
-        'span',
-        { className: 'date' },
-        this.getTimeString()
-      ),
-      _react2.default.createElement(
-        'a',
-        { href: this.getWebsite().url, target: '_blank', className: 'website' },
-        this.getWebsite().name
-      ),
-      _react2.default.createElement(
-        'a',
-        { href: '/api/destroy/' + this.props.bookmark.id, onClick: this.destroyBookmark, className: 'destroy' },
-        'destroy'
-      )
-    );
+  function Bookmark(props) {
+    _classCallCheck(this, Bookmark);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(Bookmark).call(this, props));
   }
-});
+
+  _createClass(Bookmark, [{
+    key: 'destroyBookmark',
+    value: function destroyBookmark(evt) {
+      evt.preventDefault();
+
+      if (typeof window !== 'undefined') {
+        window.app.socket.emit('destroy-bookmark', {
+          id: this.props.bookmark.id
+        });
+      }
+    }
+  }, {
+    key: 'getTimeString',
+    value: function getTimeString() {
+      var months = {
+        0: 'January',
+        1: 'February',
+        2: 'March',
+        3: 'April',
+        4: 'May',
+        5: 'June',
+        6: 'July',
+        7: 'August',
+        8: 'September',
+        9: 'October',
+        10: 'November',
+        11: 'December'
+      };
+      var date = new Date(this.props.bookmark.createdOn);
+      var month = months[date.getMonth()];
+      var day = date.getDate();
+      var year = date.getFullYear();
+
+      return month + ' ' + day + ', ' + year;
+    }
+  }, {
+    key: 'getWebsite',
+    value: function getWebsite() {
+      var bookmarkURL = this.props.bookmark.url;
+
+      var rootUrl = bookmarkURL;
+      var name = _url2.default.parse(bookmarkURL).hostname;
+
+      return {
+        name: name,
+        url: rootUrl
+      };
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'li',
+        null,
+        _react2.default.createElement(
+          'a',
+          { href: this.props.bookmark.url, target: '_blank' },
+          _react2.default.createElement(
+            'h2',
+            { className: 'bookmark-name' },
+            (0, _lodash2.default)(this.props.bookmark.title)
+          )
+        ),
+        _react2.default.createElement(
+          'span',
+          { className: 'date' },
+          this.getTimeString()
+        ),
+        _react2.default.createElement(
+          'a',
+          { href: this.getWebsite().url, target: '_blank', className: 'website' },
+          this.getWebsite().name
+        ),
+        _react2.default.createElement(
+          'a',
+          { href: '/api/destroy/' + this.props.bookmark.id, onClick: this.destroyBookmark, className: 'destroy' },
+          'destroy'
+        )
+      );
+    }
+  }]);
+
+  return Bookmark;
+})(_react.Component);
+
+Bookmark.propTypes = {
+  bookmark: _react.PropTypes.object.isRequired,
+  dispatch: _react.PropTypes.func.isRequired
+};
+exports.default = Bookmark;
 
 },{"261":261,"298":298,"89":89}],304:[function(require,module,exports){
 'use strict';
 
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.bookmarks = undefined;
+exports.Bookmarks = undefined;
 
 var _react = require(261);
 
@@ -34524,136 +34555,165 @@ var _actionTypes = require(309);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var bookmarks = exports.bookmarks = (0, _react.createClass)({
-  propTypes: {
-    bookmarks: _react.PropTypes.array.isRequired,
-    dispatch: _react.PropTypes.func.isRequired,
-    networkState: _react.PropTypes.string.isRequired,
-    page: _react.PropTypes.number.isRequired,
-    endOfBookmarks: _react.PropTypes.bool.isRequired
-  },
-  getMoreBookmarks: function getMoreBookmarks(evt) {
-    var _this = this;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-    if (this.props.networkState !== _actionTypes.REQUEST_LOADING) {
-      (function () {
-        var action = undefined;
-        var pageIncrementer = 0;
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-        if (evt) {
-          action = evt.target.getAttribute('data-hook');
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-          if (action === 'previous' && _this.props.page !== 1) {
-            pageIncrementer = -1;
-          } else if (action === 'next' && !_this.props.endOfBookmarks) {
-            pageIncrementer = 1;
-          }
-        }
+var Bookmarks = exports.Bookmarks = (function (_Component) {
+  _inherits(Bookmarks, _Component);
 
-        _this.props.dispatch((0, _actions.requestLoading)());
+  function Bookmarks(props) {
+    _classCallCheck(this, Bookmarks);
 
-        if (typeof window !== 'undefined') {
-          window.app.socket.emit('get-bookmarks', {
-            page: _this.props.page + pageIncrementer
-          });
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(Bookmarks).call(this, props));
+  }
 
-          window.app.socket.on('old-bookmarks', function (data) {
-            _this.props.dispatch((0, _actions.requestFinished)());
-            _this.props.dispatch((0, _actions.updateBookmarks)(data.bookmarks));
-            _this.props.dispatch((0, _actions.changePage)(_this.props.page + pageIncrementer));
-            _this.props.dispatch((0, _actions.endOfBookmarks)(data.endOfBookmarks));
+  _createClass(Bookmarks, [{
+    key: 'getMoreBookmarks',
+    value: function getMoreBookmarks(evt) {
+      var _this2 = this;
 
-            pageIncrementer = 0;
-          });
-        }
-      })();
-    }
-  },
-  pagination: function pagination() {
-    return _react2.default.createElement(
-      'div',
-      { className: 'pagination' },
-      _react2.default.createElement(
-        _reactRouter.Link,
-        { to: this.props.page === 1 ? 'javascript:void(0)' : '/?page=' + (this.props.page - 1),
-          className: this.props.page === 1 ? 'pagination__link disabled' : 'pagination__link',
-          onClick: this.props.page === 1 ? function () {} : this.getMoreBookmarks,
-          disabled: this.props.page === 1,
-          'data-hook': 'previous' },
-        '❮ Previous'
-      ),
-      _react2.default.createElement(
-        _reactRouter.Link,
-        { to: this.props.endOfBookmarks ? 'javascript:void(0)' : '/?page=' + (this.props.page + 1),
-          className: this.props.endOfBookmarks ? 'pagination__link disabled' : 'pagination__link',
-          onClick: this.props.endOfBookmarks ? function () {} : this.getMoreBookmarks,
-          disabled: this.props.endOfBookmarks,
-          'data-hook': 'next' },
-        'Next ❯'
-      )
-    );
-  },
-  componentDidUpdate: function componentDidUpdate() {
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
-  },
-  componentWillMount: function componentWillMount() {
-    this.getMoreBookmarks();
-  },
-  componentWillUnmount: function componentWillUnmount() {
-    this.props.dispatch((0, _actions.changePage)(1));
-  },
-  render: function render() {
-    var _this2 = this;
+      if (this.props.networkState !== _actionTypes.REQUEST_LOADING) {
+        (function () {
+          var action = undefined;
+          var pageIncrementer = 0;
 
-    if (typeof window !== 'undefined') {
-      window.app.socket.on('new-bookmark', function (data) {
-        _this2.props.dispatch((0, _actions.addBookmark)(data.bookmark));
-      });
+          if (evt) {
+            action = evt.target.getAttribute('data-hook');
 
-      window.app.socket.on('bookmark-destroyed', function (data) {
-        _this2.props.dispatch((0, _actions.destroyBookmark)(data.id));
-      });
-    }
-
-    if (this.props.bookmarks.length) {
-      return _react2.default.createElement(
-        'section',
-        { className: 'bookmarks' },
-        _react2.default.createElement(
-          'ul',
-          null,
-          this.props.bookmarks.sort(function (a, b) {
-            var dateA = new Date(a.createdOn);
-            var dateB = new Date(b.createdOn);
-
-            if (dateA < dateB) {
-              return 1;
-            } else if (dateA > dateB) {
-              return -1;
-            } else {
-              return 0;
+            if (action === 'previous' && _this2.props.page !== 1) {
+              pageIncrementer = -1;
+            } else if (action === 'next' && !_this2.props.endOfBookmarks) {
+              pageIncrementer = 1;
             }
-          }).map(function (bookmark) {
-            return _react2.default.createElement(_bookmark2.default, { key: bookmark.id, bookmark: bookmark, dispatch: _this2.props.dispatch });
-          })
-        ),
-        this.pagination()
-      );
-    } else {
+          }
+
+          _this2.props.dispatch((0, _actions.requestLoading)());
+
+          if (typeof window !== 'undefined') {
+            window.app.socket.emit('get-bookmarks', {
+              page: _this2.props.page + pageIncrementer
+            });
+
+            window.app.socket.on('old-bookmarks', function (data) {
+              _this2.props.dispatch((0, _actions.requestFinished)());
+              _this2.props.dispatch((0, _actions.updateBookmarks)(data.bookmarks));
+              _this2.props.dispatch((0, _actions.changePage)(_this2.props.page + pageIncrementer));
+              _this2.props.dispatch((0, _actions.endOfBookmarks)(data.endOfBookmarks));
+
+              pageIncrementer = 0;
+            });
+          }
+        })();
+      }
+    }
+  }, {
+    key: 'pagination',
+    value: function pagination() {
       return _react2.default.createElement(
-        'section',
-        { className: 'bookmarks' },
+        'div',
+        { className: 'pagination' },
         _react2.default.createElement(
-          'h2',
-          { className: 'h2' },
-          'No bookmarks yet! Place the script in your bookmarks bar and start bookmarking.'
+          _reactRouter.Link,
+          { to: this.props.page === 1 ? 'javascript:void(0)' : '/?page=' + (this.props.page - 1),
+            className: this.props.page === 1 ? 'pagination__link disabled' : 'pagination__link',
+            onClick: this.props.page === 1 ? function () {} : this.getMoreBookmarks,
+            disabled: this.props.page === 1,
+            'data-hook': 'previous' },
+          '❮ Previous'
+        ),
+        _react2.default.createElement(
+          _reactRouter.Link,
+          { to: this.props.endOfBookmarks ? 'javascript:void(0)' : '/?page=' + (this.props.page + 1),
+            className: this.props.endOfBookmarks ? 'pagination__link disabled' : 'pagination__link',
+            onClick: this.props.endOfBookmarks ? function () {} : this.getMoreBookmarks,
+            disabled: this.props.endOfBookmarks,
+            'data-hook': 'next' },
+          'Next ❯'
         )
       );
     }
-  }
-});
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }
+  }, {
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      this.getMoreBookmarks();
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      this.props.dispatch((0, _actions.changePage)(1));
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this3 = this;
 
+      if (typeof window !== 'undefined') {
+        window.app.socket.on('new-bookmark', function (data) {
+          _this3.props.dispatch((0, _actions.addBookmark)(data.bookmark));
+        });
+
+        window.app.socket.on('bookmark-destroyed', function (data) {
+          _this3.props.dispatch((0, _actions.destroyBookmark)(data.id));
+        });
+      }
+
+      if (this.props.bookmarks.length) {
+        return _react2.default.createElement(
+          'section',
+          { className: 'bookmarks' },
+          _react2.default.createElement(
+            'ul',
+            null,
+            this.props.bookmarks.sort(function (a, b) {
+              var dateA = new Date(a.createdOn);
+              var dateB = new Date(b.createdOn);
+
+              if (dateA < dateB) {
+                return 1;
+              } else if (dateA > dateB) {
+                return -1;
+              } else {
+                return 0;
+              }
+            }).map(function (bookmark) {
+              return _react2.default.createElement(_bookmark2.default, { key: bookmark.id, bookmark: bookmark, dispatch: _this3.props.dispatch });
+            })
+          ),
+          this.pagination()
+        );
+      } else {
+        return _react2.default.createElement(
+          'section',
+          { className: 'bookmarks' },
+          _react2.default.createElement(
+            'h2',
+            { className: 'h2' },
+            'No bookmarks yet! Place the script in your bookmarks bar and start bookmarking.'
+          )
+        );
+      }
+    }
+  }]);
+
+  return Bookmarks;
+})(_react.Component);
+
+Bookmarks.propTypes = {
+  bookmarks: _react.PropTypes.array.isRequired,
+  dispatch: _react.PropTypes.func.isRequired,
+  networkState: _react.PropTypes.string.isRequired,
+  page: _react.PropTypes.number.isRequired,
+  endOfBookmarks: _react.PropTypes.bool.isRequired
+};
 exports.default = (0, _reactRedux.connect)(function (state) {
   return {
     bookmarks: state.bookmarks,
@@ -34661,7 +34721,7 @@ exports.default = (0, _reactRedux.connect)(function (state) {
     page: state.page,
     endOfBookmarks: state.endOfBookmarks
   };
-})(bookmarks);
+})(Bookmarks);
 
 },{"104":104,"128":128,"261":261,"303":303,"309":309,"310":310}],305:[function(require,module,exports){
 'use strict';
