@@ -3,6 +3,7 @@
 - Split the server file into separate modules
 - Added a search route to search for bookmarks based off of title and url
 - Added search functionality to the client facing react app
+- Lots of tests!
 
 # 2.3.0
 
