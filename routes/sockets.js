@@ -7,6 +7,10 @@ import searchBookmarks from '../helpers/searchBookmarks'
 export default function (server) {
   const io = socketIO(server)
 
+  let changesCursor
+  let cursorNeedsToClose = false
+  let cursorNeedsToFinish = false
+
   io.on('connection', (socket) => {
     bkmrkd.table('bookmarks').changes().run(connection, (err, cursor) => {
       if (err) {
@@ -17,9 +21,7 @@ export default function (server) {
         })
       }
 
-      socket.on('disconnect', () => {
-        cursor.close()
-      })
+      changesCursor = cursor
 
       cursor.each((err, bookmark) => {
         if (err) {
@@ -30,6 +32,8 @@ export default function (server) {
           })
         }
 
+        cursorNeedsToFinish = true
+
         if (bookmark['old_val']) {
           socket.emit('bookmark-update', {
             old: bookmark['old_val'],
@@ -39,6 +43,12 @@ export default function (server) {
           socket.emit('new-bookmark', {
             bookmark: bookmark['new_val']
           })
+        }
+
+        cursorNeedsToFinish = false
+
+        if (cursorNeedsToClose) {
+          cursor.close()
         }
       })
 
@@ -93,6 +103,14 @@ export default function (server) {
           bookmarks: results
         })
       })
+    })
+
+    socket.on('disconnect', () => {
+      cursorNeedsToClose = true
+
+      if (!cursorNeedsToFinish) {
+        changesCursor.close()
+      }
     })
   })
 }
