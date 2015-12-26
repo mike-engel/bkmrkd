@@ -13,10 +13,12 @@ export default function (cb) {
       return cb(err)
     }
 
-    rethink.db(config[env].rethinkdbName).delete().run(connection, (err) => {
+    rethink.db(config[env].rethinkdbName).table('bookmarks').delete().run(connection, (err) => {
       if (err) {
         return cb(err)
       }
+
+      connection.close()
 
       cb(null)
     })

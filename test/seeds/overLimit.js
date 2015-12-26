@@ -1,5 +1,6 @@
 import rethink from 'rethinkdb'
 import config from '../../helpers/config'
+import deleteAllBookmarks from './deleteAllBookmarks'
 import data from './data'
 
 const env = process.env.NODE_ENV || 'development'
@@ -14,12 +15,16 @@ export default function (cb) {
       return cb(err)
     }
 
-    rethink.db(config[env].rethinkdbName).delete().insert(data).run(connection, (err, results) => {
-      if (err) {
-        return cb(err)
-      }
+    deleteAllBookmarks(() => {
+      rethink.db(config[env].rethinkdbName).table('bookmarks').insert(data).run(connection, (err, results) => {
+        if (err) {
+          return cb(err)
+        }
 
-      cb(null, results)
+        connection.close()
+
+        cb(null, results)
+      })
     })
   })
 }
