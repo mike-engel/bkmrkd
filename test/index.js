@@ -1,6 +1,8 @@
 import './server/helpers/config'
 import './server/helpers/createStore'
-import './server/routes/main'
+import './server/helpers/renderApp'
+import './server/routes/errors'
+// import './server/routes/main'
 
 import './client/main'
 import './client/helpers/actions'
