@@ -28,5 +28,5 @@ test.onFinish(() => {
   // give time for the socket to close out
   setTimeout(() => {
     connection.close()
-  }, 1000)
+  }, 5000)
 })
