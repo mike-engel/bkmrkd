@@ -10,4 +10,4 @@ before_install:
   - sudo apt-get install -y rethinkdb
   - rethinkdb --daemon
   - sudo pip install backports.ssl_match_hostname rethinkdb
-  - rethinkdb import -d ./test/seeds/rethinkData/bkmrkd_stage
+  - rethinkdb import -d ./test/seeds/rethinkData
