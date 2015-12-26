@@ -100,6 +100,7 @@
     "gulp-react": "^3.1.0",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^1.5.1",
+    "invariant": "^2.2.0",
     "phantomjs": "^1.9.19",
     "pixrem": "^3.0.0",
     "postcss-color-rgba-fallback": "^2.0.0",

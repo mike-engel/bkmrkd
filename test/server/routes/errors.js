@@ -4,7 +4,7 @@ import request from 'supertest'
 import appConfig from '../../../config/app'
 import errorRoutes from '../../../routes/errors'
 
-test.only('error routes', (t) => {
+test('error routes', (t) => {
   const app = express()
 
   appConfig(app)
