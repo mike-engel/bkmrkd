@@ -1,0 +1,11 @@
+.search-form {
+  @media (--medium) {
+    float: right;
+    margin-top: 13px;
+    width: 300px;
+  }
+
+  input {
+    color: var(--white);
+  }
+}

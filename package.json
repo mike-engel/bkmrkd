@@ -1,20 +1,25 @@
 {
   "name": "bkmrkd",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "A simple self-hosted bookmark manager written in javascript",
   "main": "server.js",
   "scripts": {
-    "test": "TZ=Americas/Denver standard && babel-node test/index.js | tap-spec",
-    "start": "babel-node server.js",
-    "stage": "NODE_ENV=stage pm2 start index.js --name bkmrkd",
+    "test": "NODE_ENV=stage babel-node ./migrations/nameChange.js && standard && TZ=Americas/Denver NODE_ENV=stage babel-node test/index.js | tap-spec",
+    "start": "NODE_ENV=development babel-node ./migrations/nameChange.js && babel-node server.js",
+    "stage": "NODE_ENV=stage babel-node ./migrations/nameChange.js && pm2 start index.js --name bkmrkd",
     "stage:restart": "NODE_ENV=stage pm2 restart bkmrkdStage",
     "stage:stop": "NODE_ENV=stage pm2 stop bkmrkdStage",
-    "prod": "NODE_ENV=production pm2 start index.js --name bkmrkdProd",
+    "prod": "NODE_ENV=production babel-node ./migrations/nameChange.js && pm2 start index.js --name bkmrkdProd",
     "prod:restart": "NODE_ENV=production pm2 restart bkmrkdProd",
     "prod:stop": "NODE_ENV=production pm2 stop bkmrkdProd",
     "compile:server": "babel ./server.js --out-file ./tmp/server.js",
-    "compile:src": "babel src/js --out-dir tmp/src/js",
-    "postinstall": "mkdir -p tmp/config;cp ./config/environments.json ./tmp/config/environments.json;npm run compile:server;npm run compile:src"
+    "compile:helpers": "babel ./helpers --out-dir ./tmp/helpers",
+    "compile:src": "babel ./src/js --out-dir ./tmp/src/js",
+    "compile:config": "babel ./config/*.js --out-dir ./tmp",
+    "compile:routes": "babel ./routes --out-dir ./tmp/routes",
+    "createDirectories": "mkdir -p ./tmp &&mkdir -p ./tmp/config &&mkdir -p ./tmp/helpers &&mkdir -p ./tmp/routes",
+    "copy:config": "cp ./config/environments.json ./tmp/config/environments.json",
+    "postinstall": "npm run createDirectories && npm run copy:config && npm run compile:helpers && npm run compile:config && npm run compile:server && npm run compile:src && npm run compile:routes"
   },
   "bin": {
     "bkmrkd": "./bin/cmd.js"
@@ -49,6 +54,7 @@
     "body-parser": "^1.14.1",
     "compression": "^1.6.0",
     "cookie-parser": "^1.4.0",
+    "core-decorators": "^0.9.2",
     "ejs": "^2.3.4",
     "express": "^4.13.3",
     "helmet": "^1.0.1",
@@ -94,6 +100,7 @@
     "gulp-react": "^3.1.0",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^1.5.1",
+    "invariant": "^2.2.0",
     "phantomjs": "^1.9.19",
     "pixrem": "^3.0.0",
     "postcss-color-rgba-fallback": "^2.0.0",
@@ -108,11 +115,13 @@
     "sinon": "^1.17.2",
     "standard": "^5.4.1",
     "stylelint": "^3.1.1",
+    "supertest": "^1.1.0",
     "tap-spec": "^4.1.1",
-    "tape": "^4.2.2",
+    "tape": "^4.4.0",
     "tape-run": "^2.1.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
+    "warning": "^2.1.0",
     "watchify": "^3.6.1"
   },
   "standard": {

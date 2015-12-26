@@ -1,69 +1,90 @@
 'use strict'
 
-import React, { createClass, PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import Bookmark from './bookmark'
 import { addBookmark, changePage, destroyBookmark, endOfBookmarks, requestLoading, requestFinished, updateBookmarks } from '../helpers/actions'
 import { REQUEST_LOADING } from '../helpers/actionTypes'
 
-export const bookmarks = createClass({
-  propTypes: {
+export class Bookmarks extends Component {
+  static propTypes = {
     bookmarks: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired,
     networkState: PropTypes.string.isRequired,
     page: PropTypes.number.isRequired,
     endOfBookmarks: PropTypes.bool.isRequired
-  },
-  getMoreBookmarks: function (evt) {
-    if (this.props.networkState !== REQUEST_LOADING) {
-      const action = evt.target.getAttribute('data-hook')
+  }
 
+  constructor (props) {
+    super(props)
+  }
+
+  getMoreBookmarks (evt) {
+    if (this.props.networkState !== REQUEST_LOADING) {
+      let action
       let pageIncrementer = 0
 
-      if (action === 'previous' && this.props.page !== 1) {
-        pageIncrementer = -1
-      } else if (action === 'next' && !this.props.endOfBookmarks) {
-        pageIncrementer = 1
+      if (evt) {
+        action = evt.target.getAttribute('data-hook')
+
+        if (action === 'previous' && this.props.page !== 1) {
+          pageIncrementer = -1
+        } else if (action === 'next' && !this.props.endOfBookmarks) {
+          pageIncrementer = 1
+        }
       }
 
       this.props.dispatch(requestLoading())
 
-      window.app.socket.emit('get-bookmarks', {
-        page: this.props.page + pageIncrementer
-      })
+      if (typeof window !== 'undefined') {
+        window.app.socket.emit('get-bookmarks', {
+          page: this.props.page + pageIncrementer
+        })
 
-      window.app.socket.on('old-bookmarks', (data) => {
-        this.props.dispatch(requestFinished())
-        this.props.dispatch(updateBookmarks(data.bookmarks))
-        this.props.dispatch(changePage(this.props.page + pageIncrementer))
-        this.props.dispatch(endOfBookmarks(data.endOfBookmarks))
+        window.app.socket.on('old-bookmarks', (data) => {
+          this.props.dispatch(requestFinished())
+          this.props.dispatch(updateBookmarks(data.bookmarks))
+          this.props.dispatch(changePage(this.props.page + pageIncrementer))
+          this.props.dispatch(endOfBookmarks(data.endOfBookmarks))
 
-        pageIncrementer = 0
-      })
+          pageIncrementer = 0
+        })
+      }
     }
-  },
-  pagination: function () {
+  }
+
+  pagination () {
     return (
       <div className='pagination'>
         <Link to={this.props.page === 1 ? 'javascript:void(0)' : `/?page=${this.props.page - 1}`}
           className={this.props.page === 1 ? 'pagination__link disabled' : 'pagination__link'}
-          onClick={this.getMoreBookmarks}
+          onClick={this.props.page === 1 ? () => {} : this.getMoreBookmarks}
           disabled={this.props.page === 1}
           data-hook='previous'>&#x276e; Previous</Link>
         <Link to={this.props.endOfBookmarks ? 'javascript:void(0)' : `/?page=${this.props.page + 1}`}
           className={this.props.endOfBookmarks ? 'pagination__link disabled' : 'pagination__link'}
-          onClick={this.getMoreBookmarks}
+          onClick={this.props.endOfBookmarks ? () => {} : this.getMoreBookmarks}
           disabled={this.props.endOfBookmarks}
           data-hook='next'>Next &#x276f;</Link>
       </div>
     )
-  },
-  componentDidUpdate: function () {
+  }
+
+  componentDidUpdate () {
     document.documentElement.scrollTop = 0
     document.body.scrollTop = 0
-  },
-  render: function () {
+  }
+
+  componentWillMount () {
+    this.getMoreBookmarks()
+  }
+
+  componentWillUnmount () {
+    this.props.dispatch(changePage(1))
+  }
+
+  render () {
     if (typeof window !== 'undefined') {
       window.app.socket.on('new-bookmark', data => {
         this.props.dispatch(addBookmark(data.bookmark))
@@ -104,7 +125,7 @@ export const bookmarks = createClass({
       )
     }
   }
-})
+}
 
 export default connect((state) => {
   return {
@@ -113,4 +134,4 @@ export default connect((state) => {
     page: state.page,
     endOfBookmarks: state.endOfBookmarks
   }
-})(bookmarks)
+})(Bookmarks)

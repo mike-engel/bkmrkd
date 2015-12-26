@@ -1,4 +1,4 @@
-import { ADD_BOOKMARK, ADD_TOAST, CHANGE_PAGE, DESTROY_BOOKMARK, END_OF_BOOKMARKS, REQUEST_LOADING, REQUEST_FINISHED, UPDATE_BOOKMARKS } from './actionTypes'
+import { ADD_BOOKMARK, ADD_TOAST, CHANGE_PAGE, DESTROY_BOOKMARK, END_OF_BOOKMARKS, REQUEST_LOADING, REQUEST_FINISHED, SEARCH_TERM, UPDATE_BOOKMARKS } from './actionTypes'
 
 export function addBookmark (bookmark) {
   return {
@@ -52,5 +52,12 @@ export function updateBookmarks (bookmarks) {
   return {
     type: UPDATE_BOOKMARKS,
     bookmarks
+  }
+}
+
+export function setSearchTerm (term) {
+  return {
+    type: SEARCH_TERM,
+    term
   }
 }

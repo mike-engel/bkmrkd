@@ -1,7 +1,7 @@
 import React from 'react'
 import test from 'tape'
 import { shallow, render } from 'enzyme'
-import Toaster from '../../src/js/containers/toaster'
+import Toaster from '../../../src/js/containers/toaster'
 
 test('toaster container', (t) => {
   const markup = shallow(<Toaster toasts={[]} />)

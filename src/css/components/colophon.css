@@ -1,13 +1,7 @@
 .colophon {
-  @media (--medium) {
-    margin-top: 113px;
-    padding-right: 10%;
-    padding-left: 10%;
-  }
-
   @media (--large) {
-    padding-right: 20%;
-    padding-left: 20%;
+    padding-left: 0;
+    padding-right: 0;
 
     p {
       max-width: 40em;

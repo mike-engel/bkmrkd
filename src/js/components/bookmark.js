@@ -1,15 +1,20 @@
 'use strict'
 
-import React, { createClass, PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react'
 import url from 'url'
 import unescape from 'lodash.unescape'
 
-export default createClass({
-  propTypes: {
+export default class Bookmark extends Component {
+  static propTypes = {
     bookmark: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired
-  },
-  destroyBookmark: function (evt) {
+  }
+
+  constructor (props) {
+    super(props)
+  }
+
+  destroyBookmark (evt) {
     evt.preventDefault()
 
     if (typeof window !== 'undefined') {
@@ -17,8 +22,9 @@ export default createClass({
         id: this.props.bookmark.id
       })
     }
-  },
-  getTimeString: function () {
+  }
+
+  getTimeString () {
     const months = {
       0: 'January',
       1: 'February',
@@ -39,8 +45,9 @@ export default createClass({
     const year = date.getFullYear()
 
     return `${month} ${day}, ${year}`
-  },
-  getWebsite: function () {
+  }
+
+  getWebsite () {
     const bookmarkURL = this.props.bookmark.url
 
     let rootUrl = bookmarkURL
@@ -50,8 +57,9 @@ export default createClass({
       name: name,
       url: rootUrl
     }
-  },
-  render: function () {
+  }
+
+  render () {
     return (
       <li>
         <a href={this.props.bookmark.url} target='_blank'>
@@ -63,4 +71,4 @@ export default createClass({
       </li>
     )
   }
-})
+}

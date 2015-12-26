@@ -1,6 +1,6 @@
 import test from 'tape'
-import { addBookmark, addToast, changePage, destroyBookmark, endOfBookmarks, requestLoading, requestFinished, updateBookmarks } from '../../src/js/helpers/actions'
-import { ADD_BOOKMARK, ADD_TOAST, CHANGE_PAGE, DESTROY_BOOKMARK, END_OF_BOOKMARKS, REQUEST_LOADING, REQUEST_FINISHED, UPDATE_BOOKMARKS } from '../../src/js/helpers/actionTypes'
+import { addBookmark, addToast, changePage, destroyBookmark, endOfBookmarks, requestLoading, requestFinished, setSearchTerm, updateBookmarks } from '../../../src/js/helpers/actions'
+import { ADD_BOOKMARK, ADD_TOAST, CHANGE_PAGE, DESTROY_BOOKMARK, END_OF_BOOKMARKS, REQUEST_LOADING, REQUEST_FINISHED, SEARCH_TERM, UPDATE_BOOKMARKS } from '../../../src/js/helpers/actionTypes'
 
 test('addBookmark action', (t) => {
   const bookmark = {
@@ -78,6 +78,16 @@ test('requestFinished action', (t) => {
   t.ok(response, 'It returns something')
   t.equal(typeof response, 'object', 'It returns an object')
   t.equal(response.type, REQUEST_FINISHED, 'It returns a type of REQUEST_FINISHED')
+  t.end()
+})
+
+test('setSearchTerm action', (t) => {
+  const response = setSearchTerm('test')
+
+  t.ok(response, 'It returns something')
+  t.equal(typeof response, 'object', 'It returns an object')
+  t.equal(response.type, SEARCH_TERM, 'It returns a type of SEARCH_TERM')
+  t.equal(response.term, 'test', 'It returns the search term with the term key')
   t.end()
 })
 

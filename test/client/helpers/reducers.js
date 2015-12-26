@@ -1,7 +1,7 @@
 import test from 'tape'
-import { bookmarks, endOfBookmarks, networkState, page, toaster } from '../../src/js/helpers/reducers'
-import { addBookmark, addToast, changePage, destroyBookmark, endOfBookmarks as endOfBookmarksAction, requestLoading, requestFinished, updateBookmarks } from '../../src/js/helpers/actions'
-import { REQUEST_LOADING } from '../../src/js/helpers/actionTypes'
+import { bookmarks, endOfBookmarks, networkState, page, searchTerm, toaster } from '../../../src/js/helpers/reducers'
+import { addBookmark, addToast, changePage, destroyBookmark, endOfBookmarks as endOfBookmarksAction, requestLoading, requestFinished, setSearchTerm, updateBookmarks } from '../../../src/js/helpers/actions'
+import { REQUEST_LOADING } from '../../../src/js/helpers/actionTypes'
 import { combineReducers, createStore } from 'redux'
 
 const reducers = combineReducers({
@@ -9,6 +9,7 @@ const reducers = combineReducers({
   endOfBookmarks,
   networkState,
   page,
+  searchTerm,
   toaster
 })
 const store = createStore(reducers, {
@@ -16,6 +17,7 @@ const store = createStore(reducers, {
   endOfBookmarks: false,
   networkState: '',
   toaster: [],
+  searchTerm: '',
   page: 1
 })
 
@@ -68,6 +70,19 @@ test('networkState reducer', (t) => {
   store.dispatch(requestFinished())
 
   t.equal(store.getState().networkState, '', 'It updates the network state upon finish')
+  t.end()
+})
+
+test('searchTerm reducer', (t) => {
+  t.equal(typeof store.getState().searchTerm, 'string', 'It has an initial state of string')
+
+  store.dispatch(setSearchTerm('test'))
+
+  t.equal(store.getState().searchTerm, 'test', 'It sets the search term when dispatched')
+
+  store.dispatch(setSearchTerm(''))
+
+  t.equal(store.getState().searchTerm, '', 'It sets the search term subsequent times when dispatched')
   t.end()
 })
 

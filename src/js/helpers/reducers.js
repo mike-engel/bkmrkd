@@ -1,4 +1,4 @@
-import { ADD_BOOKMARK, ADD_TOAST, CHANGE_PAGE, DESTROY_BOOKMARK, END_OF_BOOKMARKS, REQUEST_LOADING, REQUEST_FINISHED, UPDATE_BOOKMARKS } from './actionTypes'
+import { ADD_BOOKMARK, ADD_TOAST, CHANGE_PAGE, DESTROY_BOOKMARK, END_OF_BOOKMARKS, REQUEST_LOADING, REQUEST_FINISHED, SEARCH_TERM, UPDATE_BOOKMARKS } from './actionTypes'
 
 export function bookmarks (state = [], action) {
   switch (action.type) {
@@ -55,6 +55,15 @@ export function page (state = 1, action) {
   switch (action.type) {
     case CHANGE_PAGE:
       return action.page
+    default:
+      return state
+  }
+}
+
+export function searchTerm (state = '', action) {
+  switch (action.type) {
+    case SEARCH_TERM:
+      return action.term
     default:
       return state
   }

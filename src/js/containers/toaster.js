@@ -1,17 +1,18 @@
-import React, { createClass, PropTypes } from 'react'
+import React, { PropTypes } from 'react'
 import Toast from '../components/toast'
 
-export default createClass({
-  propTypes: {
-    toasts: PropTypes.array.isRequired
-  },
-  render: function () {
-    return (
-      <div className='toaster'>
-        {this.props.toasts.map((data, idx) => {
-          return <Toast key={idx} data={data} />
-        })}
-      </div>
-    )
-  }
-})
+export function Toaster (props) {
+  return (
+    <div className='toaster'>
+      {props.toasts.map((data, idx) => {
+        return <Toast key={idx} data={data} />
+      })}
+    </div>
+  )
+}
+
+Toaster.propTypes = {
+  toasts: PropTypes.array.isRequired
+}
+
+export default Toaster
