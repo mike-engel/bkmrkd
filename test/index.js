@@ -1,3 +1,7 @@
+import './server/helpers/config'
+import './server/helpers/createStore'
+import './server/routes/main'
+
 import './client/main'
 import './client/helpers/actions'
 import './client/helpers/reducers'
