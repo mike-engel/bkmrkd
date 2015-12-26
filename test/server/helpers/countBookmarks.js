@@ -8,7 +8,7 @@ test('countBookmarks helper', (t) => {
 
   setTimeout(() => {
     countBookmarks((count) => {
-      t.ok(count, 'It provides a bookmark count')
+      t.equal(typeof count, 'number', 'It provides a bookmark count')
 
       bookmarks.insert({
         title: 'test',
