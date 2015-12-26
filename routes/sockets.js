@@ -17,6 +17,10 @@ export default function (server) {
         })
       }
 
+      socket.on('disconnect', () => {
+        cursor.close()
+      })
+
       cursor.each((err, bookmark) => {
         if (err) {
           console.error('Error getting the bookmarks: ', err)
@@ -36,6 +40,11 @@ export default function (server) {
             bookmark: bookmark['new_val']
           })
         }
+      })
+
+      cursor.on('error', (err) => {
+        console.error(err)
+        process.exit(1)
       })
     })
 

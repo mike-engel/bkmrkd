@@ -12,7 +12,7 @@ test('error routes', (t) => {
   app.get('/error', (req, res, next) => {
     res.status(500)
 
-    next('Server error')
+    next('Mock server error')
   })
 
   errorRoutes(app)

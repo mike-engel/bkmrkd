@@ -1,8 +1,14 @@
+import test from 'tape'
+import { connection } from '../config/rethinkdb'
+
 import './server/helpers/config'
 import './server/helpers/createStore'
 import './server/helpers/renderApp'
+import './server/config/rethinkdb'
 import './server/routes/errors'
-// import './server/routes/main'
+import './server/routes/main'
+import './server/routes/search'
+import './server/routes/sockets'
 
 import './client/main'
 import './client/helpers/actions'
@@ -17,3 +23,10 @@ import './client/components/bookmark'
 import './client/components/bookmarks'
 import './client/components/searchForm'
 import './client/components/search'
+
+test.onFinish(() => {
+  // give time for the socket to close out
+  setTimeout(() => {
+    connection.close()
+  }, 1000)
+})

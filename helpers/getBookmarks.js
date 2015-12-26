@@ -6,6 +6,7 @@ export default function (pageNumber, limit, cb) {
     index: rethink.desc('createdOn')
   }).skip(limit * (pageNumber - 1)).limit(limit).run(connection, (err, cursor) => {
     if (err) {
+      console.error('Error getting the initial list of bookmarks: ', err)
       return cb({
         error: err,
         message: 'There\'s been an error getting the initial list of bookmarks.'

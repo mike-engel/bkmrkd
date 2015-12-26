@@ -2,18 +2,18 @@ import test from 'tape'
 import request from 'supertest'
 import express from 'express'
 import appConfig from '../../../config/app'
-import { mainRouter } from '../../../routes/main'
+import { searchRouter } from '../../../routes/search'
 
-test('main router', (t) => {
+test('search router', (t) => {
   const app = express()
 
   appConfig(app)
-  app.use('/', mainRouter)
+  app.use('/search', searchRouter)
 
   t.plan(2)
 
   setTimeout(() => {
-    request(app).get('/')
+    request(app).get('/search?term=2')
       .expect(200)
       .expect((res) => {
         t.ok(/<!doctype html>/i.test(res.text), 'It sends an HTML document back')

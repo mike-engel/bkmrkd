@@ -4,6 +4,7 @@ import config, { args } from '../helpers/config'
 const env = process.env.NODE_ENV || 'development'
 const rethinkdbHost = config[env].rethinkdbHost || args.rethinkdbHost || 'localhost'
 const rethinkdbPort = config[env].rethinkdbPort || args.rethinkdbPort || 28015
+const rethinkdbName = config[env].rethinkdbName || args.rethinkdbName || 'bkmrkd_development'
 
 export let connection
 export let bkmrkd
@@ -15,8 +16,8 @@ function createDatabase () {
       throw new Error('Error getting the list of databases: ', err)
     }
 
-    if (dbs.indexOf('bkmrkd') === -1) {
-      rethink.dbCreate('bkmrkd').run(connection, (err, response) => {
+    if (dbs.indexOf(rethinkdbName) === -1) {
+      rethink.dbCreate(rethinkdbName).run(connection, (err, response) => {
         if (err) {
           throw new Error('Error creating the bkmrkd database: ', err)
         }
@@ -25,7 +26,7 @@ function createDatabase () {
       })
     }
 
-    bkmrkd = rethink.db('bkmrkd')
+    bkmrkd = rethink.db(rethinkdbName)
 
     createTable()
   })
