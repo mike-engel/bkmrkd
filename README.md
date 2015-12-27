@@ -51,8 +51,10 @@ npm run stage:restart
 npm run stage:stop
 
 # for production daemonized with pm2
-npm run prod
-npm run prod:restart
+# unless you put your SSL certs in the `ssl` directory
+# you'll want to provide the path with an env variable
+BKMRKD_CONFIG_PATH=/path/to/config/file npm run prod
+BKMRKD_CONFIG_PATH=/path/to/config/file npm run prod:restart
 npm run prod:stop
 ```
 
