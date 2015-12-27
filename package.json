@@ -4,7 +4,7 @@
   "description": "A simple self-hosted bookmark manager written in javascript",
   "main": "server.js",
   "scripts": {
-    "test": "NODE_ENV=stage babel-node ./migrations/nameChange.js && standard && TZ=Americas/Denver NODE_ENV=stage babel-node test/index.js | tap-spec",
+    "test": "NODE_ENV=stage babel-node ./migrations/nameChange.js && npm run compile:minify && standard && TZ=Americas/Denver NODE_ENV=stage babel-node test/index.js | tap-spec",
     "start": "NODE_ENV=development babel-node ./migrations/nameChange.js && babel-node server.js",
     "stage": "NODE_ENV=stage babel-node ./migrations/nameChange.js && NODE_ENV=stage pm2 start ./tmp/server.js --name bkmrkd",
     "stage:restart": "NODE_ENV=stage pm2 restart bkmrkdStage",
@@ -12,6 +12,7 @@
     "prod": "NODE_ENV=production babel-node ./migrations/nameChange.js && NODE_ENV=production pm2 start ./tmp/server.js --name bkmrkdProd",
     "prod:restart": "NODE_ENV=production pm2 restart bkmrkdProd",
     "prod:stop": "NODE_ENV=production pm2 stop bkmrkdProd",
+    "compile:minify": "uglifyjs ./dist/js/main.js -o ./dist/js/main.min.js",
     "compile:server": "babel ./server.js --out-file ./tmp/server.js",
     "compile:helpers": "babel ./helpers --out-dir ./tmp/helpers",
     "compile:src": "babel ./src/js --out-dir ./tmp/src/js",

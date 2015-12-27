@@ -36,7 +36,8 @@ searchRouter.route('/')
         if (appMarkup) {
           return res.render('index', {
             app: appMarkup,
-            initialState: store.getState()
+            initialState: store.getState(),
+            env: process.env.NODE_ENV || 'development'
           })
         } else {
           console.error('TODO: Page not found, handle this.')

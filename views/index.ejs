@@ -20,6 +20,6 @@
     <p class="no-js">Just so you know, you have javascript turned off. You won't receive updates until you turn javascript on and refresh</p>
   </noscript>
   <div data-hook="app"><%- app %></div>
-  <script src="/js/main.js"></script>
+  <script src="/js/<%= env === 'production' ? 'main.min.js' : 'main.js' %>"></script>
 </body>
 </html>

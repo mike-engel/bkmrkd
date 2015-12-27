@@ -4,6 +4,7 @@ module.exports={
     "port": 3000,
     "rethinkdbHost": "localhost",
     "rethinkdbPort": 28015,
+    "rethinkdbName": "bkmrkd_development",
     "snippetHost": "https://localhost:3000",
     "cert": "./ssl/server.crt",
     "certKey": "./ssl/server.key",
@@ -13,6 +14,7 @@ module.exports={
     "port": 3000,
     "rethinkdbHost": "localhost",
     "rethinkdbPort": 28015,
+    "rethinkdbName": "bkmrkd_stage",
     "snippetHost": "https://bkmrkd.com",
     "cert": "./ssl/server.crt",
     "certKey": "./ssl/server.key",
@@ -22,6 +24,7 @@ module.exports={
     "port": 3000,
     "rethinkdbHost": "localhost",
     "rethinkdbPort": 28015,
+    "rethinkdbName": "bkmrkd_production",
     "snippetHost": "https://bkmrkd.com",
     "cert": "./ssl/server.crt",
     "certKey": "./ssl/server.key",
@@ -59,9 +62,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var args = exports.args = (0, _subarg2.default)(process.argv.slice(2));
 
 function readConfig() {
-  return _fs2.default.readFileSync(_path2.default.resolve(process.cwd(), args.c || args.config || process.env.BKMRKD_CONFIG_PATH), {
+  return JSON.parse(_fs2.default.readFileSync(_path2.default.resolve(process.cwd(), args.c || args.config || process.env.BKMRKD_CONFIG_PATH), {
     encoding: 'utf8'
-  });
+  }));
 }
 
 exports.default = args.c || args.config || process.env.BKMRKD_CONFIG_PATH ? readConfig() : _environments2.default;
