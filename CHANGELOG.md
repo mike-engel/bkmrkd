@@ -1,3 +1,7 @@
+# 2.4.2
+
+- Adds missing uglify-js dependency
+
 # 2.4.1
 
 - Fix run-scripts to run the correct file
