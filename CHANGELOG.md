@@ -1,3 +1,9 @@
+# 2.4.1
+
+- Fix run-scripts to run the correct file
+- Fix config helper to return JSON and not a string
+- Add minified files for use in production
+
 # 2.4.0
 
 - Split the server file into separate modules
