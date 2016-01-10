@@ -67,7 +67,7 @@ export default class Bookmark extends Component {
         </a>
         <span className='date'>{this.getTimeString()}</span>
         <a href={this.getWebsite().url} target='_blank' className='website'>{this.getWebsite().name}</a>
-        <a href={'/api/destroy/' + this.props.bookmark.id} onClick={this.destroyBookmark} className='destroy'>destroy</a>
+        <a href={'/api/destroy/' + this.props.bookmark.id} onClick={this.destroyBookmark.bind(this)} className='destroy'>destroy</a>
       </li>
     )
   };

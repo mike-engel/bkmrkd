@@ -33,6 +33,7 @@ export default gulp.task('scripts', () => {
   })
   b.plugin('brfs')
   b.plugin('bundle-collapser/plugin')
+  b.exclude('ws')
 
   b.bundle()
     .on('error', handleError)
