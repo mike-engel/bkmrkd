@@ -14,11 +14,11 @@ export class Bookmarks extends Component {
     networkState: PropTypes.string.isRequired,
     page: PropTypes.number.isRequired,
     endOfBookmarks: PropTypes.bool.isRequired
-  }
+  };
 
   constructor (props) {
     super(props)
-  }
+  };
 
   getMoreBookmarks (evt) {
     if (this.props.networkState !== REQUEST_LOADING) {
@@ -52,7 +52,7 @@ export class Bookmarks extends Component {
         })
       }
     }
-  }
+  };
 
   pagination () {
     return (
@@ -69,20 +69,20 @@ export class Bookmarks extends Component {
           data-hook='next'>Next &#x276f;</Link>
       </div>
     )
-  }
+  };
 
   componentDidUpdate () {
     document.documentElement.scrollTop = 0
     document.body.scrollTop = 0
-  }
+  };
 
   componentWillMount () {
     this.getMoreBookmarks()
-  }
+  };
 
   componentWillUnmount () {
     this.props.dispatch(changePage(1))
-  }
+  };
 
   render () {
     if (typeof window !== 'undefined') {
@@ -124,7 +124,7 @@ export class Bookmarks extends Component {
         </section>
       )
     }
-  }
+  };
 }
 
 export default connect((state) => {

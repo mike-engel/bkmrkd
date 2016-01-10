@@ -3,11 +3,11 @@ import React, { Component, PropTypes } from 'react'
 export default class Toast extends Component {
   static propTypes = {
     data: PropTypes.object.isRequired
-  }
+  };
 
   constructor (props) {
     super(props)
-  }
+  };
 
   render () {
     return (
@@ -15,5 +15,5 @@ export default class Toast extends Component {
         <p className='toast__message'>{this.props.data.message}</p>
       </div>
     )
-  }
+  };
 }

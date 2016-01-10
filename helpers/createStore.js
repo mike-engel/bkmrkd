@@ -3,6 +3,7 @@ import { routerStateReducer } from 'redux-router'
 import { reduxReactRouter } from 'redux-router/server'
 import { bookmarks, endOfBookmarks, networkState, page, searchTerm, toaster } from '../src/js/helpers/reducers'
 import bkmrkdRoutes from '../src/js/main'
+import history from '../src/js/helpers/history'
 
 export default function (initialState) {
   const reducer = combineReducers({
@@ -17,7 +18,8 @@ export default function (initialState) {
 
   return compose(
     reduxReactRouter({
-      routes: bkmrkdRoutes
+      routes: bkmrkdRoutes,
+      createHistory: history
     })
   )(createStore)(reducer, initialState)
 }

@@ -6,11 +6,11 @@ export class SearchForm extends Component {
     dispatch: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
     searchTerm: PropTypes.string
-  }
+  };
 
   constructor (props) {
     super(props)
-  }
+  };
 
   handleSubmit (evt) {
     evt.preventDefault()
@@ -20,7 +20,7 @@ export class SearchForm extends Component {
     this.props.dispatch(setSearchTerm(term))
 
     this.props.history.push(`/search?term=${term}`)
-  }
+  };
 
   render () {
     return (
@@ -33,5 +33,5 @@ export class SearchForm extends Component {
         <input type='search' name='term' id='search-term' placeholder={this.props.searchTerm || 'search'} />
       </form>
     )
-  }
+  };
 }

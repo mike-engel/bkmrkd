@@ -8,11 +8,11 @@ export default class Bookmark extends Component {
   static propTypes = {
     bookmark: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired
-  }
+  };
 
   constructor (props) {
     super(props)
-  }
+  };
 
   destroyBookmark (evt) {
     evt.preventDefault()
@@ -22,7 +22,7 @@ export default class Bookmark extends Component {
         id: this.props.bookmark.id
       })
     }
-  }
+  };
 
   getTimeString () {
     const months = {
@@ -45,7 +45,7 @@ export default class Bookmark extends Component {
     const year = date.getFullYear()
 
     return `${month} ${day}, ${year}`
-  }
+  };
 
   getWebsite () {
     const bookmarkURL = this.props.bookmark.url
@@ -57,7 +57,7 @@ export default class Bookmark extends Component {
       name: name,
       url: rootUrl
     }
-  }
+  };
 
   render () {
     return (
@@ -70,5 +70,5 @@ export default class Bookmark extends Component {
         <a href={'/api/destroy/' + this.props.bookmark.id} onClick={this.destroyBookmark} className='destroy'>destroy</a>
       </li>
     )
-  }
+  };
 }

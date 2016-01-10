@@ -11,11 +11,11 @@ export class Search extends Component {
     dispatch: PropTypes.func.isRequired,
     networkState: PropTypes.string.isRequired,
     searchTerm: PropTypes.string.isRequired
-  }
+  };
 
   constructor (props) {
     super(props)
-  }
+  };
 
   componentWillMount () {
     if (typeof window !== 'undefined') {
@@ -31,7 +31,7 @@ export class Search extends Component {
         this.props.dispatch(updateBookmarks(data.bookmarks))
       })
     }
-  }
+  };
 
   render () {
     if (this.props.bookmarks.length) {
@@ -62,7 +62,7 @@ export class Search extends Component {
         </section>
       )
     }
-  }
+  };
 }
 
 export default connect((state) => {
