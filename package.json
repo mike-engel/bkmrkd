@@ -55,7 +55,7 @@
     "body-parser": "^1.14.1",
     "compression": "^1.6.0",
     "cookie-parser": "^1.4.0",
-    "core-decorators": "^0.9.2",
+    "core-decorators": "^0.10.0",
     "ejs": "^2.3.4",
     "express": "^4.13.3",
     "helmet": "^1.0.1",
