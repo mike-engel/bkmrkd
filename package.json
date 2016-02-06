@@ -114,7 +114,7 @@
     "react-transform-hmr": "^1.0.1",
     "redux-router": "^1.0.0-beta5",
     "sinon": "^1.17.2",
-    "standard": "^5.4.1",
+    "standard": "^6.0.0",
     "stylelint": "^4.0.0",
     "supertest": "^1.1.0",
     "tap-spec": "^4.1.1",
