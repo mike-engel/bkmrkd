@@ -13,10 +13,6 @@ export class Search extends Component {
     searchTerm: PropTypes.string.isRequired
   };
 
-  constructor (props) {
-    super(props)
-  };
-
   componentWillMount () {
     if (typeof window !== 'undefined') {
       this.props.dispatch(requestLoading())

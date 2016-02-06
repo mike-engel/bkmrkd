@@ -8,10 +8,6 @@ export class SearchForm extends Component {
     searchTerm: PropTypes.string
   };
 
-  constructor (props) {
-    super(props)
-  };
-
   handleSubmit (evt) {
     evt.preventDefault()
 

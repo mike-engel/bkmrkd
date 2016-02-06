@@ -68,7 +68,7 @@
     "react": "^0.14.6",
     "react-dom": "^0.14.6",
     "react-redux": "^4.2.0",
-    "react-router": "^1.0.3",
+    "react-router": "^2.0.0-rc6",
     "redux": "^3.2.1",
     "rethinkdb": "^2.2.0",
     "socket.io": "^1.4.3",

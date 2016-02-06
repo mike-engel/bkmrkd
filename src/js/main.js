@@ -94,14 +94,14 @@ if (typeof window !== 'undefined') {
     }))
   })
 
-  window.app.socket.on('error', data => {
+  window.app.socket.on('error', (data) => {
     store.dispatch(addToast({
       message: `Socket error: ${data.message}`,
       style: 'error'
     }))
   })
 
-  render(<Provider store={store}><Router history={history}>{ routes }</Router></Provider>, document.body.querySelector('[data-hook="app"]'))
+  render(<Provider store={store}><Router history={history}>{routes}</Router></Provider>, document.body.querySelector('[data-hook="app"]'))
 }
 
 export default routes

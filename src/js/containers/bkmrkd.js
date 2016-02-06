@@ -20,7 +20,7 @@ export function Bkmrkd (props) {
           </ul>
         </nav>
       </header>
-      { props.children }
+      {props.children}
     </div>
   )
 }
