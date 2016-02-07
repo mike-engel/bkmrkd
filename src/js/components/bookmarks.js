@@ -57,14 +57,16 @@ export class Bookmarks extends Component {
           className={this.props.page === 1 ? 'pagination__link disabled' : 'pagination__link'}
           onClick={this.props.page === 1 ? () => {} : this.getMoreBookmarks}
           disabled={this.props.page === 1}
-          data-hook='previous'>
+          data-hook='previous'
+        >
           &#x276e; Previous
         </Link>
         <Link to={this.props.endOfBookmarks ? 'javascript:void(0)' : `/?page=${this.props.page + 1}`}
           className={this.props.endOfBookmarks ? 'pagination__link disabled' : 'pagination__link'}
           onClick={this.props.endOfBookmarks ? () => {} : this.getMoreBookmarks}
           disabled={this.props.endOfBookmarks}
-          data-hook='next'>
+          data-hook='next'
+        >
           Next &#x276f;
         </Link>
       </div>

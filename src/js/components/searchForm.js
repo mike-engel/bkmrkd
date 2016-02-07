@@ -24,7 +24,8 @@ export class SearchForm extends Component {
         action='search'
         method='GET'
         role='form'
-        onSubmit={this.handleSubmit.bind(this)}>
+        onSubmit={this.handleSubmit.bind(this)}
+      >
         <label htmlFor='search-term'>Search</label>
         <input type='search' name='term' id='search-term' placeholder={this.props.searchTerm || 'search'} />
       </form>
