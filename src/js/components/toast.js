@@ -5,10 +5,6 @@ export default class Toast extends Component {
     data: PropTypes.object.isRequired
   };
 
-  constructor (props) {
-    super(props)
-  };
-
   render () {
     return (
       <div className={`toast toast--${this.props.data.style}`}>

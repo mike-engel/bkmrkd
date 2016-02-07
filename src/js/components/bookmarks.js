@@ -16,10 +16,6 @@ export class Bookmarks extends Component {
     endOfBookmarks: PropTypes.bool.isRequired
   };
 
-  constructor (props) {
-    super(props)
-  };
-
   getMoreBookmarks (evt) {
     if (this.props.networkState !== REQUEST_LOADING) {
       let action
@@ -61,12 +57,18 @@ export class Bookmarks extends Component {
           className={this.props.page === 1 ? 'pagination__link disabled' : 'pagination__link'}
           onClick={this.props.page === 1 ? () => {} : this.getMoreBookmarks}
           disabled={this.props.page === 1}
-          data-hook='previous'>&#x276e; Previous</Link>
+          data-hook='previous'
+        >
+          &#x276e; Previous
+        </Link>
         <Link to={this.props.endOfBookmarks ? 'javascript:void(0)' : `/?page=${this.props.page + 1}`}
           className={this.props.endOfBookmarks ? 'pagination__link disabled' : 'pagination__link'}
           onClick={this.props.endOfBookmarks ? () => {} : this.getMoreBookmarks}
           disabled={this.props.endOfBookmarks}
-          data-hook='next'>Next &#x276f;</Link>
+          data-hook='next'
+        >
+          Next &#x276f;
+        </Link>
       </div>
     )
   };
@@ -86,7 +88,7 @@ export class Bookmarks extends Component {
 
   render () {
     if (typeof window !== 'undefined') {
-      window.app.socket.on('new-bookmark', data => {
+      window.app.socket.on('new-bookmark', (data) => {
         this.props.dispatch(addBookmark(data.bookmark))
       })
 

@@ -11,7 +11,8 @@ export function Bkmrkd (props) {
         <h1 className='h1'>bkmrkd</h1>
         <SearchForm dispatch={props.dispatch}
           history={props.history}
-          searchTerm={props.searchTerm} />
+          searchTerm={props.searchTerm}
+        />
         <nav>
           <ul>
             <li><IndexLink to='/' activeClassName='active'>bkmrkd</IndexLink></li>
@@ -20,7 +21,7 @@ export function Bkmrkd (props) {
           </ul>
         </nav>
       </header>
-      { props.children }
+      {props.children}
     </div>
   )
 }

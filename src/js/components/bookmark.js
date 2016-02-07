@@ -10,10 +10,6 @@ export default class Bookmark extends Component {
     dispatch: PropTypes.func.isRequired
   };
 
-  constructor (props) {
-    super(props)
-  };
-
   destroyBookmark (evt) {
     evt.preventDefault()
 
