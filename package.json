@@ -93,6 +93,7 @@
     "cssnano": "^3.4.0",
     "cssnext": "^1.8.4",
     "enzyme": "^1.1.0",
+    "eslint-config-standard-jsx": "^1.1.0",
     "gulp": "^3.9.0",
     "gulp-csslint": "^0.2.0",
     "gulp-cssmin": "^0.1.7",
