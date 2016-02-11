@@ -92,7 +92,7 @@
     "css-mqpacker": "^4.0.0",
     "cssnano": "^3.4.0",
     "cssnext": "^1.8.4",
-    "enzyme": "^1.1.0",
+    "enzyme": "^2.0.0",
     "eslint-config-standard": "^5.1.0",
     "eslint-config-standard-jsx": "^1.1.0",
     "gulp": "^3.9.0",
