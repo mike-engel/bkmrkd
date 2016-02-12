@@ -1,3 +1,19 @@
+::-moz-placeholder {
+  color: var(--halfWhite)
+}
+
+::-webkit-input-placeholder {
+  color: var(--halfWhite)
+}
+
+:-ms-input-placeholder {
+  color: var(--halfWhite)
+}
+
+:placeholder-shown {
+  color: var(--halfWhite)
+}
+
 .search-form {
   @media (--medium) {
     float: right;

@@ -3,10 +3,9 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
-import { IndexRoute, Route, Router } from 'react-router'
+import { IndexRoute, Route, Router, browserHistory } from 'react-router'
 import { combineReducers, compose, createStore } from 'redux'
 import { reduxReactRouter, routerStateReducer } from 'redux-router'
-import history from './helpers/history'
 import { bookmarks, endOfBookmarks, networkState, page, searchTerm, toaster } from './helpers/reducers'
 import { createHistory } from 'history'
 import io from 'socket.io-client'
@@ -101,7 +100,7 @@ if (typeof window !== 'undefined') {
     }))
   })
 
-  render(<Provider store={store}><Router history={history}>{routes}</Router></Provider>, document.body.querySelector('[data-hook="app"]'))
+  render(<Provider store={store}><Router history={browserHistory}>{routes}</Router></Provider>, document.body.querySelector('[data-hook="app"]'))
 }
 
 export default routes
