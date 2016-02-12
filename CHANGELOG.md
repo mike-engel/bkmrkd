@@ -1,3 +1,20 @@
+# 2.4.6
+
+- Update react-router
+- Apply placeholder styles to all browsers that support it
+
+# 2.4.5
+
+- Update postcss-import
+
+# 2.4.4
+
+- Update PM2
+
+# 2.4.3
+
+- Update dependencies
+
 # 2.4.2
 
 - Adds missing uglify-js dependency
