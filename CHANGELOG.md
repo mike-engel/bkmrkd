@@ -1,3 +1,7 @@
+# 2.4.7
+
+- Dependency updates
+
 # 2.4.6
 
 - Update react-router
