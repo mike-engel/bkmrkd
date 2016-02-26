@@ -1,0 +1,13 @@
+ignore: {}
+patch:
+  'npm:hawk:20160119':
+    - 'pm2 > chokidar > fsevents > node-pre-gyp > request > hawk':
+        patched: '2016-02-26T05:49:16.134Z'
+    - 'babel-cli > chokidar > fsevents > node-pre-gyp > request > hawk':
+        patched: '2016-02-26T05:49:16.134Z'
+  'npm:is-my-json-valid:20160118':
+    - 'pm2 > chokidar > fsevents > node-pre-gyp > request > har-validator > is-my-json-valid':
+        patched: '2016-02-26T05:49:16.134Z'
+    - 'babel-cli > chokidar > fsevents > node-pre-gyp > request > har-validator > is-my-json-valid':
+        patched: '2016-02-26T05:49:16.134Z'
+version: v1

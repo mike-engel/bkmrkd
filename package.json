@@ -4,7 +4,7 @@
   "description": "A simple self-hosted bookmark manager written in javascript",
   "main": "server.js",
   "scripts": {
-    "test": "NODE_ENV=stage babel-node ./migrations/nameChange.js && npm run compile:minify && standard && TZ=Americas/Denver NODE_ENV=stage babel-node test/index.js | tap-spec",
+    "test": "snyk test && NODE_ENV=stage babel-node ./migrations/nameChange.js && npm run compile:minify && standard && TZ=Americas/Denver NODE_ENV=stage babel-node test/index.js | tap-spec",
     "start": "NODE_ENV=development babel-node ./migrations/nameChange.js && babel-node server.js",
     "stage": "NODE_ENV=stage babel-node ./migrations/nameChange.js && NODE_ENV=stage pm2 start ./tmp/server.js --name bkmrkd",
     "stage:restart": "NODE_ENV=stage pm2 restart bkmrkdStage",
@@ -20,7 +20,9 @@
     "compile:routes": "babel ./routes --out-dir ./tmp/routes",
     "createDirectories": "mkdir -p ./tmp &&mkdir -p ./tmp/config &&mkdir -p ./tmp/helpers &&mkdir -p ./tmp/routes",
     "copy:config": "cp ./config/environments.json ./tmp/config/environments.json",
-    "postinstall": "npm run createDirectories && npm run copy:config && npm run compile:helpers && npm run compile:config && npm run compile:server && npm run compile:src && npm run compile:routes"
+    "postinstall": "npm run createDirectories && npm run copy:config && npm run compile:helpers && npm run compile:config && npm run compile:server && npm run compile:src && npm run compile:routes",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "bin": {
     "bkmrkd": "./bin/cmd.js"
@@ -64,13 +66,14 @@
     "http2": "^3.2.0",
     "lodash.escape": "^4.0.0",
     "lodash.unescape": "^4.0.0",
-    "pm2": "^1.0.0",
+    "pm2": "^1.0.1",
     "react": "^0.14.6",
     "react-dom": "^0.14.6",
     "react-redux": "^4.2.0",
     "react-router": "^2.0.0",
     "redux": "^3.2.1",
     "rethinkdb": "^2.2.0",
+    "snyk": "^1.11.1",
     "socket.io": "^1.4.3",
     "socket.io-client": "^1.4.3",
     "spdy": "^3.0.0",
@@ -133,5 +136,6 @@
     "ignore": [
       "dist/**/*"
     ]
-  }
+  },
+  "snyk": true
 }
