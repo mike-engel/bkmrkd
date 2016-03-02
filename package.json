@@ -21,8 +21,7 @@
     "createDirectories": "mkdir -p ./tmp &&mkdir -p ./tmp/config &&mkdir -p ./tmp/helpers &&mkdir -p ./tmp/routes",
     "copy:config": "cp ./config/environments.json ./tmp/config/environments.json",
     "postinstall": "npm run createDirectories && npm run copy:config && npm run compile:helpers && npm run compile:config && npm run compile:server && npm run compile:src && npm run compile:routes",
-    "snyk-protect": "snyk protect",
-    "prepublish": "npm run snyk-protect"
+    "snyk-protect": "snyk protect"
   },
   "bin": {
     "bkmrkd": "./bin/cmd.js"
