@@ -1,3 +1,5 @@
+os:
+  - linux
 language: node_js
 node_js:
   - node
@@ -11,3 +13,11 @@ before_install:
   - rethinkdb --daemon
   - sudo pip install backports.ssl_match_hostname rethinkdb
   - rethinkdb import -d ./test/seeds/rethinkData
+  - export CXX=g++-4.8
+sudo: true
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
