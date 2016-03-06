@@ -115,7 +115,7 @@
     "postcss-nested": "^1.0.0",
     "postcss-vmin": "^2.0.0",
     "react-addons-test-utils": "^0.14.6",
-    "react-transform-hmr": "^1.0.1",
+    "react-transform-hmr": "^1.0.3",
     "redux-router": "^1.0.0-beta5",
     "sinon": "^1.17.2",
     "standard": "^6.0.1",
