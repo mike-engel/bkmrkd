@@ -10,4 +10,9 @@ patch:
         patched: '2016-02-26T05:49:16.134Z'
     - 'babel-cli > chokidar > fsevents > node-pre-gyp > request > har-validator > is-my-json-valid':
         patched: '2016-02-26T05:49:16.134Z'
+  'npm:request:20160119':
+    - 'pm2 > chokidar > fsevents > node-pre-gyp > request':
+        patched: '2016-03-25T03:53:12.291Z'
+    - 'babel-cli > chokidar > fsevents > node-pre-gyp > request':
+        patched: '2016-03-25T03:53:12.291Z'
 version: v1
