@@ -107,7 +107,7 @@
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^1.5.1",
     "invariant": "^2.2.0",
-    "phantomjs": "^2.1.2",
+    "phantomjs-prebuilt": "^2.1.7",
     "pixrem": "^3.0.0",
     "postcss-color-rgba-fallback": "^2.0.0",
     "postcss-custom-media": "^5.0.0",
