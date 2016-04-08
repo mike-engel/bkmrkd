@@ -67,7 +67,7 @@
     "lodash.unescape": "^4.0.0",
     "pm2": "^1.0.1",
     "react": "^0.14.6",
-    "react-dom": "^0.14.6",
+    "react-dom": "^15.0.1",
     "react-redux": "^4.2.0",
     "react-router": "^2.0.0",
     "redux": "^3.2.1",
