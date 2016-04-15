@@ -69,7 +69,7 @@
     "react": "^15.0.1",
     "react-dom": "^15.0.1",
     "react-redux": "^4.2.0",
-    "react-router": "^2.0.0",
+    "react-router": "^2.2.3",
     "redux": "^3.2.1",
     "rethinkdb": "^2.2.0",
     "snyk": "^1.11.1",
