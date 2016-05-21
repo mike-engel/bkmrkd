@@ -55,7 +55,7 @@
     "babel-preset-stage-0": "^6.3.13",
     "body-parser": "^1.14.1",
     "compression": "^1.6.0",
-    "cookie-parser": "^1.4.0",
+    "cookie-parser": "^1.4.2",
     "core-decorators": "^0.12.0",
     "ejs": "^2.3.4",
     "express": "^4.13.3",
