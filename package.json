@@ -1,6 +1,6 @@
 {
   "name": "bkmrkd",
-  "version": "2.4.7",
+  "version": "2.5.0",
   "description": "A simple self-hosted bookmark manager written in javascript",
   "main": "server.js",
   "scripts": {
