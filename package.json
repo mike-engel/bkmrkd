@@ -116,7 +116,7 @@
     "postcss-vmin": "^2.0.0",
     "react-addons-test-utils": "^15.1.0",
     "react-transform-hmr": "^1.0.1",
-    "redux-router": "^1.0.0-beta5",
+    "redux-router": "^2.0.0",
     "sinon": "^1.17.2",
     "standard": "^7.0.1",
     "stylelint": "^6.0.1",
