@@ -119,7 +119,7 @@
     "redux-router": "^2.0.0",
     "sinon": "^1.17.2",
     "standard": "^7.0.1",
-    "stylelint": "^6.0.1",
+    "stylelint": "^7.0.0",
     "supertest": "^1.1.0",
     "tap-spec": "^4.1.1",
     "tape": "^4.4.0",
