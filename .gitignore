@@ -4,6 +4,5 @@ node_modules
 rethinkdb_data
 *.log
 *.orig
-/ssl/*
-!/ssl/README.md
-tmp
+.env
+npm-debug.*
