@@ -79,7 +79,7 @@
     "subarg": "^1.0.0"
   },
   "devDependencies": {
-    "autoprefixer": "^6.1.2",
+    "autoprefixer": "^6.4.1",
     "autoprefixer-core": "^6.0.1",
     "babel": "^6.1.18",
     "babel-core": "^6.4.0",
