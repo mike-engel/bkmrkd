@@ -95,7 +95,7 @@
     "cssnano": "^3.4.0",
     "cssnext": "^1.8.4",
     "enzyme": "^2.3.0",
-    "eslint-config-standard": "^6.0.0",
+    "eslint-config-standard": "^6.1.0",
     "eslint-config-standard-jsx": "^3.0.0",
     "gulp": "^3.9.0",
     "gulp-csslint": "^1.0.0",
