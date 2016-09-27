@@ -75,7 +75,7 @@
     "snyk": "^1.11.1",
     "socket.io": "^1.4.3",
     "socket.io-client": "^1.4.3",
-    "spdy": "^3.0.0",
+    "spdy": "^3.2.1",
     "subarg": "^1.0.0"
   },
   "devDependencies": {
