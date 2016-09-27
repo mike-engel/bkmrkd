@@ -111,7 +111,7 @@
     "pixrem": "^3.0.0",
     "postcss-color-rgba-fallback": "^2.0.0",
     "postcss-custom-media": "^5.0.0",
-    "postcss-import": "^8.0.2",
+    "postcss-import": "^8.1.0",
     "postcss-nested": "^1.0.0",
     "postcss-vmin": "^2.0.0",
     "react-addons-test-utils": "^15.1.0",
