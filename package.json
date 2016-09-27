@@ -72,7 +72,7 @@
     "react-router": "^2.0.0",
     "redux": "^3.2.1",
     "rethinkdb": "^2.2.0",
-    "snyk": "^1.11.1",
+    "snyk": "^1.11.2",
     "socket.io": "^1.4.3",
     "socket.io-client": "^1.4.3",
     "spdy": "^3.0.0",
