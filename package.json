@@ -5,8 +5,11 @@
   "main": "server.js",
   "scripts": {
     "test": "standard",
-    "start": "NODE_ENV=development babel-node ./migrations/nameChange.js && babel-node server.js",
+    "start": "node server.js",
     "snyk-protect": "snyk protect"
+  },
+  "bin": {
+    "bkmrkd": "./bin/cmd.js"
   },
   "engines": {
     "node": ">= 6.x"
@@ -36,8 +39,10 @@
     "express": "^4.14.0",
     "helmet": "^2.0.0",
     "hpp": "^0.2.0",
-    "rethinkdb": "^2.2.0",
-    "snyk": "^1.11.1"
+    "ramda": "^0.22.1",
+    "rethinkdbdash": "^2.3.23",
+    "snyk": "^1.11.1",
+    "websocket": "^1.0.23"
   },
   "devDependencies": {
     "autoprefixer": "^6.1.2",
