@@ -1,8 +1,10 @@
 version: '2'
 services:
-  rethinkdb:
-    image: rethinkdb:2
+  postgres:
+    image: postgres:9.6
     ports:
-      - "8080:8080"
-      - "28015:28015"
-      - "29015:29015"
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=bkmrkd_development
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
