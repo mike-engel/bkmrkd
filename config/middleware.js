@@ -3,7 +3,7 @@ const compression = require('compression')
 const bodyParser = require('body-parser')
 const hpp = require('hpp')
 const helmet = require('helmet')
-const config = require('./index')
+const config = require('index')
 
 module.exports = function (app) {
   app.use(compression())

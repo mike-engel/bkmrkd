@@ -4,9 +4,10 @@
   "description": "A simple self-hosted bookmark manager written in javascript",
   "main": "server.js",
   "scripts": {
-    "test": "standard",
+    "test": "standard | snazzy",
     "start": "node server.js",
-    "snyk-protect": "snyk protect"
+    "migrate:up": "knex migrate:latest",
+    "migrate:down": "knex migrate:rollback"
   },
   "bin": {
     "bkmrkd": "./bin/cmd.js"
@@ -34,13 +35,15 @@
     "body-parser": "^1.14.1",
     "compression": "^1.6.0",
     "cookie-parser": "^1.4.0",
+    "dotenv": "^2.0.0",
     "ejs": "^2.3.4",
-    "envc": "^2.4.1",
     "express": "^4.14.0",
     "helmet": "^2.0.0",
     "hpp": "^0.2.0",
+    "knex": "^0.12.5",
+    "pg": "^6.1.0",
     "ramda": "^0.22.1",
-    "rethinkdbdash": "^2.3.23",
+    "rootpath": "^0.1.2",
     "snyk": "^1.11.1",
     "websocket": "^1.0.23"
   },
@@ -60,6 +63,7 @@
     "postcss-nested": "^1.0.0",
     "postcss-vmin": "^2.0.0",
     "sinon": "^1.17.2",
+    "snazzy": "^5.0.0",
     "standard": "^7.0.1",
     "stylelint": "^6.5.1",
     "supertest": "^1.1.0"
