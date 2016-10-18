@@ -71,6 +71,9 @@ docker-compose up -d
 
 # start the server in development mode
 npm start
+
+# create the test database
+createdb -h localhost -p 5432 -U postgres bkmrkd_test
 ```
 
 # contributing

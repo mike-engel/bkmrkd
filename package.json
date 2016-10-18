@@ -7,8 +7,8 @@
     "test": "npm run test:lint; npm run test:unit",
     "test:coverage": "nyc npm run test:unit",
     "test:lint": "standard | snazzy",
-    "test:unit": "mocha --require ./config/tests --recursive server/**/*.test.js",
-    "start": "node server.js",
+    "test:unit": "DB_NAME=bkmrkd_test mocha --require ./config/tests --recursive server/*.test.js server/**/*.test.js",
+    "start": "node index.js",
     "migrate:up": "knex migrate:latest",
     "migrate:down": "knex migrate:rollback"
   },
@@ -75,9 +75,18 @@
       "src"
     ],
     "globals": [
+      "after",
+      "afterEach",
       "describe",
       "expect",
       "it"
+    ]
+  },
+  "nyc": {
+    "exclude": [
+      "config",
+      "node_modules",
+      "**/*.test.js"
     ]
   },
   "snyk": false

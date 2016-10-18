@@ -3,7 +3,7 @@ const compression = require('compression')
 const bodyParser = require('body-parser')
 const hpp = require('hpp')
 const helmet = require('helmet')
-const config = require('index')
+const config = require('config')
 
 module.exports = function (app) {
   app.use(compression())
@@ -11,6 +11,7 @@ module.exports = function (app) {
     maxAge: config.env === 'development' ? 0 : 31500000000,
     index: false
   }))
+  app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({
     extended: false
   }))

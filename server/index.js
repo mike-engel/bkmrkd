@@ -1,21 +1,19 @@
-const { apiRouter } = require('routes/api')
+const apiRouter = require('server/api')
 const configServer = require('config/server')
 const configMiddleware = require('config/middleware')
-const errorRoutes = require('routes/errors')
+const errorRouter = require('server/errors')
 const express = require('express')
-const { mainRouter } = require('routes/main')
-const socketRoutes = require('routes/sockets')
+// const socketRoutes = require('routes/sockets')
 
 const app = express()
 
 configServer(app)
 configMiddleware(app)
 
-app.use(/^\/|^\/colophon/, mainRouter)
+// app.use(/^\/|^\/colophon/, mainRouter)
 app.use('/api', apiRouter)
+app.use(errorRouter)
 
-socketRoutes(app)
-
-errorRoutes(app)
+// socketRoutes(app)
 
 module.exports = app

@@ -1,7 +1,7 @@
 require('rootpath')()
 
 const app = require('server')
-const { config } = require('config')
+const config = require('config')
 const { knex, config: knexConfig } = require('config/db')
 
 if (config.db.autoMigrate) {
