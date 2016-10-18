@@ -4,13 +4,13 @@
   "description": "A simple self-hosted bookmark manager written in javascript",
   "main": "server.js",
   "scripts": {
-    "test": "standard | snazzy",
+    "test": "npm run test:lint; npm run test:unit",
+    "test:coverage": "nyc npm run test:unit",
+    "test:lint": "standard | snazzy",
+    "test:unit": "mocha --require ./config/tests --recursive server/**/*.test.js",
     "start": "node server.js",
     "migrate:up": "knex migrate:latest",
     "migrate:down": "knex migrate:rollback"
-  },
-  "bin": {
-    "bkmrkd": "./bin/cmd.js"
   },
   "engines": {
     "node": ">= 6.x"
@@ -50,12 +50,14 @@
   "devDependencies": {
     "autoprefixer": "^6.1.2",
     "autoprefixer-core": "^6.0.1",
+    "chai": "^3.5.0",
     "css-mqpacker": "^5.0.1",
     "cssnano": "^3.4.0",
     "cssnext": "^1.8.4",
-    "enzyme": "^2.3.0",
     "eslint-config-standard": "^5.1.0",
     "eslint-config-standard-jsx": "^2.0.0",
+    "mocha": "^3.1.2",
+    "nyc": "^8.3.1",
     "pixrem": "^3.0.0",
     "postcss-color-rgba-fallback": "^2.0.0",
     "postcss-custom-media": "^5.0.0",
@@ -67,6 +69,16 @@
     "standard": "^7.0.1",
     "stylelint": "^6.5.1",
     "supertest": "^1.1.0"
+  },
+  "standard": {
+    "ignore": [
+      "src"
+    ],
+    "globals": [
+      "describe",
+      "expect",
+      "it"
+    ]
   },
   "snyk": false
 }
