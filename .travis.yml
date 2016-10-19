@@ -1,15 +1,28 @@
-os:
-  - linux
+sudo: required
+
+dist: trusty
+
 language: node_js
+
 node_js:
   - node
   - 6
-script: npm test
-before_script:
-  - psql -c 'create database bkmrkd_test;' -U postgres
+
+env:
+  global:
+    - DB_MIGRATE=true
+    - DB_HOST=localhost
+    - DB_NAME=bkmrkd_test
+    - DB_PORT=5432
+    - DB_USER=postgres
+    - DB_PASS= PORT=3000
+
 addons:
   postgresql: "9.5"
-services:
-  - postgresql
-env:
-  - DB_HOST=127.0.0.1 DB_NAME=bkmrkd_test DB_PORT=5432 DB_USER=postgres DB_PASS= PORT=3000
+
+script: npm test
+
+before_script:
+  - psql -c 'create database bkmrkd_test;' -U postgres
+  - cp .env.sample .env
+  - npm run migrate:up
