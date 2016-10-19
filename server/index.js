@@ -3,7 +3,8 @@ const configServer = require('config/server')
 const configMiddleware = require('config/middleware')
 const { internalErrorHandler, notFoundHandler } = require('server/errors')
 const express = require('express')
-// const socketRoutes = require('routes/sockets')
+const server = require('http').createServer()
+const { main: sockets } = require('server/sockets')
 
 const app = express()
 
@@ -15,6 +16,9 @@ app.use('/api', apiRouter)
 app.use(notFoundHandler)
 app.use(internalErrorHandler)
 
-// socketRoutes(app)
+sockets(server)
 
-module.exports = app
+module.exports = {
+  app,
+  server
+}

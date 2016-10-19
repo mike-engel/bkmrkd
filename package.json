@@ -45,7 +45,7 @@
     "ramda": "^0.22.1",
     "rootpath": "^0.1.2",
     "snyk": "^1.11.1",
-    "websocket": "^1.0.23"
+    "ws": "^1.1.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.1.2",
@@ -64,7 +64,8 @@
     "postcss-import": "^8.0.2",
     "postcss-nested": "^1.0.0",
     "postcss-vmin": "^2.0.0",
-    "sinon": "^1.17.2",
+    "sinon": "^1.17.6",
+    "sinon-chai": "^2.8.0",
     "snazzy": "^5.0.0",
     "standard": "^7.0.1",
     "stylelint": "^6.5.1",
@@ -79,7 +80,8 @@
       "afterEach",
       "describe",
       "expect",
-      "it"
+      "it",
+      "sinon"
     ]
   },
   "nyc": {

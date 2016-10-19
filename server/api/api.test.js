@@ -1,4 +1,4 @@
-const app = require('server')
+const { app } = require('server')
 const { create } = require('server/actions')
 const request = require('supertest')
 

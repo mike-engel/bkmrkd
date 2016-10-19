@@ -1,4 +1,5 @@
 const { allowedFields } = require('server/constants/bookmark')
+const { eventBus } = require('server/utils')
 const { knex } = require('config/db')
 const { pick } = require('ramda')
 
@@ -13,6 +14,8 @@ const create = (data) => {
       .returning(allowedFields)
       .insert(bookmark)
       .then((newBookmarks) => {
+        eventBus.emit('bookmark.created', newBookmarks[0])
+
         resolve(newBookmarks[0])
       })
       .catch(reject)
@@ -25,9 +28,14 @@ const destroy = (query) => {
 
   return new Promise((resolve, reject) => {
     knex('bookmarks')
+      .returning(allowedFields)
       .where(bookmarkQuery)
       .delete()
-      .then(resolve)
+      .then((deletedBookmarks) => {
+        eventBus.emit('bookmark.deleted', deletedBookmarks[0])
+
+        resolve(deletedBookmarks[0])
+      })
       .catch(reject)
   })
 }
