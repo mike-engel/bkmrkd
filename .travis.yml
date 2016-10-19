@@ -12,9 +12,4 @@ addons:
 services:
   - postgresql
 env:
-  - DB_HOST=127.0.0.1
-  - DB_NAME=bkmrkd_test
-  - DB_PORT=5432
-  - DB_USER=postgres
-  - DB_PASS=
-  - PORT=3000
+  - DB_HOST=127.0.0.1 DB_NAME=bkmrkd_test DB_PORT=5432 DB_USER=postgres DB_PASS= PORT=3000
