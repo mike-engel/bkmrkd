@@ -27,7 +27,12 @@ describe('server actions', () => {
         .then((newBookmark) => {
           destroy({ id: newBookmark.id })
             .then(() => {
-              done()
+              find({ id: newBookmark.id })
+                .then((bookmarks) => {
+                  expect(bookmarks).to.have.length(0)
+
+                  done()
+                })
             })
             .catch(done)
         })

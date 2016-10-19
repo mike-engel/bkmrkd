@@ -1,7 +1,7 @@
 const apiRouter = require('server/api')
 const configServer = require('config/server')
 const configMiddleware = require('config/middleware')
-const errorRouter = require('server/errors')
+const { internalErrorHandler, notFoundHandler } = require('server/errors')
 const express = require('express')
 // const socketRoutes = require('routes/sockets')
 
@@ -12,7 +12,8 @@ configMiddleware(app)
 
 // app.use(/^\/|^\/colophon/, mainRouter)
 app.use('/api', apiRouter)
-app.use(errorRouter)
+app.use(notFoundHandler)
+app.use(internalErrorHandler)
 
 // socketRoutes(app)
 

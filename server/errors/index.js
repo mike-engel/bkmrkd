@@ -1,16 +1,15 @@
-const express = require('express')
-
-const errorRouter = express()
-
-errorRouter.use((req, res) => {
-  return res.status(404).send()
-})
-
-errorRouter.use((err, req, res) => {
+const internalErrorHandler = (err, req, res, next) => {
   return res.status(500).json({
     message: err.message,
     error: err
   })
-})
+}
 
-module.exports = errorRouter
+const notFoundHandler = (req, res) => {
+  return res.status(404).send()
+}
+
+module.exports = {
+  internalErrorHandler,
+  notFoundHandler
+}
