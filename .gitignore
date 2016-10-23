@@ -2,7 +2,7 @@
 Thumbs.db
 node_modules
 .nyc_output
-coverage
+coverage/
 *.log
 *.orig
 .env
