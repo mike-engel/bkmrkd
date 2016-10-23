@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+nyc report --reporter=lcov > coverage.lcov && codecov

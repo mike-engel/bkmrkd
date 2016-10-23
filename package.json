@@ -4,13 +4,14 @@
   "description": "A simple self-hosted bookmark manager written in javascript",
   "main": "server.js",
   "scripts": {
-    "test": "npm run test:lint; npm run test:unit",
-    "test:coverage": "nyc npm run test:unit",
-    "test:lint": "standard | snazzy",
-    "test:unit": "DB_NAME=bkmrkd_test mocha --require ./config/tests --recursive server/*.test.js server/**/*.test.js | bunyan -l fatal",
-    "start": "node index.js",
-    "migrate:up": "knex migrate:latest",
-    "migrate:down": "knex migrate:rollback"
+    "migrate:up": "scripty",
+    "migrate:down": "scripty",
+    "report-coverage": "scripty",
+    "start": "scripty",
+    "test": "scripty",
+    "test:coverage": "scripty",
+    "test:lint": "scripty",
+    "test:unit": "scripty"
   },
   "engines": {
     "node": ">= 6.x"
@@ -53,6 +54,7 @@
     "autoprefixer": "^6.1.2",
     "autoprefixer-core": "^6.0.1",
     "chai": "^3.5.0",
+    "codecov": "^1.0.1",
     "css-mqpacker": "^5.0.1",
     "cssnano": "^3.4.0",
     "cssnext": "^1.8.4",
@@ -67,6 +69,7 @@
     "postcss-nested": "^1.0.0",
     "postcss-vmin": "^2.0.0",
     "proxyquire": "^1.7.10",
+    "scripty": "^1.7.0",
     "sinon": "^1.17.6",
     "sinon-chai": "^2.8.0",
     "snazzy": "^5.0.0",

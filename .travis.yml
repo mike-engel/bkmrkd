@@ -26,3 +26,6 @@ before_script:
   - psql -c 'create database bkmrkd_test;' -U postgres
   - cp .env.sample .env
   - npm run migrate:up
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
