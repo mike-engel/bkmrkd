@@ -1,6 +1,5 @@
 FROM mhart/alpine-node:6
 MAINTAINER Mike Engel <mike@mike-engel.com>
-LABEL bkmrkd
 
 ENV NODE_ENV=production \
     APP_DIR=/app/bkmrkd \
