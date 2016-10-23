@@ -12,5 +12,6 @@ module.exports = {
     user: env.DB_USER || 'postgres'
   },
   env: env.NODE_ENV || 'development',
+  logentriesToken: env.LOGENTRIES_TOKEN || '',
   port: env.PORT || 3000
 }

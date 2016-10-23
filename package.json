@@ -7,7 +7,7 @@
     "test": "npm run test:lint; npm run test:unit",
     "test:coverage": "nyc npm run test:unit",
     "test:lint": "standard | snazzy",
-    "test:unit": "DB_NAME=bkmrkd_test mocha --require ./config/tests --recursive server/*.test.js server/**/*.test.js",
+    "test:unit": "DB_NAME=bkmrkd_test mocha --require ./config/tests --recursive server/*.test.js server/**/*.test.js | bunyan -l fatal",
     "start": "node index.js",
     "migrate:up": "knex migrate:latest",
     "migrate:down": "knex migrate:rollback"
@@ -33,6 +33,7 @@
   "homepage": "https://github.com/mike-engel/bkmrkd",
   "dependencies": {
     "body-parser": "^1.14.1",
+    "bunyan": "^1.8.3",
     "compression": "^1.6.0",
     "cookie-parser": "^1.4.0",
     "dotenv": "^2.0.0",
@@ -41,6 +42,7 @@
     "helmet": "^2.0.0",
     "hpp": "^0.2.0",
     "knex": "^0.12.5",
+    "le_node": "^1.6.7",
     "pg": "^6.1.0",
     "ramda": "^0.22.1",
     "rootpath": "^0.1.2",
@@ -64,6 +66,7 @@
     "postcss-import": "^8.0.2",
     "postcss-nested": "^1.0.0",
     "postcss-vmin": "^2.0.0",
+    "proxyquire": "^1.7.10",
     "sinon": "^1.17.6",
     "sinon-chai": "^2.8.0",
     "snazzy": "^5.0.0",
