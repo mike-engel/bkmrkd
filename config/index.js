@@ -13,5 +13,6 @@ module.exports = {
   },
   env: env.NODE_ENV || 'development',
   logentriesToken: env.LOGENTRIES_TOKEN || '',
-  port: env.PORT || 3000
+  port: env.PORT || 3000,
+  ravenUrl: env.RAVEN_URL || ''
 }
