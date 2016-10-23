@@ -1,7 +1,17 @@
+const config = require('config')
 const { create, find, destroy } = require('server/actions')
 const express = require('express')
 
 const apiRouter = express()
+const startTime = new Date()
+
+apiRouter.route('/status')
+  .get((req, res) => {
+    return res.status(200).json({
+      env: config.env,
+      runningSince: startTime.toISOString()
+    })
+  })
 
 apiRouter.route('/bookmarks')
   .get((req, res, next) => {

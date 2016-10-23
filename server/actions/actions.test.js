@@ -1,6 +1,6 @@
 const { create, destroy, find } = require('./index')
 
-describe('server actions', () => {
+describe('server api actions', () => {
   describe('create action', () => {
     it('should insert a new bookmark', (done) => {
       const bookmark = { title: 'test bookmark', url: 'https://duckduckgo.com' }

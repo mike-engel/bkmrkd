@@ -1,10 +1,25 @@
 const { app } = require('server')
 const { create } = require('server/actions')
+const { env } = require('config')
 const request = require('supertest')
 
 const apiRequest = request(app)
 
 describe('api routes', () => {
+  describe('status endpoint', () => {
+    it('should return the server status', (done) => {
+      apiRequest
+        .get('/api/status')
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .expect((res) => {
+          if (res.body.env !== env) throw new Error('The correct environment wasn\'t returned')
+          if (new Date(res.body.runningSince).toString() === 'Invalid Date') throw new Error('An invalid date was returned')
+        })
+        .end(done)
+    })
+  })
+
   describe('bookmarks routes', () => {
     it('should return a list of bookmarks', (done) => {
       const bookmark = {
