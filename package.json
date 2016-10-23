@@ -48,6 +48,7 @@
     "ramda": "^0.22.1",
     "raven": "^0.12.1",
     "rootpath": "^0.1.2",
+    "scripty": "^1.7.0",
     "snyk": "^1.11.1",
     "ws": "^1.1.1"
   },
@@ -70,7 +71,6 @@
     "postcss-nested": "^1.0.0",
     "postcss-vmin": "^2.0.0",
     "proxyquire": "^1.7.10",
-    "scripty": "^1.7.0",
     "sinon": "^1.17.6",
     "sinon-chai": "^2.8.0",
     "snazzy": "^5.0.0",
