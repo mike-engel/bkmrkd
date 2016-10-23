@@ -3,10 +3,11 @@ const configServer = require('config/server')
 const configMiddleware = require('config/middleware')
 const { internalErrorHandler, notFoundHandler } = require('server/errors')
 const express = require('express')
-const server = require('http').createServer()
+const http = require('http')
 const { main: sockets } = require('server/sockets')
 
 const app = express()
+const server = http.createServer(app)
 
 configServer(app)
 configMiddleware(app)
