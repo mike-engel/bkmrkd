@@ -3,6 +3,7 @@ Thumbs.db
 node_modules
 .nyc_output
 coverage/
+elm-stuff/
 *.log
 *.orig
 .env

@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+elm-make client/bkmrkd.elm --output=static/js/bkmrkd.js
