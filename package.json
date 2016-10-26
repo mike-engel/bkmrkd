@@ -80,7 +80,8 @@
   },
   "standard": {
     "ignore": [
-      "src"
+      "src",
+      "static"
     ],
     "globals": [
       "after",
