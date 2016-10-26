@@ -1,8 +1,8 @@
 const config = require('config')
 const { create, find, destroy } = require('server/actions')
-const express = require('express')
+const { Router } = require('express')
 
-const apiRouter = express()
+const apiRouter = Router()
 const startTime = new Date()
 
 apiRouter.route('/status')
