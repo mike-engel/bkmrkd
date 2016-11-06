@@ -1,6 +1,7 @@
 const apiRouter = require('server/api')
 const configServer = require('config/server')
 const configMiddleware = require('config/middleware')
+const contentRouter = require('server/content')
 const express = require('express')
 const http = require('http')
 const { internalErrorHandler, notFoundHandler } = require('server/errors')
@@ -23,7 +24,7 @@ configMiddleware(app)
 
 if (ravenUrl) app.use(requestHandler(ravenUrl))
 
-// app.use(/^\/|^\/colophon/, mainRouter)
+app.use(contentRouter)
 app.use('/api', apiRouter)
 app.use(notFoundHandler)
 

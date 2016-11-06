@@ -7767,7 +7767,8 @@ var _mike_engel$bkmrkd$Bkmrkd$view = function (model) {
 			]),
 		_elm_lang$core$Native_List.fromArray(
 			[
-				_elm_lang$html$Html$text('Hello!')
+				_elm_lang$html$Html$text(
+				A2(_elm_lang$core$Basics_ops['++'], 'Hello ', 'world'))
 			]));
 };
 var _mike_engel$bkmrkd$Bkmrkd$initialModel = {};

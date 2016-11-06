@@ -4,6 +4,8 @@
   "description": "A simple self-hosted bookmark manager written in javascript",
   "main": "server.js",
   "scripts": {
+    "compile": "scripty",
+    "compile:elm": "scripty",
     "migrate:up": "scripty",
     "migrate:down": "scripty",
     "report-coverage": "scripty",
@@ -11,7 +13,8 @@
     "test": "scripty",
     "test:coverage": "scripty",
     "test:lint": "scripty",
-    "test:unit": "scripty"
+    "test:unit": "scripty",
+    "watch:elm": "scripty"
   },
   "engines": {
     "node": ">= 6.x"
@@ -56,6 +59,7 @@
     "autoprefixer": "^6.1.2",
     "autoprefixer-core": "^6.0.1",
     "chai": "^3.5.0",
+    "chokidar-cli": "^1.2.0",
     "codecov": "^1.0.1",
     "css-mqpacker": "^5.0.1",
     "cssnano": "^3.4.0",

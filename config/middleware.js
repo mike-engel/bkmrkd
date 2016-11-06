@@ -7,7 +7,7 @@ const config = require('config')
 
 module.exports = function (app) {
   app.use(compression())
-  app.use(express.static('./static', {
+  app.use('/static', express.static('./static', {
     maxAge: config.env === 'development' ? 0 : 31500000000,
     index: false
   }))

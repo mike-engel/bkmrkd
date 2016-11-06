@@ -15,7 +15,7 @@ initialModel =
 
 view : Model -> Html Msg
 view model =
-  div [ class "app" ] [ text "Hello!" ]
+  div [ class "app" ] [ text ("Hello " ++ "world") ]
 
 main : Html Msg
 main =
