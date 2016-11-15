@@ -2,21 +2,16 @@ module Bkmrkd exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Header
+import Store exposing (..)
 
-type alias Model =
-  {}
-
-type Msg =
-  Nothing
-
-initialModel : Model
-initialModel =
-  {}
 
 view : Model -> Html Msg
 view model =
-  div [ class "app" ] [ text ("Hello " ++ "world") ]
+    div [ class "app" ]
+        [ Header.view model ]
+
 
 main : Html Msg
 main =
-  view initialModel
+    view initialModel
