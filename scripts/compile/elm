@@ -1,3 +1,7 @@
 #!/usr/bin/env sh
 
 elm-make client/bkmrkd.elm --output=static/js/bkmrkd.js
+
+if [ "$NODE_ENV" == "production" ]; then
+  uglifyjs static/js/bkmrkd.js -c -o static/js/bkmrkd.min.js
+fi

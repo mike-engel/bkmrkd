@@ -80,7 +80,8 @@
     "snazzy": "^5.0.0",
     "standard": "^7.0.1",
     "stylelint": "^6.5.1",
-    "supertest": "^1.1.0"
+    "supertest": "^1.1.0",
+    "uglify-js": "^2.7.4"
   },
   "standard": {
     "ignore": [
