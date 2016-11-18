@@ -9050,6 +9050,11 @@ var _elm_lang$http$Http$StringPart = F2(
 	});
 var _elm_lang$http$Http$stringPart = _elm_lang$http$Http$StringPart;
 
+var _mike_engel$bkmrkd$Store$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+	});
 var _mike_engel$bkmrkd$Store$Model = F2(
 	function (a, b) {
 		return {bookmarks: a, selectedPage: b};

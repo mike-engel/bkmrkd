@@ -15,6 +15,10 @@ view model =
         ]
 
 
-main : Html Msg
 main =
-    view initialModel
+    Html.program
+        { init = (initialModel FetchBookmarks)
+        , update = update
+        , view = view initialModel
+        , subscriptions = Maybe.Nothing
+        }

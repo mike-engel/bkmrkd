@@ -21,7 +21,7 @@ bookmarkItem bookmark =
         [ a [ class "bookmark__link", href bookmark.url ] [ text bookmark.title ]
         , span [ class "bookmark__date" ] [ text bookmark.createdAt ]
         , span [ class "bookmark__source" ] [ text (bookmarkSite bookmark.url) ]
-        , a [ class "bookmark__delete", href ("/api/bookmarks/" ++ bookmark.id) ] [ text "delete" ]
+        , a [ class "bookmark__delete", href ("/api/bookmarks/" ++ (toString bookmark.id)) ] [ text "delete" ]
         ]
 
 
