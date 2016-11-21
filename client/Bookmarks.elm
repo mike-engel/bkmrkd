@@ -25,7 +25,21 @@ bookmarkItem bookmark =
         ]
 
 
+emptyBookmarks : Html Msg
+emptyBookmarks =
+    li [ class "bookmark bookmark--empty" ]
+        [ text "You don't have any bookmarks saved yet! As soon as you add one, it will show up here." ]
+
+
+bookmarksList : List Bookmark -> List (Html Msg)
+bookmarksList bookmarks =
+    if List.length bookmarks == 0 then
+        [ emptyBookmarks ]
+    else
+        List.map bookmarkItem bookmarks
+
+
 view : Model -> Html Msg
 view model =
     section [ class "bookmarks-list" ]
-        [ ul [] (List.map bookmarkItem model.bookmarks) ]
+        [ ul [] (bookmarksList model.bookmarks) ]

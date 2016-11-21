@@ -19,9 +19,10 @@ type alias Bookmark =
 
 
 type Msg
-    = Nothing
-    | FetchBookmarks
+    = FetchBookmarks
     | NewBookmarks (Result Http.Error (List Bookmark))
+    | NewMessage String
+    | Nothing
 
 
 type Page
@@ -72,6 +73,9 @@ update msg model =
             ( { model | bookmarks = bookmarkList }, Cmd.none )
 
         NewBookmarks (Err _) ->
+            ( model, Cmd.none )
+
+        NewMessage str ->
             ( model, Cmd.none )
 
         Nothing ->

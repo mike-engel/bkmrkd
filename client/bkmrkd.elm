@@ -5,6 +5,7 @@ import Html.Attributes exposing (..)
 import Header
 import Bookmarks
 import Store exposing (..)
+import WebSocket
 
 
 view : Model -> Html Msg
@@ -15,10 +16,16 @@ view model =
         ]
 
 
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    WebSocket.listen "ws://echo.websocket.org" NewMessage
+
+
+main : Program Never Model Msg
 main =
     Html.program
-        { init = (initialModel FetchBookmarks)
+        { init = ( initialModel, getBookmarks )
+        , subscriptions = subscriptions
         , update = update
-        , view = view initialModel
-        , subscriptions = Maybe.Nothing
+        , view = view
         }
