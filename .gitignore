@@ -4,6 +4,7 @@ node_modules
 .nyc_output
 coverage/
 elm-stuff/
+static/
 *.log
 *.orig
 .env
