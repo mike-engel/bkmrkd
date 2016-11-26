@@ -2,11 +2,13 @@ module Store exposing (..)
 
 import Http
 import Json.Decode exposing (..)
+import Navigation exposing (Location, newUrl)
+import Router exposing (..)
 
 
 type alias Model =
     { bookmarks : List Bookmark
-    , selectedPage : Page
+    , currentPage : Route
     }
 
 
@@ -22,12 +24,10 @@ type Msg
     = FetchBookmarks
     | NewBookmarks (Result Http.Error (List Bookmark))
     | NewMessage String
+    | OnLocationChange Location
+    | ShowBookmarks
+    | ShowColophon
     | Nothing
-
-
-type Page
-    = Bookmarks
-    | Colophon
 
 
 getBookmarks : Cmd Msg
@@ -56,10 +56,10 @@ decodeBookmark =
         (at [ "createdAt" ] string)
 
 
-initialModel : Model
-initialModel =
+initialModel : Route -> Model
+initialModel currentPage =
     { bookmarks = []
-    , selectedPage = Bookmarks
+    , currentPage = currentPage
     }
 
 
@@ -77,6 +77,19 @@ update msg model =
 
         NewMessage str ->
             ( model, Cmd.none )
+
+        OnLocationChange location ->
+            let
+                newRoute =
+                    parseLocation location
+            in
+                ( { model | currentPage = newRoute }, Cmd.none )
+
+        ShowBookmarks ->
+            ( model, newUrl "/" )
+
+        ShowColophon ->
+            ( model, newUrl "/colophon" )
 
         Nothing ->
             ( model, Cmd.none )
