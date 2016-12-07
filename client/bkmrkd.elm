@@ -41,8 +41,11 @@ init location =
     let
         currentRoute =
             parseLocation location
+
+        model =
+            initialModel currentRoute
     in
-        ( initialModel currentRoute, getBookmarks )
+        ( model, getBookmarks model.currentPageNumber )
 
 
 subscriptions : Model -> Sub Msg

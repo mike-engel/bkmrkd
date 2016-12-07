@@ -98,9 +98,9 @@ describe('api routes', () => {
         .then((newBookmark) => {
           apiRequest
             .delete(`/api/bookmarks/${newBookmark.id}`)
-            .expect(204)
+            .expect(200)
             .expect((res) => {
-              if (Object.keys(res.body).length) throw new Error('There should be nothing returned')
+              if (!Array.isArray(res.body)) throw new Error('An array of existing bookmarks should be returned')
             })
             .end(done)
         })

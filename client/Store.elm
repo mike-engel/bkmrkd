@@ -1,6 +1,6 @@
 module Store exposing (..)
 
-import Http
+import Http exposing (..)
 import Json.Decode exposing (..)
 import Navigation exposing (Location, newUrl)
 import Router exposing (..)
@@ -9,6 +9,7 @@ import Router exposing (..)
 type alias Model =
     { bookmarks : List Bookmark
     , currentPage : Route
+    , currentPageNumber : Int
     }
 
 
@@ -21,7 +22,8 @@ type alias Bookmark =
 
 
 type Msg
-    = FetchBookmarks
+    = DeleteBookmark Int
+    | FetchBookmarks
     | NewBookmarks (Result Http.Error (List Bookmark))
     | NewMessage String
     | OnLocationChange Location
@@ -30,14 +32,34 @@ type Msg
     | Nothing
 
 
-getBookmarks : Cmd Msg
-getBookmarks =
+getBookmarks : Int -> Cmd Msg
+getBookmarks pageNumber =
     let
         url =
-            "/api/bookmarks"
+            "/api/bookmarks?page=" ++ (toString pageNumber)
 
         request =
             Http.get url decodeBookmarks
+    in
+        Http.send NewBookmarks request
+
+
+deleteBookmark : Int -> Cmd Msg
+deleteBookmark id =
+    let
+        url =
+            "/api/bookmarks/" ++ (toString id)
+
+        request =
+            Http.request
+                { method = "DELETE"
+                , headers = []
+                , url = url
+                , body = emptyBody
+                , expect = expectJson decodeBookmarks
+                , timeout = Maybe.Nothing
+                , withCredentials = False
+                }
     in
         Http.send NewBookmarks request
 
@@ -60,14 +82,18 @@ initialModel : Route -> Model
 initialModel currentPage =
     { bookmarks = []
     , currentPage = currentPage
+    , currentPageNumber = 1
     }
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        DeleteBookmark id ->
+            ( model, (deleteBookmark id) )
+
         FetchBookmarks ->
-            ( model, getBookmarks )
+            ( model, (getBookmarks model.currentPageNumber) )
 
         NewBookmarks (Ok bookmarkList) ->
             ( { model | bookmarks = bookmarkList }, Cmd.none )

@@ -5,8 +5,17 @@ import Date.Format exposing (..)
 import Erl
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (onWithOptions, Options)
+import Json.Decode as Json
 import Result exposing (toMaybe)
-import Store exposing (Bookmark, Model, Msg(..))
+import Store exposing (..)
+
+
+navigationOptions : Options
+navigationOptions =
+    { stopPropagation = False
+    , preventDefault = True
+    }
 
 
 bookmarkSite : String -> String
@@ -44,6 +53,7 @@ bookmarkItem bookmark =
         , a
             [ class "bookmark__delete"
             , href ("/api/bookmarks/" ++ (toString bookmark.id))
+            , onWithOptions "click" navigationOptions (Json.succeed (DeleteBookmark bookmark.id))
             ]
             [ text "delete" ]
         ]

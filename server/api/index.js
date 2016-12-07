@@ -39,8 +39,9 @@ apiRouter.route('/bookmarks/:id')
   })
   .delete((req, res, next) => {
     destroy({ id: req.params.id })
-      .then(() => {
-        res.status(204).send()
+      .then(() => find({}))
+      .then((bookmarks) => {
+        res.status(200).json(bookmarks)
       })
       .catch(next)
   })
