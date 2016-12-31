@@ -17,15 +17,17 @@ module.exports = function (app) {
   }))
   app.use(hpp())
   app.use(helmet.contentSecurityPolicy({
-    defaultSrc: ["'self'"],
-    scriptSrc: ["'self'", "'unsafe-inline'"],
-    styleSrc: ["'self'"],
-    imgSrc: ["'none'"],
-    connectSrc: ["'self'", 'ws:', 'wss:'],
-    fontSrc: ["'none'"],
-    objectSrc: ["'none'"],
-    mediaSrc: ["'none'"],
-    frameSrc: ["'none'"]
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      styleSrc: ["'self'"],
+      imgSrc: ["'none'"],
+      connectSrc: ["'self'", 'ws:', 'wss:'],
+      fontSrc: ["'none'"],
+      objectSrc: ["'none'"],
+      mediaSrc: ["'none'"],
+      frameSrc: ["'none'"]
+    }
   }))
   app.use(helmet.xssFilter())
   app.use(helmet.frameguard('deny'))
