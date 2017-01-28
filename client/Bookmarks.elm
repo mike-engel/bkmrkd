@@ -59,6 +59,46 @@ bookmarkItem bookmark =
         ]
 
 
+paginationClass : Bool -> String
+paginationClass enabled =
+    if enabled then
+        ""
+    else
+        " pagination--disabled"
+
+
+previousButton : Int -> Html Msg
+previousButton page =
+    let
+        enabled =
+            page > 1
+
+        extraClass =
+            paginationClass enabled
+    in
+        span
+            [ class ("pagination__previous" ++ extraClass)
+            , onWithOptions "click" navigationOptions (Json.succeed (ChangePageNumber (page - 1)))
+            ]
+            [ text "previous" ]
+
+
+nextButton : Model -> Html Msg
+nextButton model =
+    let
+        enabled =
+            List.length model.bookmarks == 25
+
+        extraClass =
+            paginationClass enabled
+    in
+        span
+            [ class ("pagination__next" ++ extraClass)
+            , onWithOptions "click" navigationOptions (Json.succeed (ChangePageNumber (model.currentPageNumber + 1)))
+            ]
+            [ text "next" ]
+
+
 emptyBookmarks : Html Msg
 emptyBookmarks =
     li [ class "bookmark bookmark--empty" ]
@@ -76,4 +116,7 @@ bookmarksList bookmarks =
 view : Model -> Html Msg
 view model =
     section [ class "bookmarks-list" ]
-        [ ul [] (bookmarksList model.bookmarks) ]
+        [ ul [] (bookmarksList model.bookmarks)
+        , nav [ class "pagination" ]
+            [ (previousButton model.currentPageNumber), (nextButton model) ]
+        ]

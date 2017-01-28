@@ -2,6 +2,7 @@ module Store exposing (..)
 
 import Http exposing (..)
 import Json.Decode exposing (..)
+import Erl
 import Navigation exposing (Location, newUrl)
 import Router exposing (..)
 
@@ -22,7 +23,8 @@ type alias Bookmark =
 
 
 type Msg
-    = DeleteBookmark Int
+    = ChangePageNumber Int
+    | DeleteBookmark Int
     | FetchBookmarks
     | NewBookmarks (Result Http.Error (List Bookmark))
     | NewMessage String
@@ -30,6 +32,28 @@ type Msg
     | ShowBookmarks
     | ShowColophon
     | Nothing
+
+
+getUrlPageNumber : String -> Int
+getUrlPageNumber url =
+    let
+        urlRecord =
+            Erl.parse url
+
+        pageList =
+            Erl.getQueryValuesForKey "page" urlRecord
+    in
+        case List.head pageList of
+            Just pageNumberString ->
+                case String.toInt pageNumberString of
+                    Ok pageNumber ->
+                        pageNumber
+
+                    Err _ ->
+                        1
+
+            Maybe.Nothing ->
+                1
 
 
 getBookmarks : Int -> Cmd Msg
@@ -89,6 +113,9 @@ initialModel currentPage =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        ChangePageNumber newPage ->
+            ( { model | currentPageNumber = newPage }, (getBookmarks newPage) )
+
         DeleteBookmark id ->
             ( model, (deleteBookmark id) )
 
@@ -109,7 +136,12 @@ update msg model =
                 newRoute =
                     parseLocation location
             in
-                ( { model | currentPage = newRoute }, Cmd.none )
+                ( { model
+                    | currentPage = newRoute
+                    , currentPageNumber = getUrlPageNumber location.search
+                  }
+                , Cmd.none
+                )
 
         ShowBookmarks ->
             ( model, newUrl "/" )
