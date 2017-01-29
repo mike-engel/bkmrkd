@@ -5,7 +5,6 @@ const contentRouter = require('server/content')
 const express = require('express')
 const http = require('http')
 const { internalErrorHandler, notFoundHandler } = require('server/errors')
-const { main: sockets } = require('server/sockets')
 const {
   middleware: {
     express: {
@@ -31,8 +30,6 @@ app.use(notFoundHandler)
 if (ravenUrl) app.use(errorHandler(ravenUrl))
 
 app.use(internalErrorHandler)
-
-sockets(server)
 
 module.exports = {
   app,
