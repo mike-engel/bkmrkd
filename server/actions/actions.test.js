@@ -1,4 +1,4 @@
-const { create, destroy, find } = require('./index')
+const { create, destroy, find, search } = require('./index')
 
 describe('server api actions', () => {
   describe('create action', () => {
@@ -65,6 +65,36 @@ describe('server api actions', () => {
           expect(bookmarks).to.have.length.greaterThan(1)
 
           done()
+        })
+        .catch(done)
+    })
+  })
+
+  describe('search action', () => {
+    it('should find bookmarks by title', (done) => {
+      const bookmark = {
+        title: 'search action test bookmark',
+        url: 'https://duckduckgo.com'
+      }
+      const bookmarkTwo = {
+        title: 'this should not be found',
+        url: 'https://google.com'
+      }
+
+      Promise.all([
+        create(bookmark),
+        create(bookmarkTwo)
+      ])
+        .then((newBookmarks) => {
+          search('search action test')
+            .then((bookmarks) => {
+              expect(bookmarks).to.have.length(1)
+              expect(bookmarks[0].title).to.equal(bookmark.title)
+              expect(bookmarks[0].url).to.equal(bookmark.url)
+
+              done()
+            })
+            .catch(done)
         })
         .catch(done)
     })

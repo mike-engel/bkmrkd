@@ -107,4 +107,34 @@ describe('api routes', () => {
         .catch(done)
     })
   })
+
+  describe('search route', () => {
+    it('should find bookmarks by title', (done) => {
+      const bookmark = {
+        title: 'search test bookmark',
+        url: 'https://duckduckgo.com'
+      }
+      const bookmarkTwo = {
+        title: 'this should not be found',
+        url: 'https://google.com'
+      }
+
+      Promise.all([
+        create(bookmark),
+        create(bookmarkTwo)
+      ])
+        .then((newBookmarks) => {
+          apiRequest
+            .get(`/api/search?query=search%20test`)
+            .expect(200)
+            .expect((res) => {
+              if (!Array.isArray(res.body)) throw new Error('An array of bookmarks should be returned')
+              if (res.body.length > 1) throw new Error('Only one bookmark should have been returned')
+              if (res.body[0].title !== bookmark.title) throw new Error('The wrong bookmark was returned')
+            })
+            .end(done)
+        })
+        .catch(done)
+    })
+  })
 })

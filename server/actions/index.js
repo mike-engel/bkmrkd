@@ -58,8 +58,20 @@ const find = (query) => {
   })
 }
 
+// search :: Query -> Promise
+const search = (searchTerm) => {
+  return new Promise((resolve, reject) => {
+    knex('bookmarks')
+      .returning(allowedFields)
+      .where('title', 'like', `%${searchTerm}%`)
+      .then(resolve)
+      .catch(reject)
+  })
+}
+
 module.exports = {
   create,
   destroy,
-  find
+  find,
+  search
 }

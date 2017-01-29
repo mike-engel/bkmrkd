@@ -1,5 +1,5 @@
 const config = require('config')
-const { create, find, destroy } = require('server/actions')
+const { create, destroy, find, search } = require('server/actions')
 const { Router } = require('express')
 
 const apiRouter = Router()
@@ -42,6 +42,17 @@ apiRouter.route('/bookmarks/:id')
       .then(() => find({}))
       .then((bookmarks) => {
         res.status(200).json(bookmarks)
+      })
+      .catch(next)
+  })
+
+apiRouter.route('/search')
+  .get((req, res, next) => {
+    const searchTerm = req.query.query
+
+    search(searchTerm)
+      .then((results) => {
+        res.status(200).json(results)
       })
       .catch(next)
   })
