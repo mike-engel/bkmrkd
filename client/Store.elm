@@ -11,6 +11,7 @@ type alias Model =
     { bookmarks : List Bookmark
     , currentPage : Route
     , currentPageNumber : Int
+    , searchResults : List Bookmark
     }
 
 
@@ -27,8 +28,9 @@ type Msg
     | DeleteBookmark Int
     | FetchBookmarks
     | NewBookmarks (Result Http.Error (List Bookmark))
-    | NewMessage String
+    | NewSearchResults (Result Http.Error (List Bookmark))
     | OnLocationChange Location
+    | SearchBookmarks String
     | ShowBookmarks
     | ShowColophon
     | Nothing
@@ -66,6 +68,18 @@ getBookmarks pageNumber =
             Http.get url decodeBookmarks
     in
         Http.send NewBookmarks request
+
+
+searchBookmarks : String -> Cmd Msg
+searchBookmarks searchTerm =
+    let
+        url =
+            "/api/search?term=" ++ (searchTerm)
+
+        request =
+            Http.get url decodeBookmarks
+    in
+        Http.send NewSearchResults request
 
 
 deleteBookmark : Int -> Cmd Msg
@@ -107,6 +121,7 @@ initialModel currentPage =
     { bookmarks = []
     , currentPage = currentPage
     , currentPageNumber = 1
+    , searchResults = []
     }
 
 
@@ -114,7 +129,9 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         ChangePageNumber newPage ->
-            ( { model | currentPageNumber = newPage }, (getBookmarks newPage) )
+            ( { model | currentPageNumber = newPage }
+            , newUrl ("/?page=" ++ (toString newPage))
+            )
 
         DeleteBookmark id ->
             ( model, (deleteBookmark id) )
@@ -128,7 +145,10 @@ update msg model =
         NewBookmarks (Err _) ->
             ( model, Cmd.none )
 
-        NewMessage str ->
+        NewSearchResults (Ok bookmarkList) ->
+            ( { model | searchResults = bookmarkList }, Cmd.none )
+
+        NewSearchResults (Err _) ->
             ( model, Cmd.none )
 
         OnLocationChange location ->
@@ -140,8 +160,11 @@ update msg model =
                     | currentPage = newRoute
                     , currentPageNumber = getUrlPageNumber location.search
                   }
-                , Cmd.none
+                , (getBookmarks model.currentPageNumber)
                 )
+
+        SearchBookmarks searchTerm ->
+            ( model, (searchBookmarks searchTerm) )
 
         ShowBookmarks ->
             ( model, newUrl "/" )

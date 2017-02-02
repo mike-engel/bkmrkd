@@ -8,8 +8,8 @@ import Html.Attributes exposing (..)
 import Navigation exposing (Location)
 import NotFound
 import Router exposing (..)
+import SearchResults
 import Store exposing (..)
-import WebSocket
 
 
 page : Model -> Html Msg
@@ -21,8 +21,8 @@ page model =
         ColophonRoute ->
             Colophon.view
 
-        SearchRoute _ ->
-            NotFound.view
+        SearchRoute ->
+            SearchResults.view
 
         NotFoundRoute ->
             NotFound.view

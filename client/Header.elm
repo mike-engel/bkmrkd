@@ -33,7 +33,7 @@ switchPage newRoute =
         ColophonRoute ->
             ShowColophon
 
-        SearchRoute _ ->
+        SearchRoute ->
             Store.Nothing
 
         NotFoundRoute ->
@@ -51,4 +51,5 @@ view model =
                 , navLink model.currentPage NotFoundRoute "#" "bookmark"
                 ]
             ]
+        , Html.form [ onWithOptions "submit" navigationOptions (Json.succeed (switchPage SearchRoute)) ] []
         ]
