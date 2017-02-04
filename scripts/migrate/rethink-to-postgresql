@@ -1,0 +1,74 @@
+#!/usr/bin/env node
+
+require('rootpath')()
+
+const { knex } = require('config/db')
+const { resolve } = require('path')
+const subarg = require('subarg')
+
+console.info(`
+Preparing to migrate your data...`)
+
+const args = subarg(process.argv.slice(2))
+
+if (args.h || args.help || args._.indexOf('help') >= 0 || args._.length === 0) {
+  console.log(`
+rethink-to-postgresql: Migrate your bkmrkd 2 data to bkmrkd 3
+
+This will use the data in your \`.env\` file to connect to the remote database.
+
+Usage: rethink-to-postgresql [options] rethinkdb-data.json
+
+Options:
+    --help, -h      Print this help documentation`)
+
+  process.exit(0)
+}
+
+console.info(`
+Reading the data file.`)
+
+const data = require(resolve(process.cwd(), args._[0]))
+
+console.info(`
+Data file read.
+Converting some rethinkdb data to postgres compatible data.`)
+
+const insertableData = data.map((bookmark) => {
+  const date = new Date(bookmark.createdOn.epoch_time * 1000)
+
+  return {
+    createdAt: date,
+    title: bookmark.title,
+    url: bookmark.url
+  }
+})
+
+console.info(`
+Bookmarks converted.
+Migrating to your new postgres instance`)
+
+knex.batchInsert('bookmarks', insertableData)
+  .returning('id')
+  .then((bookmarks) => {
+    if (bookmarks.length === insertableData.length) {
+      console.info(`
+Migration complete!`)
+
+      process.exit(0)
+    } else {
+      console.error(`
+Hmm. The number of bookmarks migrated doesn't match the amount in the rethinkdb
+data file. Check to make sure all your bookmarks are there, and that the JSON
+file is valid.`)
+
+      process.exit(1)
+    }
+  })
+  .catch((err) => {
+    console.error(`
+Uh oh, there was an error migrating your bookmarks. Take a look below:
+`)
+    console.error(err)
+    process.exit(1)
+  })

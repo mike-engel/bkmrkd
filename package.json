@@ -52,7 +52,8 @@
     "raven": "^1.1.1",
     "rootpath": "^0.1.2",
     "scripty": "^1.7.0",
-    "snyk": "^1.24.6"
+    "snyk": "^1.24.6",
+    "subarg": "^1.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.0",
