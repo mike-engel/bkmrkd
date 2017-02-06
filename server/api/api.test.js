@@ -21,25 +21,30 @@ describe('api routes', () => {
   })
 
   describe('bookmarks routes', () => {
-    it('should return a list of bookmarks', (done) => {
-      const bookmark = {
-        title: 'index test bookmark',
-        url: 'https://duckduckgo.com'
-      }
-
-      create(bookmark)
-        .then(() => {
-          apiRequest
-            .get('/api/bookmarks')
-            .expect('Content-Type', /json/)
-            .expect(200)
-            .expect((res) => {
-              if (!Array.isArray(res.body)) throw new Error('An array was not returned')
-              if (!res.body.length) throw new Error('It should have returned a non-empty array')
-            })
-            .end(done)
+    it('should return a list of 25 bookmarks', (done) => {
+      apiRequest
+        .get('/api/bookmarks')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .expect((res) => {
+          if (!Array.isArray(res.body)) throw new Error('An array was not returned')
+          if (!res.body.length) throw new Error('It should have returned a non-empty array')
+          if (res.body.length !== 25) throw new Error('It returned the wrong number of bookmarks')
         })
-        .catch(done)
+        .end(done)
+    })
+
+    it('should return a list of paginated bookmarks', (done) => {
+      apiRequest
+        .get('/api/bookmarks?page=2')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .expect((res) => {
+          if (!Array.isArray(res.body)) throw new Error('An array was not returned')
+          if (!res.body.length) throw new Error('It should have returned a non-empty array')
+          if (res.body.length < 1) throw new Error('It returned the wrong number of bookmarks')
+        })
+        .end(done)
     })
 
     it('should create a new bookmark', (done) => {
@@ -63,31 +68,6 @@ describe('api routes', () => {
   })
 
   describe('bookmark routes', () => {
-    it('should return a specific bookmark', (done) => {
-      const bookmark = {
-        title: 'get test bookmark',
-        url: 'https://duckduckgo.com'
-      }
-
-      create(bookmark)
-        .then((newBookmark) => {
-          apiRequest
-            .get(`/api/bookmarks/${newBookmark.id}`)
-            .expect('Content-Type', /json/)
-            .expect(200)
-            .expect((res) => {
-              if (
-                newBookmark.title !== res.body.title ||
-                newBookmark.url !== res.body.url
-              ) {
-                throw new Error('The specified activity was not returned in full')
-              }
-            })
-            .end(done)
-        })
-        .catch(done)
-    })
-
     it('should delete a bookmark', (done) => {
       const bookmark = {
         title: 'delete test bookmark',

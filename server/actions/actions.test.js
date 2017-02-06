@@ -68,6 +68,31 @@ describe('server api actions', () => {
         })
         .catch(done)
     })
+
+    it('should find some bookmarks limited by a number', (done) => {
+      find({ limit: 10 })
+        .then((bookmarks) => {
+          expect(bookmarks).to.have.length.greaterThan(1)
+          expect(bookmarks.length).to.equal(10)
+
+          done()
+        })
+        .catch(done)
+    })
+
+    it('should find some bookmarks offset by a number', (done) => {
+      find({})
+        .then((allBookmarks) => {
+          find({ offset: 10 })
+            .then((bookmarks) => {
+              expect(bookmarks).to.have.length.greaterThan(1)
+              expect(bookmarks.length).to.equal(allBookmarks.length - 10)
+
+              done()
+            })
+            .catch(done)
+        }).catch(done)
+    })
   })
 
   describe('search action', () => {

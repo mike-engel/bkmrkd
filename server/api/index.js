@@ -15,7 +15,11 @@ apiRouter.route('/status')
 
 apiRouter.route('/bookmarks')
   .get((req, res, next) => {
-    find({})
+    const page = req.params.page || 1
+    const limit = 25
+    const offset = 25 * (page - 1)
+
+    find({ limit, offset })
       .then((bookmarks) => {
         res.status(200).json(bookmarks)
       })
@@ -30,13 +34,6 @@ apiRouter.route('/bookmarks')
   })
 
 apiRouter.route('/bookmarks/:id')
-  .get((req, res, next) => {
-    find({ id: req.params.id })
-      .then((bookmarks) => {
-        res.status(200).json(bookmarks[0])
-      })
-      .catch(next)
-  })
   .delete((req, res, next) => {
     destroy({ id: req.params.id })
       .then(() => find({}))

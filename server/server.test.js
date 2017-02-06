@@ -14,6 +14,19 @@ const stubs = {
     }
   }
 }
+const bookmark = {
+  title: 'index test bookmark',
+  url: 'https://duckduckgo.com'
+}
+const bookmarks = Array.apply(null, { length: 26 }).map(() => bookmark)
+
+before((done) => {
+  knex.batchInsert('bookmarks', bookmarks)
+    .then(() => done())
+    .catch((err) => {
+      throw new Error('There was a problem seeding the test db: ', err)
+    })
+})
 
 after((done) => {
   knex('bookmarks').truncate().then(() => done())

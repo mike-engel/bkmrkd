@@ -91,6 +91,7 @@
     "globals": [
       "after",
       "afterEach",
+      "before",
       "describe",
       "expect",
       "it",
