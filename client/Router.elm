@@ -6,7 +6,7 @@ import UrlParser exposing (..)
 
 type Route
     = BookmarksRoute
-    | SearchRoute
+    | SearchRoute (Maybe String)
     | ColophonRoute
     | NotFoundRoute
 
@@ -16,7 +16,7 @@ matchers =
     oneOf
         [ map BookmarksRoute top
         , map ColophonRoute (s "colophon")
-        , map SearchRoute (s "search")
+        , map SearchRoute (s "search" <?> stringParam "term")
         ]
 
 

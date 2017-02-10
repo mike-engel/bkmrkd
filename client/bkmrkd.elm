@@ -7,9 +7,26 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Navigation exposing (Location)
 import NotFound
-import Router exposing (..)
+import Router
+    exposing
+        ( Route
+            ( BookmarksRoute
+            , ColophonRoute
+            , NotFoundRoute
+            , SearchRoute
+            )
+        , parseLocation
+        )
 import SearchResults
-import Store exposing (..)
+import Store
+    exposing
+        ( initialModel
+        , getBookmarks
+        , Model
+        , Msg(OnLocationChange)
+        , searchBookmarks
+        , update
+        )
 
 
 page : Model -> Html Msg
@@ -21,8 +38,8 @@ page model =
         ColophonRoute ->
             Colophon.view
 
-        SearchRoute ->
-            SearchResults.view
+        SearchRoute _ ->
+            SearchResults.view model
 
         NotFoundRoute ->
             NotFound.view
@@ -45,19 +62,25 @@ init location =
         model =
             initialModel currentRoute
     in
-        ( model, getBookmarks model.currentPageNumber )
+        case currentRoute of
+            BookmarksRoute ->
+                ( model, getBookmarks model.currentPageNumber )
 
+            ColophonRoute ->
+                ( model, Cmd.none )
 
-subscriptions : Model -> Sub Msg
-subscriptions model =
-    WebSocket.listen "ws://echo.websocket.org" NewMessage
+            SearchRoute term ->
+                ( model, searchBookmarks term )
+
+            NotFoundRoute ->
+                ( model, Cmd.none )
 
 
 main : Program Never Model Msg
 main =
     Navigation.program OnLocationChange
         { init = init
-        , subscriptions = subscriptions
+        , subscriptions = (\_ -> Sub.none)
         , update = update
         , view = view
         }

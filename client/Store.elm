@@ -30,7 +30,7 @@ type Msg
     | NewBookmarks (Result Http.Error (List Bookmark))
     | NewSearchResults (Result Http.Error (List Bookmark))
     | OnLocationChange Location
-    | SearchBookmarks String
+    | SearchBookmarks (Maybe String)
     | ShowBookmarks
     | ShowColophon
     | Nothing
@@ -70,11 +70,11 @@ getBookmarks pageNumber =
         Http.send NewBookmarks request
 
 
-searchBookmarks : String -> Cmd Msg
+searchBookmarks : Maybe String -> Cmd Msg
 searchBookmarks searchTerm =
     let
         url =
-            "/api/search?term=" ++ (searchTerm)
+            "/api/search?term=" ++ (Maybe.withDefault "" searchTerm)
 
         request =
             Http.get url decodeBookmarks

@@ -1,18 +1,12 @@
 module Header exposing (..)
 
 import Json.Decode as Json
+import Helpers exposing (navigationOptions)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onWithOptions, Options)
 import Router exposing (..)
 import Store exposing (Model, Msg(..))
-
-
-navigationOptions : Options
-navigationOptions =
-    { stopPropagation = False
-    , preventDefault = True
-    }
 
 
 navLink : Route -> Route -> String -> String -> Html Msg
@@ -33,7 +27,7 @@ switchPage newRoute =
         ColophonRoute ->
             ShowColophon
 
-        SearchRoute ->
+        SearchRoute _ ->
             Store.Nothing
 
         NotFoundRoute ->
