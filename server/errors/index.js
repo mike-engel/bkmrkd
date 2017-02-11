@@ -1,3 +1,4 @@
+const { env } = require('config')
 const { log } = require('server/utils')
 
 const internalErrorHandler = (err, req, res, next) => {
@@ -10,7 +11,9 @@ const internalErrorHandler = (err, req, res, next) => {
 }
 
 const notFoundHandler = (req, res) => {
-  return res.status(404).send()
+  return res.status(404).render('index', {
+    env
+  })
 }
 
 module.exports = {

@@ -45,7 +45,7 @@ apiRouter.route('/bookmarks/:id')
 
 apiRouter.route('/search')
   .get((req, res, next) => {
-    const searchTerm = req.query.query
+    const searchTerm = req.query.term
 
     search(searchTerm)
       .then((results) => {

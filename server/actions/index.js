@@ -63,7 +63,7 @@ const search = (searchTerm) => {
   return new Promise((resolve, reject) => {
     knex('bookmarks')
       .returning(allowedFields)
-      .where('title', 'like', `%${searchTerm}%`)
+      .whereRaw(`LOWER(title) LIKE '%${searchTerm.toLowerCase()}%'`)
       .then(resolve)
       .catch(reject)
   })
