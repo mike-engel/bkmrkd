@@ -12,6 +12,7 @@ type alias Model =
     , currentPage : Route
     , currentPageNumber : Int
     , searchResults : List Bookmark
+    , searchTerm : String
     }
 
 
@@ -27,12 +28,12 @@ type Msg
     = ChangePageNumber Int
     | DeleteBookmark Int
     | FetchBookmarks
+    | Navigate String
     | NewBookmarks (Result Http.Error (List Bookmark))
     | NewSearchResults (Result Http.Error (List Bookmark))
     | OnLocationChange Location
-    | SearchBookmarks (Maybe String)
-    | ShowBookmarks
-    | ShowColophon
+    | SearchBookmarks
+    | UpdateSearchTerm String
     | Nothing
 
 
@@ -70,11 +71,11 @@ getBookmarks pageNumber =
         Http.send NewBookmarks request
 
 
-searchBookmarks : Maybe String -> Cmd Msg
+searchBookmarks : String -> Cmd Msg
 searchBookmarks searchTerm =
     let
         url =
-            "/api/search?term=" ++ (Maybe.withDefault "" searchTerm)
+            "/api/search?term=" ++ searchTerm
 
         request =
             Http.get url decodeBookmarks
@@ -122,6 +123,7 @@ initialModel currentPage =
     , currentPage = currentPage
     , currentPageNumber = 1
     , searchResults = []
+    , searchTerm = ""
     }
 
 
@@ -130,14 +132,17 @@ update msg model =
     case msg of
         ChangePageNumber newPage ->
             ( { model | currentPageNumber = newPage }
-            , newUrl ("/?page=" ++ (toString newPage))
+            , newUrl <| "/?page=" ++ (toString newPage)
             )
 
         DeleteBookmark id ->
-            ( model, (deleteBookmark id) )
+            ( model, deleteBookmark <| id )
 
         FetchBookmarks ->
-            ( model, (getBookmarks model.currentPageNumber) )
+            ( model, getBookmarks <| model.currentPageNumber )
+
+        Navigate url ->
+            ( model, newUrl url )
 
         NewBookmarks (Ok bookmarkList) ->
             ( { model | bookmarks = bookmarkList }, Cmd.none )
@@ -155,22 +160,35 @@ update msg model =
             let
                 newRoute =
                     parseLocation location
+
+                updatedModel =
+                    { model
+                        | currentPage = newRoute
+                        , currentPageNumber = getUrlPageNumber location.search
+                    }
             in
-                ( { model
-                    | currentPage = newRoute
-                    , currentPageNumber = getUrlPageNumber location.search
-                  }
-                , (getBookmarks model.currentPageNumber)
-                )
+                case newRoute of
+                    BookmarksRoute page ->
+                        ( updatedModel
+                        , getBookmarks <| Maybe.withDefault 1 page
+                        )
 
-        SearchBookmarks searchTerm ->
-            ( model, (searchBookmarks searchTerm) )
+                    ColophonRoute ->
+                        ( updatedModel, Cmd.none )
 
-        ShowBookmarks ->
-            ( model, newUrl "/" )
+                    SearchRoute term ->
+                        ( updatedModel
+                        , searchBookmarks <| Maybe.withDefault "" term
+                        )
 
-        ShowColophon ->
-            ( model, newUrl "/colophon" )
+                    NotFoundRoute ->
+                        ( updatedModel, Cmd.none )
+
+        SearchBookmarks ->
+            ( model, searchBookmarks <| model.searchTerm )
+
+        UpdateSearchTerm term ->
+            ( { model | searchTerm = term }, Cmd.none )
 
         Nothing ->
             ( model, Cmd.none )

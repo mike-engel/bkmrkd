@@ -5,7 +5,7 @@ import UrlParser exposing (..)
 
 
 type Route
-    = BookmarksRoute
+    = BookmarksRoute (Maybe Int)
     | SearchRoute (Maybe String)
     | ColophonRoute
     | NotFoundRoute
@@ -14,7 +14,7 @@ type Route
 matchers : Parser (Route -> a) a
 matchers =
     oneOf
-        [ map BookmarksRoute top
+        [ map BookmarksRoute (s "" <?> intParam "page")
         , map ColophonRoute (s "colophon")
         , map SearchRoute (s "search" <?> stringParam "term")
         ]

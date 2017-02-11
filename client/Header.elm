@@ -4,7 +4,8 @@ import Json.Decode as Json
 import Helpers exposing (navigationOptions)
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing (onWithOptions, Options)
+import Html.Attributes.Aria exposing (..)
+import Html.Events exposing (onInput, onSubmit, onWithOptions, Options)
 import Router exposing (..)
 import Store exposing (Model, Msg(..))
 
@@ -13,22 +14,22 @@ navLink : Route -> Route -> String -> String -> Html Msg
 navLink currentPage route url title =
     li []
         [ a
-            [ href url, onWithOptions "click" navigationOptions (Json.succeed (switchPage route)) ]
+            [ href url, onWithOptions "click" navigationOptions (Json.succeed (switchPage route url)) ]
             [ text title ]
         ]
 
 
-switchPage : Route -> Msg
-switchPage newRoute =
+switchPage : Route -> String -> Msg
+switchPage newRoute path =
     case newRoute of
-        BookmarksRoute ->
-            ShowBookmarks
+        BookmarksRoute _ ->
+            Navigate path
 
         ColophonRoute ->
-            ShowColophon
+            Navigate path
 
         SearchRoute _ ->
-            Store.Nothing
+            Navigate path
 
         NotFoundRoute ->
             Store.Nothing
@@ -40,10 +41,23 @@ view model =
         [ h1 [ class "logo" ] [ text "bkmrkd" ]
         , nav [ class "nav" ]
             [ ul []
-                [ navLink model.currentPage BookmarksRoute "/" "bookmarks"
+                [ navLink model.currentPage (BookmarksRoute <| Just 1) "/" "bookmarks"
                 , navLink model.currentPage ColophonRoute "/colophon" "colophon"
                 , navLink model.currentPage NotFoundRoute "#" "bookmark"
                 ]
             ]
-        , Html.form [ onWithOptions "submit" navigationOptions (Json.succeed (switchPage SearchRoute)) ] []
+        , Html.form
+            [ onSubmit (switchPage (SearchRoute <| Just <| "/search?term=" ++ model.searchTerm) ("/search?term=" ++ model.searchTerm))
+            , role "form"
+            , action <| "/search?term=" ++ model.searchTerm
+            ]
+            [ label [ for "search-input" ] [ text "search your bookmarks" ]
+            , input
+                [ type_ "search"
+                , id "search-input"
+                , placeholder "search your bookmarks"
+                , onInput UpdateSearchTerm
+                ]
+                []
+            ]
         ]

@@ -3,6 +3,7 @@ module Bookmarks exposing (..)
 import Helpers exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Attributes.Aria exposing (..)
 import Html.Events exposing (onWithOptions, Options)
 import Json.Decode as Json
 import Store exposing (..)
@@ -16,6 +17,14 @@ paginationClass enabled =
         " pagination--disabled"
 
 
+stopOrContinue : Int -> Bool -> Msg
+stopOrContinue page enabled =
+    if enabled then
+        ChangePageNumber page
+    else
+        Store.Nothing
+
+
 previousButton : Int -> Html Msg
 previousButton page =
     let
@@ -26,8 +35,9 @@ previousButton page =
             paginationClass enabled
     in
         span
-            [ class ("pagination__previous" ++ extraClass)
-            , onWithOptions "click" navigationOptions (Json.succeed (ChangePageNumber (page - 1)))
+            [ ariaDisabled <| not enabled
+            , class ("pagination__previous" ++ extraClass)
+            , onWithOptions "click" navigationOptions (Json.succeed <| stopOrContinue (page - 1) <| enabled)
             ]
             [ text "previous" ]
 
@@ -42,8 +52,9 @@ nextButton model =
             paginationClass enabled
     in
         span
-            [ class ("pagination__next" ++ extraClass)
-            , onWithOptions "click" navigationOptions (Json.succeed (ChangePageNumber (model.currentPageNumber + 1)))
+            [ ariaDisabled <| not enabled
+            , class ("pagination__next" ++ extraClass)
+            , onWithOptions "click" navigationOptions (Json.succeed <| stopOrContinue (model.currentPageNumber + 1) <| enabled)
             ]
             [ text "next" ]
 

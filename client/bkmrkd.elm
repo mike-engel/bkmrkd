@@ -32,7 +32,7 @@ import Store
 page : Model -> Html Msg
 page model =
     case model.currentPage of
-        BookmarksRoute ->
+        BookmarksRoute _ ->
             Bookmarks.view model
 
         ColophonRoute ->
@@ -62,18 +62,7 @@ init location =
         model =
             initialModel currentRoute
     in
-        case currentRoute of
-            BookmarksRoute ->
-                ( model, getBookmarks model.currentPageNumber )
-
-            ColophonRoute ->
-                ( model, Cmd.none )
-
-            SearchRoute term ->
-                ( model, searchBookmarks term )
-
-            NotFoundRoute ->
-                ( model, Cmd.none )
+        update (OnLocationChange location) model
 
 
 main : Program Never Model Msg
