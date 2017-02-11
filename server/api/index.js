@@ -15,7 +15,7 @@ apiRouter.route('/status')
 
 apiRouter.route('/bookmarks')
   .get((req, res, next) => {
-    const page = req.params.page || 1
+    const page = req.query.page || 1
     const limit = 25
     const offset = 25 * (page - 1)
 
