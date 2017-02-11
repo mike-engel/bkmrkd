@@ -43,7 +43,7 @@ view model =
             [ ul []
                 [ navLink model.currentPage (BookmarksRoute <| Just 1) "/" "bookmarks"
                 , navLink model.currentPage ColophonRoute "/colophon" "colophon"
-                , navLink model.currentPage NotFoundRoute "#" "bookmark"
+                , navLink model.currentPage NotFoundRoute "#" "bookmarklet"
                 ]
             ]
         , Html.form
