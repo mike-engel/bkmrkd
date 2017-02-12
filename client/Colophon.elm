@@ -7,9 +7,8 @@ import Store exposing (..)
 
 view : Html Msg
 view =
-    section [ class "colophon" ]
-        [ h1 [ class "h1" ] [ text "Colophon" ]
-        , p []
+    section [ class "site-constraint colophon" ]
+        [ p []
             [ text "bkmrkd was created by "
             , a [ href "https://mike-engel.com", target "_blank" ] [ text "Mike Engel" ]
             , text " as an experiment in creating a service tied to a bookmarklet. Since then it's been rewritten in "

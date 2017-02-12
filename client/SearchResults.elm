@@ -22,5 +22,5 @@ searchResultsList searchResults =
 
 view : Model -> Html Msg
 view model =
-    section [ class "bookmarks-list" ]
+    section [ class "site-constraint bookmarks-list" ]
         [ ul [] (searchResultsList model.searchResults) ]

@@ -14,7 +14,7 @@ paginationClass enabled =
     if enabled then
         ""
     else
-        " pagination--disabled"
+        " pagination__link--disabled"
 
 
 stopOrContinue : Int -> Bool -> Msg
@@ -34,9 +34,10 @@ previousButton page =
         extraClass =
             paginationClass enabled
     in
-        span
+        a
             [ ariaDisabled <| not enabled
-            , class ("pagination__previous" ++ extraClass)
+            , class ("pagination__link pagination__link--previous" ++ extraClass)
+            , href <| "/?page=" ++ (toString <| page - 1)
             , onWithOptions "click" navigationOptions (Json.succeed <| stopOrContinue (page - 1) <| enabled)
             ]
             [ text "previous" ]
@@ -51,9 +52,10 @@ nextButton model =
         extraClass =
             paginationClass enabled
     in
-        span
+        a
             [ ariaDisabled <| not enabled
-            , class ("pagination__next" ++ extraClass)
+            , class ("pagination__link pagination__link--next" ++ extraClass)
+            , href <| "/?page=" ++ (toString <| model.currentPageNumber - 1)
             , onWithOptions "click" navigationOptions (Json.succeed <| stopOrContinue (model.currentPageNumber + 1) <| enabled)
             ]
             [ text "next" ]
@@ -75,7 +77,7 @@ bookmarksList bookmarks =
 
 view : Model -> Html Msg
 view model =
-    section [ class "bookmarks-list" ]
+    section [ class "site-constraint bookmarks-list" ]
         [ ul [] (bookmarksList model.bookmarks)
         , nav [ class "pagination" ]
             [ (previousButton model.currentPageNumber), (nextButton model) ]

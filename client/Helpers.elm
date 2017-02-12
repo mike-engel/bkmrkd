@@ -45,15 +45,17 @@ formatDate maybeDate =
 bookmarkItem : Bookmark -> Html Msg
 bookmarkItem bookmark =
     li [ class "bookmark" ]
-        [ a [ class "bookmark__link", href bookmark.url, target "_blank" ]
+        [ a [ class "bookmark__link h4", href bookmark.url, target "_blank" ]
             [ text bookmark.title ]
-        , span [ class "bookmark__date" ]
-            [ text (bookmark.createdAt |> parseDate |> formatDate) ]
-        , span [ class "bookmark__source" ] [ text (bookmarkSite bookmark.url) ]
-        , a
-            [ class "bookmark__delete"
-            , href ("/api/bookmarks/" ++ (toString bookmark.id))
-            , onWithOptions "click" navigationOptions (Json.succeed (DeleteBookmark bookmark.id))
+        , div [ class "bookmark__metadata" ]
+            [ span [ class "bookmark__date" ]
+                [ text (bookmark.createdAt |> parseDate |> formatDate) ]
+            , a [ class "bookmark__source", href bookmark.url ] [ text (bookmarkSite bookmark.url) ]
+            , a
+                [ class "bookmark__delete"
+                , href ("/api/bookmarks/" ++ (toString bookmark.id))
+                , onWithOptions "click" navigationOptions (Json.succeed (DeleteBookmark bookmark.id))
+                ]
+                [ text "delete" ]
             ]
-            [ text "delete" ]
         ]

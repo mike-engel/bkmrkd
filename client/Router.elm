@@ -28,3 +28,22 @@ parseLocation location =
 
         Nothing ->
             NotFoundRoute
+
+
+compareRoutes : Route -> Route -> Bool
+compareRoutes a b =
+    case ( a, b ) of
+        ( BookmarksRoute _, BookmarksRoute _ ) ->
+            True
+
+        ( SearchRoute _, SearchRoute _ ) ->
+            True
+
+        ( ColophonRoute, ColophonRoute ) ->
+            True
+
+        ( NotFoundRoute, NotFoundRoute ) ->
+            True
+
+        ( _, _ ) ->
+            False

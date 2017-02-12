@@ -13,11 +13,24 @@ import Store exposing (Model, Msg(..))
 
 navLink : Route -> Route -> String -> String -> Html Msg
 navLink currentPage route url title =
-    li []
-        [ a
-            [ href url, onWithOptions "click" navigationOptions (Json.succeed (switchPage route url)) ]
-            [ text title ]
-        ]
+    let
+        active =
+            compareRoutes currentPage route
+
+        extraClass =
+            if active then
+                " active"
+            else
+                ""
+    in
+        li []
+            [ a
+                [ href url
+                , onWithOptions "click" navigationOptions (Json.succeed (switchPage route url))
+                , class <| "nav__link" ++ extraClass
+                ]
+                [ text title ]
+            ]
 
 
 switchPage : Route -> String -> Msg
@@ -39,26 +52,30 @@ switchPage newRoute path =
 view : Model -> Html Msg
 view model =
     div [ class "header" ]
-        [ h1 [ class "logo" ] [ text "bkmrkd" ]
-        , nav [ class "nav" ]
-            [ ul []
-                [ navLink model.currentPage (BookmarksRoute <| Just 1) "/" "bookmarks"
-                , navLink model.currentPage ColophonRoute "/colophon" "colophon"
-                , navLink model.currentPage NotFoundRoute (bookmarkletCode model.urlPrefix) "bookmarklet"
+        [ div [ class "site-constraint" ]
+            [ h1 [ class "h1 logo" ] [ text "bkmrkd" ]
+            , Html.form
+                [ onSubmit (switchPage (SearchRoute <| Just <| "/search?term=" ++ model.searchTerm) ("/search?term=" ++ model.searchTerm))
+                , class "header__bookmark-search"
+                , role "form"
+                , action <| "/search?term=" ++ model.searchTerm
                 ]
-            ]
-        , Html.form
-            [ onSubmit (switchPage (SearchRoute <| Just <| "/search?term=" ++ model.searchTerm) ("/search?term=" ++ model.searchTerm))
-            , role "form"
-            , action <| "/search?term=" ++ model.searchTerm
-            ]
-            [ label [ for "search-input" ] [ text "search your bookmarks" ]
-            , input
-                [ type_ "search"
-                , id "search-input"
-                , placeholder "search your bookmarks"
-                , onInput UpdateSearchTerm
+                [ label [ for "search-input", class "header__search-label" ] [ text "search your bookmarks" ]
+                , input
+                    [ type_ "search"
+                    , class "header__search-input"
+                    , id "search-input"
+                    , placeholder "search your bookmarks"
+                    , onInput UpdateSearchTerm
+                    ]
+                    []
                 ]
-                []
+            , nav [ class "nav" ]
+                [ ul []
+                    [ navLink model.currentPage (BookmarksRoute <| Just 1) "/" "bkmrkd"
+                    , navLink model.currentPage ColophonRoute "/colophon" "colophon"
+                    , navLink model.currentPage NotFoundRoute (bookmarkletCode model.urlPrefix) "bookmarklet"
+                    ]
+                ]
             ]
         ]
