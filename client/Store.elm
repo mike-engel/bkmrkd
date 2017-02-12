@@ -13,6 +13,7 @@ type alias Model =
     , currentPageNumber : Int
     , searchResults : List Bookmark
     , searchTerm : String
+    , urlPrefix : String
     }
 
 
@@ -117,13 +118,14 @@ decodeBookmark =
         (at [ "createdAt" ] string)
 
 
-initialModel : Route -> Model
-initialModel currentPage =
+initialModel : Route -> Location -> Model
+initialModel currentPage location =
     { bookmarks = []
     , currentPage = currentPage
     , currentPageNumber = 1
     , searchResults = []
     , searchTerm = ""
+    , urlPrefix = location.protocol ++ "//" ++ location.host
     }
 
 

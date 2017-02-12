@@ -60,7 +60,7 @@ init location =
             parseLocation location
 
         model =
-            initialModel currentRoute
+            initialModel currentRoute location
     in
         update (OnLocationChange location) model
 

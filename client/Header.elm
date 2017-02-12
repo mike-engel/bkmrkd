@@ -1,5 +1,6 @@
 module Header exposing (..)
 
+import Bookmarklet exposing (bookmarkletCode)
 import Json.Decode as Json
 import Helpers exposing (navigationOptions)
 import Html exposing (..)
@@ -43,7 +44,7 @@ view model =
             [ ul []
                 [ navLink model.currentPage (BookmarksRoute <| Just 1) "/" "bookmarks"
                 , navLink model.currentPage ColophonRoute "/colophon" "colophon"
-                , navLink model.currentPage NotFoundRoute "#" "bookmarklet"
+                , navLink model.currentPage NotFoundRoute (bookmarkletCode model.urlPrefix) "bookmarklet"
                 ]
             ]
         , Html.form
