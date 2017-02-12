@@ -43,6 +43,17 @@ apiRouter.route('/bookmarks/:id')
       .catch(next)
   })
 
+apiRouter.route('/bookmarks/create')
+  .get((req, res, next) => {
+    const { title, url } = req.query
+
+    create({ title, url })
+      .then(() => {
+        res.sendStatus(204)
+      })
+      .catch(next)
+  })
+
 apiRouter.route('/search')
   .get((req, res, next) => {
     const searchTerm = req.query.term

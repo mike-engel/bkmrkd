@@ -36,7 +36,7 @@ describe('content routes', () => {
         .get('/some-page')
         .expect(404)
         .expect((res) => {
-          if (/^<!doctype html>/.test(res.text)) throw new Error('an HTML page was returned')
+          if (!/^<!doctype html>/.test(res.text)) throw new Error('an HTML page was not returned')
         })
         .end(done)
     })

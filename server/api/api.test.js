@@ -65,6 +65,19 @@ describe('api routes', () => {
         })
         .end(done)
     })
+
+    it('should create a new bookmark through a GET request', (done) => {
+      const bookmark = {
+        title: 'get create test bookmark',
+        url: 'https://duckduckgo.com'
+      }
+
+      apiRequest
+        .get('/api/bookmarks/create')
+        .query(bookmark)
+        .expect(204)
+        .end(done)
+    })
   })
 
   describe('bookmark routes', () => {
@@ -105,7 +118,7 @@ describe('api routes', () => {
       ])
         .then((newBookmarks) => {
           apiRequest
-            .get(`/api/search?query=search%20test`)
+            .get(`/api/search?term=search%20test`)
             .expect(200)
             .expect((res) => {
               if (!Array.isArray(res.body)) throw new Error('An array of bookmarks should be returned')
