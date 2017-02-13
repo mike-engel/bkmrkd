@@ -11709,7 +11709,7 @@ var _mike_engel$bkmrkd$Bookmarklet$bookmarkletCode = function (urlPrefix) {
 	return A2(
 		_elm_lang$core$Basics_ops['++'],
 		'javascript:function bkmrk(){var a=document.createElement(\'script\'),b=document.title,c=\'',
-		A2(_elm_lang$core$Basics_ops['++'], urlPrefix, '/api/create?title=\'+b+\'&url=\'+encodeURIComponent(window.location.href);try{document.title=\'Bookmarking \'+b,a.setAttribute(\'src\',c),a.setAttribute(\'async\',\'\'),document.body.appendChild(a),document.title=b}catch(d){alert(\'Something went wrong. Make sure the page is fully loaded.\')}}bkmrk();void 0;'));
+		A2(_elm_lang$core$Basics_ops['++'], urlPrefix, '/api/bookmarks/create?title=\'+b+\'&url=\'+encodeURIComponent(window.location.href);try{document.title=\'Bookmarking \'+b,a.setAttribute(\'src\',c),a.setAttribute(\'async\',\'\'),document.body.appendChild(a),document.title=b}catch(d){alert(\'Something went wrong. Make sure the page is fully loaded.\')}}bkmrk();void 0;'));
 };
 
 var _mike_engel$bkmrkd$Header$switchPage = F2(

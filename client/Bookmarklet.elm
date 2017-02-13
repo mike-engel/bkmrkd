@@ -34,4 +34,4 @@ module Bookmarklet exposing (..)
 
 bookmarkletCode : String -> String
 bookmarkletCode urlPrefix =
-    "javascript:function bkmrk(){var a=document.createElement('script'),b=document.title,c='" ++ urlPrefix ++ "/api/create?title='+b+'&url='+encodeURIComponent(window.location.href);try{document.title='Bookmarking '+b,a.setAttribute('src',c),a.setAttribute('async',''),document.body.appendChild(a),document.title=b}catch(d){alert('Something went wrong. Make sure the page is fully loaded.')}}bkmrk();void 0;"
+    "javascript:function bkmrk(){var a=document.createElement('script'),b=document.title,c='" ++ urlPrefix ++ "/api/bookmarks/create?title='+b+'&url='+encodeURIComponent(window.location.href);try{document.title='Bookmarking '+b,a.setAttribute('src',c),a.setAttribute('async',''),document.body.appendChild(a),document.title=b}catch(d){alert('Something went wrong. Make sure the page is fully loaded.')}}bkmrk();void 0;"
