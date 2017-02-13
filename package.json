@@ -1,6 +1,6 @@
 {
   "name": "bkmrkd",
-  "version": "3.0.0-beta.1",
+  "version": "3.0.0",
   "description": "A simple self-hosted bookmark manager written in javascript",
   "main": "server.js",
   "scripts": {
@@ -57,31 +57,18 @@
     "subarg": "^1.0.0"
   },
   "devDependencies": {
-    "autoprefixer": "^6.7.0",
-    "autoprefixer-core": "^6.0.1",
     "chai": "^3.5.0",
     "chokidar-cli": "^1.2.0",
     "codecov": "^1.0.1",
-    "css-mqpacker": "^5.0.1",
-    "cssnano": "^3.10.0",
-    "cssnext": "^1.8.4",
     "eslint-config-standard": "^6.2.1",
-    "eslint-config-standard-jsx": "^3.2.0",
     "google-closure-compiler-js": "^20170124.0.0",
     "mocha": "^3.1.2",
     "nyc": "^10.1.2",
-    "pixrem": "^3.0.0",
-    "postcss-color-rgba-fallback": "^2.0.0",
-    "postcss-custom-media": "^5.0.0",
-    "postcss-import": "^9.1.0",
-    "postcss-nested": "^1.0.0",
-    "postcss-vmin": "^2.0.0",
     "proxyquire": "^1.7.10",
     "sinon": "^1.17.7",
     "sinon-chai": "^2.8.0",
     "snazzy": "^6.0.0",
     "standard": "^8.6.0",
-    "stylelint": "^7.7.1",
     "supertest": "^2.0.1"
   },
   "standard": {

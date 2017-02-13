@@ -11,5 +11,6 @@ elm-stuff/
 .env*
 npm-debug.*
 coverage.lcov
+now.json
 
 !.env.sample
