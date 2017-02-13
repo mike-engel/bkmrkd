@@ -1,134 +1,106 @@
-bkmrkd
-======
+# bkmrkd
 
-[![Build Status](https://travis-ci.org/mike-engel/bkmrkd.svg?branch=redux-tests-43)](https://travis-ci.org/mike-engel/bkmrkd)
+
+[![Build Status](https://travis-ci.org/mike-engel/bkmrkd.svg?branch=master)](https://travis-ci.org/mike-engel/bkmrkd)
 ![Dependencies](https://david-dm.org/mike-engel/bkmrkd.svg)
 
-bkmrkd is a self-hosted, lightweight bookmarking service running on [node.js](https://nodejs.org), [react](https://facebook.github.io/react), and [rethinkdb](https://rethinkdb.com).
+bkmrkd is a self-hosted, lightweight bookmarking service running on [node.js](https://nodejs.org), and [elm](https://elm-lang.org).
 
 [screenshots](#screenshots)  
 [installation](#installation)  
 [running in a production environment](#running-in-a-production-environment)  
-[migrating from 1.0 to 2.0](#migrating-from-10-to-20)  
+[developing](#developing)
+[migrating](#migrating)
 [contributing](#contributing)  
+[roadmap]($roadmap)  
 [license](LICENSE.md)
 
 # screenshots
-## desktop
-![Home page](screenshots/desktop.png)
-
 ## mobile
 ![Mobile](screenshots/mobile.png)
-
-## colophon
-![Colophon](screenshots/colophon.png)
 
 # installation
 
 ## assumptons
 
-1. You have node.js >= 4.2 installed
-2. You have rethinkdb installed and running
+1. You have node.js >= 6 installed
+2. You either have postgres running, or have docker-compose installed
 
 ## running bkmrkd
 
-With version `2.3.0`, there are a couple of options to run bkmrkd. You can run it with one of the npm scripts, programmatically, or as a global command.
+As of version 3, all configuration is done through environment variables. For the list of environment variables, see [.env.sample](.env.sample).
 
-### npm script
+### via docker (recommended)
 
-There are npm scripts for development, staging, and production. This is the only one that doesn't work if you're using this from npm.
+```sh
+# using an env file
+docker run --env-file .env beardfury/bkmrkd
 
-```shell
-# install the required modules
-npm install
-
-# if you want to run locally
-npm start
-
-# for testing daemonized with pm2
-npm run stage
-npm run stage:restart
-npm run stage:stop
-
-# for production daemonized with pm2
-# unless you put your SSL certs in the `ssl` directory
-# you'll want to provide the path with an env variable
-BKMRKD_CONFIG_PATH=/path/to/config/file npm run prod
-BKMRKD_CONFIG_PATH=/path/to/config/file npm run prod:restart
-npm run prod:stop
-```
-
-### programmatically
-
-If you'd like to mount bkmrkd inside another app/node script, this is totally do-able too. The module exports both the express app and the [SPDY](https://github.com/indutny/node-spdy) server.
-
-It's important to note here, however, that if you want to use the SPDY server bundled, you need to either move your certs into `./ssl/server.crt` and `./ssl/server.key`. You can also specify the path to your config (relative to your cwd) by setting the `BKMRKD_CONFIG_PATH` environment variable.
-
-```javascript
-const bkmrkdApp = require('bkmrkd').app
-const bkmrkdServer = require('bkmrkd').server
-
-// mount the app as you will
-app.use('/bkmrkd', bkmrkdApp)
-
-// run the server with some other logic around it
-bkmrkdServer.listen(3000)
-```
-
-### global command
-
-Upon installation, npm will symlink a bkmrkd binary into a folder in your path. The command is `bkmrkd`, and there are a few options you can provide.
-
-```shell
-Usage:
-bkmrkd [options]
-
-Options:
---daemon, -d   Daemonize the bkmrkd process with pm2
---config, -c   The path to your config file for bkmrkd
-  --port, -p   The port that bkmrkd should bind to. Defaults to 3000. Precedence is given to the config file
-  --help, -h   Print this help info
+# specifying env vars separately
+docker run \
+  -e DB_HOST=localhost \
+  -e DB_NAME=bkmrkd_development \
+  ...etc
 ```
 
 ## saving
 
-Simply drag the bookmarklet to your bookmarks bar and click it on a webpage you want to save. Simple.
+Simply drag the bookmarklet to your bookmarks bar and click it on a webpage you want to save.
 
 # running in a production environment
 So you want to run this for real. On the web. That's awesome. Everyone will want this to be setup differently, but this is how I've approached it.
 
-1. Proxy through nginx. Listen on port 80 for a domain/subdomain and proxy_pass to the app running on port 3000.
-2. Use SSL certs to avoid a new window opening when bookmarking things.
-3. Use a variety of [startup scripts](#running-bkmrkd) and [backup](http://rethinkdb.com/docs/backup/) scripts.
+1. Create an hosted PostgreSQL DB solution (Amazon RDS, Azure, Google, etc)
+2. Deploy to [now](https://now.sh)
 
 # developing
 
-To work on bkmrkd locally, you'll want to start the node server and run gulp.
+To work on bkmrkd locally, you'll want to start the node server for back end dev, the elm watcher for front end dev, or both.
 
 ```shell
-# make sure rethinkdb is running
-rethinkdb --daemon
+# create the env file
+cp .env.sample .env
+
+# if you have docker and docker-compose installed
+docker-compose up -d
+
+# install yarn if you don't already have it installed
+npm i -g yarn
+
+# create the test database
+createdb -h localhost -p 5432 -U postgres bkmrkd_test
 
 # start the server in development mode
-npm start
+yarn start | ./node_modules/.bin/bunyan
 
-# in another window or tab, start gulp and watch for file changes
-gulp
+# start the elm watcher
+yarn run watch:elm
 ```
 
-# migrating from 1.0 to 2.0
+# migrating
 
-I don't think there are enough instances of bkmrkd (plus it didn't work that well) to warrant an upgrade guide. If you want one though, let me know and I'll create a guide. You can also check out migrating from mongodb to rethinkdb.
+The migration from 2.0 to 3.0 is pretty simple thanks to the awesome export capabilities of RethinkDB.
+
+First, you'll want to download your existing bookmarks. From the computer with RethinkDB installed, dump the production database.
+
+```sh
+rethinkdb dump -f db-dump.tar.gz -e bkmrkd_production
+```
+
+Once it's dumped and downloaded to your computer (or do this remotely if you want), untar the tarball and look for the JSON file with all your bookmarks. Once you have that, run the migration script and assuming your `.env` file is currently pointed towards production, it should all work smoothly.
+
+```sh
+./scripts/migrate/rethink-to-postgresql ./path/to/json/file.json
+```
 
 # contributing
 
-Please make a pull request! bkmrkd follows the [js standard](https://github.com/feross/standard) styleguide.
+Please make a pull request! bkmrkd follows the [js standard](https://github.com/feross/standard) styleguide for all JS development. For elm development, [elm-format](https://github.com/avh4/elm-format) should be used.
 
-# Roadmap
+# roadmap
 
-To keep track of the roadmap, I'm using [issues](https://github.com/mike-engel/bkmrkd/issues), and more specifically, [milestones](https://github.com/mike-engel/bkmrkd/milestones).
+To keep track of the roadmap, I'm using [issues](https://github.com/mike-engel/bkmrkd/issues).
 
 # [changelog](CHANGELOG.md)
 
-# license
-[MIT](LICENSE.md)
+# [license](LICENSE.md)

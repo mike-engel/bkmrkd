@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+nyc \
+  --reporter=text \
+  --reporter=lcov \
+  npm run test:unit

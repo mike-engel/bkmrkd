@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+elm-make client/bkmrkd.elm --output=static/js/bkmrkd.js
+
+if [ "$NODE_ENV" == "production" ]; then
+  google-closure-compiler-js --compilationLevel ADVANCED static/js/bkmrkd.js > static/js/bkmrkd.min.js
+  mv static/js/bkmrkd.min.js static/js/bkmrkd.js
+fi

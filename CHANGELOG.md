@@ -1,3 +1,12 @@
+# 3.0.0
+
+3.0 is a complete rewrite of bookmarkd!
+
+- Rewrites the node server to be more functional (in both senses)
+- Ditches websockets as they don't provide much value
+- Rewrites the entire front end in Elm because it's awesome and I can
+- Moves to postgres for data storage after RethinkDB shut down :(
+
 # 2.6.0
 
 - Dependency updates

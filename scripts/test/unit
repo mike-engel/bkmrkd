@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+DB_NAME=bkmrkd_test mocha --require ./config/tests --recursive server/*.test.js server/**/*.test.js | bunyan -l fatal
