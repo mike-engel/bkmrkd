@@ -17,7 +17,7 @@ rethink-to-postgresql: Migrate your bkmrkd 2 data to bkmrkd 3
 
 This will use the data in your \`.env\` file to connect to the remote database.
 
-Usage: rethink-to-postgresql [options] rethinkdb-data.json
+Usage: rethink-to-postgresql [options] [json file]
 
 Options:
     --help, -h      Print this help documentation`)
