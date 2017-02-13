@@ -1,5 +1,6 @@
 module Bkmrkd exposing (..)
 
+import Alert
 import Bookmarks
 import Colophon
 import Header
@@ -48,7 +49,8 @@ page model =
 view : Model -> Html Msg
 view model =
     div [ class "app" ]
-        [ Header.view model
+        [ Alert.view model
+        , Header.view model
         , page model
         ]
 

@@ -8,7 +8,8 @@ import Router exposing (..)
 
 
 type alias Model =
-    { bookmarks : List Bookmark
+    { alert : ( String, String )
+    , bookmarks : List Bookmark
     , currentPage : Route
     , currentPageNumber : Int
     , searchResults : List Bookmark
@@ -27,11 +28,13 @@ type alias Bookmark =
 
 type Msg
     = ChangePageNumber Int
+    | ClearAlert
     | DeleteBookmark Int
     | FetchBookmarks
     | Navigate String
-    | NewBookmarks (Result Http.Error (List Bookmark))
-    | NewSearchResults (Result Http.Error (List Bookmark))
+    | BookmarkFetchRequest (Result Http.Error (List Bookmark))
+    | BookmarkSearchRequest (Result Http.Error (List Bookmark))
+    | BookmarkDeleteRequest (Result Http.Error ())
     | OnLocationChange Location
     | SearchBookmarks
     | UpdateSearchTerm String
@@ -69,7 +72,7 @@ getBookmarks pageNumber =
         request =
             Http.get url decodeBookmarks
     in
-        Http.send NewBookmarks request
+        Http.send BookmarkFetchRequest request
 
 
 searchBookmarks : String -> Cmd Msg
@@ -81,7 +84,7 @@ searchBookmarks searchTerm =
         request =
             Http.get url decodeBookmarks
     in
-        Http.send NewSearchResults request
+        Http.send BookmarkSearchRequest request
 
 
 deleteBookmark : Int -> Cmd Msg
@@ -96,12 +99,12 @@ deleteBookmark id =
                 , headers = []
                 , url = url
                 , body = emptyBody
-                , expect = expectJson decodeBookmarks
+                , expect = expectStringResponse (\_ -> Ok ())
                 , timeout = Maybe.Nothing
                 , withCredentials = False
                 }
     in
-        Http.send NewBookmarks request
+        Http.send BookmarkDeleteRequest request
 
 
 decodeBookmarks : Decoder (List Bookmark)
@@ -120,7 +123,8 @@ decodeBookmark =
 
 initialModel : Route -> Location -> Model
 initialModel currentPage location =
-    { bookmarks = []
+    { alert = ( "", "" )
+    , bookmarks = []
     , currentPage = currentPage
     , currentPageNumber = 1
     , searchResults = []
@@ -137,6 +141,9 @@ update msg model =
             , newUrl <| "/?page=" ++ (toString newPage)
             )
 
+        ClearAlert ->
+            ( { model | alert = ( "", "" ) }, Cmd.none )
+
         DeleteBookmark id ->
             ( model, deleteBookmark <| id )
 
@@ -146,17 +153,35 @@ update msg model =
         Navigate url ->
             ( model, newUrl url )
 
-        NewBookmarks (Ok bookmarkList) ->
-            ( { model | bookmarks = bookmarkList }, Cmd.none )
+        BookmarkFetchRequest (Ok bookmarkList) ->
+            ( { model | alert = ( "", "" ), bookmarks = bookmarkList }
+            , Cmd.none
+            )
 
-        NewBookmarks (Err _) ->
-            ( model, Cmd.none )
+        BookmarkFetchRequest (Err _) ->
+            ( { model | alert = ( "error", "There was a problem fetching your bookmarks. Please try again." ) }
+            , Cmd.none
+            )
 
-        NewSearchResults (Ok bookmarkList) ->
-            ( { model | searchResults = bookmarkList }, Cmd.none )
+        BookmarkSearchRequest (Ok bookmarkList) ->
+            ( { model | alert = ( "", "" ), searchResults = bookmarkList }
+            , Cmd.none
+            )
 
-        NewSearchResults (Err _) ->
-            ( model, Cmd.none )
+        BookmarkSearchRequest (Err _) ->
+            ( { model | alert = ( "error", "There was a problem searching through your bookmarks. Please try again." ) }
+            , Cmd.none
+            )
+
+        BookmarkDeleteRequest (Ok _) ->
+            ( { model | alert = ( "", "" ) }
+            , getBookmarks <| model.currentPageNumber
+            )
+
+        BookmarkDeleteRequest (Err _) ->
+            ( { model | alert = ( "error", "There was a problem deleting that bookmark. Please try again." ) }
+            , Cmd.none
+            )
 
         OnLocationChange location ->
             let
