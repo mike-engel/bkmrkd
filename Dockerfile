@@ -19,12 +19,9 @@ WORKDIR ${APP_DIR}
 
 COPY package.json yarn.lock elm-package.json ${APP_DIR}/
 
-RUN yarn install --production --no-progress \
-    && ./node_modules/.bin/elm-package install -y
+RUN yarn install --production --no-progress
 
 COPY . ${APP_DIR}/
-
-RUN yarn run compile:elm
 
 EXPOSE ${PORT}
 

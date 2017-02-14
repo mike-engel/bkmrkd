@@ -2,7 +2,7 @@
   "name": "bkmrkd",
   "version": "3.0.0",
   "description": "A simple self-hosted bookmark manager written in javascript",
-  "main": "server.js",
+  "main": "./index.js",
   "scripts": {
     "compile": "scripty",
     "compile:elm": "scripty",

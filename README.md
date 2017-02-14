@@ -6,18 +6,14 @@
 
 bkmrkd is a self-hosted, lightweight bookmarking service running on [node.js](https://nodejs.org), and [elm](https://elm-lang.org).
 
-[screenshots](#screenshots)  
 [installation](#installation)  
 [running in a production environment](#running-in-a-production-environment)  
 [developing](#developing)
 [migrating](#migrating)
 [contributing](#contributing)  
-[roadmap]($roadmap)  
+[screenshots](#screenshots)  
+[roadmap](#roadmap)  
 [license](LICENSE.md)
-
-# screenshots
-## mobile
-![Mobile](screenshots/mobile.png)
 
 # installation
 
@@ -96,6 +92,9 @@ Once it's dumped and downloaded to your computer (or do this remotely if you wan
 # contributing
 
 Please make a pull request! bkmrkd follows the [js standard](https://github.com/feross/standard) styleguide for all JS development. For elm development, [elm-format](https://github.com/avh4/elm-format) should be used.
+
+# screenshot
+![Desktop screenshot](screenshots/desktop.png)
 
 # roadmap
 

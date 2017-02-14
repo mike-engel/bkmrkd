@@ -214,5 +214,9 @@ section { padding-top: 1em; }
 
   .pagination__link--next { float: none; }
 
-  .pagination__link(not: '.pagination__link--disabled') + .pagination__link { margin-left: 1.0em; }
+  .pagination__link:not(.pagination__link--disabled) + .pagination__link:before {
+    content: '•';
+    display: inline-block;
+    margin: 0 1.5em;
+  }
 }
