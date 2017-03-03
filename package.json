@@ -10,7 +10,7 @@
     "migrate:down": "scripty",
     "report-coverage": "scripty",
     "start": "scripty",
-    "test": "snyk test && scripty",
+    "test": "scripty",
     "test:coverage": "scripty",
     "test:lint": "scripty",
     "test:unit": "scripty",
