@@ -22,11 +22,16 @@ addons:
 
 script: npm test
 
+before_install: yarn global add greenkeeper-lockfile@1
+
 before_script:
   - psql -c 'create database bkmrkd_test;' -U postgres
   - cp .env.sample .env
   - npm run migrate:up
   - snyk auth $SNYK_TOKEN
+  - greenkeeper-lockfile-update
+
+after_script: greenkeeper-lockfile-upload
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
