@@ -1,13 +1,12 @@
-const { env } = require('config')
-const { Router } = require('express')
+const { env } = require("config");
+const { Router } = require("express");
 
-const contentRouter = Router()
+const contentRouter = Router();
 
-contentRouter.route(/^\/$|^\/colophon$|^\/search$/i)
-  .get((req, res) => {
-    return res.status(200).render('index', {
-      env
-    })
-  })
+contentRouter.route(/^\/$|^\/colophon$|^\/search$/i).get((req, res) => {
+  return res.status(200).render("index", {
+    env
+  });
+});
 
-module.exports = contentRouter
+module.exports = contentRouter;

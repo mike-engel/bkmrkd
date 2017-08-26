@@ -12,9 +12,9 @@
     "start": "scripty",
     "test": "scripty",
     "test:coverage": "scripty",
-    "test:lint": "scripty",
     "test:unit": "scripty",
-    "watch:elm": "scripty"
+    "watch:elm": "scripty",
+    "precommit": "lint-staged"
   },
   "engines": {
     "node": ">= 6.x"
@@ -23,12 +23,7 @@
     "type": "git",
     "url": "https://github.com/mike-engel/bkmrkd.git"
   },
-  "keywords": [
-    "bkmrkd",
-    "bookmarks",
-    "bookmark",
-    "manager"
-  ],
+  "keywords": ["bkmrkd", "bookmarks", "bookmark", "manager"],
   "author": "Mike Engel <mike@mike-engel.com>",
   "license": "MIT",
   "bugs": {
@@ -42,56 +37,40 @@
     "cookie-parser": "^1.4.0",
     "dotenv": "^4.0.0",
     "ejs": "^2.3.4",
-    "elm": "1.2.0",
+    "elm": "^0.18.0",
     "express": "^4.15.3",
-    "helmet": "3.6.1",
+    "helmet": "^3.8.1",
     "hpp": "^0.2.0",
-    "knex": "^0.12.6",
+    "knex": "^0.13.0",
     "le_node": "^1.6.7",
-    "pg": "^6.1.0",
-    "ramda": "^0.23.0",
-    "raven": "^1.1.1",
+    "pg": "^7.2.0",
+    "ramda": "^0.24.1",
+    "raven": "^2.1.2",
     "rootpath": "^0.1.2",
     "scripty": "^1.7.1",
-    "snyk": "1.30.1",
     "subarg": "^1.0.0"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
+    "chai": "^4.1.1",
     "chokidar-cli": "^1.2.0",
-    "codecov": "^1.0.1",
-    "eslint-config-standard": "^6.2.1",
-    "google-closure-compiler-js": "^20170124.0.0",
+    "codecov": "^2.3.0",
+    "google-closure-compiler-js": "^20170806.0.0",
+    "husky": "^0.14.3",
+    "lint-staged": "^4.0.4",
     "mocha": "^3.1.2",
-    "nyc": "^10.1.2",
+    "nyc": "^11.1.0",
+    "prettier": "^1.5.3",
     "proxyquire": "^1.7.10",
-    "sinon": "^1.17.7",
+    "sinon": "^3.2.1",
     "sinon-chai": "^2.8.0",
-    "snazzy": "^6.0.0",
-    "standard": "^8.6.0",
-    "supertest": "^2.0.1"
-  },
-  "standard": {
-    "ignore": [
-      "src",
-      "static"
-    ],
-    "globals": [
-      "after",
-      "afterEach",
-      "before",
-      "describe",
-      "expect",
-      "it",
-      "sinon"
-    ]
+    "snyk": "^1.40.1",
+    "supertest": "^3.0.0"
   },
   "nyc": {
-    "exclude": [
-      "config",
-      "node_modules",
-      "**/*.test.js"
-    ]
+    "exclude": ["config", "node_modules", "**/*.test.js"]
   },
-  "snyk": false
+  "snyk": false,
+  "lint-staged": {
+    "*.js": ["prettier --write", "git add"]
+  }
 }

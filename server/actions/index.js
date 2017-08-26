@@ -1,74 +1,74 @@
-const { allowedFields } = require('server/constants/bookmark')
-const { knex } = require('config/db')
-const { log } = require('server/utils')
-const { omit, pick } = require('ramda')
+const { allowedFields } = require("server/constants/bookmark");
+const { knex } = require("config/db");
+const { log } = require("server/utils");
+const { omit, pick } = require("ramda");
 
-const sanitize = pick(allowedFields)
+const sanitize = pick(allowedFields);
 
 // create :: Object -> Promise
-const create = (data) => {
-  const bookmark = sanitize(data)
+const create = data => {
+  const bookmark = sanitize(data);
 
   return new Promise((resolve, reject) => {
-    knex('bookmarks')
+    knex("bookmarks")
       .returning(allowedFields)
       .insert(bookmark)
-      .then((newBookmarks) => {
-        log.info({ bookmark: newBookmarks[0] }, 'bookmark created')
+      .then(newBookmarks => {
+        log.info({ bookmark: newBookmarks[0] }, "bookmark created");
 
-        resolve(newBookmarks[0])
+        resolve(newBookmarks[0]);
       })
-      .catch(reject)
-  })
-}
+      .catch(reject);
+  });
+};
 
 // destroy :: Query -> Promise
-const destroy = (query) => {
-  const bookmarkQuery = sanitize(query)
+const destroy = query => {
+  const bookmarkQuery = sanitize(query);
 
   return new Promise((resolve, reject) => {
-    knex('bookmarks')
+    knex("bookmarks")
       .returning(allowedFields)
       .where(bookmarkQuery)
       .delete()
-      .then((deletedBookmarks) => {
-        log.info({ bookmark: deletedBookmarks[0] }, 'bookmark deleted')
+      .then(deletedBookmarks => {
+        log.info({ bookmark: deletedBookmarks[0] }, "bookmark deleted");
 
-        resolve(deletedBookmarks[0])
+        resolve(deletedBookmarks[0]);
       })
-      .catch(reject)
-  })
-}
+      .catch(reject);
+  });
+};
 
 // find :: Query -> Promise
-const find = (query) => {
+const find = query => {
   return new Promise((resolve, reject) => {
-    knex('bookmarks')
+    knex("bookmarks")
       .returning(allowedFields)
       .offset(query.offset || 0)
       .limit(query.limit || null)
-      .where(omit(['limit', 'offset'], query))
-      .orderBy('createdAt', 'desc')
+      .where(omit(["limit", "offset"], query))
+      .orderBy("createdAt", "desc")
       .then(resolve)
-      .catch(reject)
-  })
-}
+      .catch(reject);
+  });
+};
 
 // search :: Query -> Promise
-const search = (searchTerm) => {
+const search = searchTerm => {
   return new Promise((resolve, reject) => {
-    knex('bookmarks')
+    knex("bookmarks")
       .returning(allowedFields)
       .whereRaw(`LOWER(title) LIKE '%${searchTerm.toLowerCase()}%'`)
-      .orderBy('createdAt', 'desc')
+      .orderBy("createdAt", "desc")
       .then(resolve)
-      .catch(reject)
-  })
-}
+      .catch(reject);
+  });
+};
 
 module.exports = {
   create,
   destroy,
   find,
   search
-}
+};

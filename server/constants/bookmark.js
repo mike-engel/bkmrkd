@@ -1,1 +1,1 @@
-exports.allowedFields = ['id', 'title', 'url', 'createdAt']
+exports.allowedFields = ["id", "title", "url", "createdAt"];

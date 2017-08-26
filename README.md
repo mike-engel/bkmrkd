@@ -20,7 +20,8 @@ bkmrkd is a self-hosted, lightweight bookmarking service running on [node.js](ht
 ## assumptons
 
 1. You have node.js >= 6 installed
-2. You either have postgres running, or have docker-compose installed
+2. You have npm >= 5 installed
+3. You either have postgres running, or have docker-compose installed
 
 ## running bkmrkd
 
@@ -60,17 +61,14 @@ cp .env.sample .env
 # if you have docker and docker-compose installed
 docker-compose up -d
 
-# install yarn if you don't already have it installed
-npm i -g yarn
-
 # create the test database
 createdb -h localhost -p 5432 -U postgres bkmrkd_test
 
 # start the server in development mode
-yarn start | ./node_modules/.bin/bunyan
+npm start | ./node_modules/.bin/bunyan
 
 # start the elm watcher
-yarn run watch:elm
+npm run watch:elm
 ```
 
 # migrating
