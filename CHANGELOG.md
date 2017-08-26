@@ -1,3 +1,11 @@
+# 3.1.0
+
+Dependency updates
+
+#### Minor changes
+- All dependencies have been updated (server and client)
+- Prettier is now used over standard
+
 # 3.0.0
 
 3.0 is a complete rewrite of bookmarkd!
