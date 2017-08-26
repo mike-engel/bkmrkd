@@ -1,6 +1,6 @@
 {
   "name": "bkmrkd",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "description": "A simple self-hosted bookmark manager written in javascript",
   "main": "./index.js",
   "scripts": {
@@ -23,7 +23,12 @@
     "type": "git",
     "url": "https://github.com/mike-engel/bkmrkd.git"
   },
-  "keywords": ["bkmrkd", "bookmarks", "bookmark", "manager"],
+  "keywords": [
+    "bkmrkd",
+    "bookmarks",
+    "bookmark",
+    "manager"
+  ],
   "author": "Mike Engel <mike@mike-engel.com>",
   "license": "MIT",
   "bugs": {
@@ -67,10 +72,17 @@
     "supertest": "^3.0.0"
   },
   "nyc": {
-    "exclude": ["config", "node_modules", "**/*.test.js"]
+    "exclude": [
+      "config",
+      "node_modules",
+      "**/*.test.js"
+    ]
   },
   "snyk": false,
   "lint-staged": {
-    "*.js": ["prettier --write", "git add"]
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }
