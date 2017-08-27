@@ -89,7 +89,7 @@ Once it's dumped and downloaded to your computer (or do this remotely if you wan
 
 # contributing
 
-Please make a pull request! bkmrkd follows the [js standard](https://github.com/feross/standard) styleguide for all JS development. For elm development, [elm-format](https://github.com/avh4/elm-format) should be used.
+Please make a pull request! bkmrkd uses [prettier](https://github.com/prettier/prettier) for all JS development. For elm development, [elm-format](https://github.com/avh4/elm-format) should be used.
 
 # screenshot
 ![Desktop screenshot](screenshots/desktop.png)
@@ -99,5 +99,9 @@ Please make a pull request! bkmrkd follows the [js standard](https://github.com/
 To keep track of the roadmap, I'm using [issues](https://github.com/mike-engel/bkmrkd/issues).
 
 # [changelog](CHANGELOG.md)
+
+# [code of conduct](CODE_OF_CONDUCT.md)
+
+Please note that this project is released with a Contributor Code of Conduct. By participating in this project you agree to abide by its terms.
 
 # [license](LICENSE.md)

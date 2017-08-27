@@ -1,25 +1,18 @@
-FROM kkarczmarczyk/node-yarn:6.9
+FROM node:8-alpine
 MAINTAINER Mike Engel <mike@mike-engel.com>
 
 ENV NODE_ENV=production \
     APP_DIR=/app/bkmrkd \
     PORT=3000
 
-RUN cd $(npm root -g)/npm \
-    && npm i fs-extra \
-    && sed -i -e s/graceful-fs/fs-extra/ -e s/fs.rename/fs.move/ ./lib/utils/rename.js \
-    && cd -
-
 RUN mkdir -p ${APP_DIR} \
-    && npm config set spin=false \
-    && npm install -g npm@latest \
-    && npm cache clear
+    && npm config set spin=false
 
 WORKDIR ${APP_DIR}
 
-COPY package.json yarn.lock elm-package.json ${APP_DIR}/
+COPY package.json package-lock.json elm-package.json ${APP_DIR}/
 
-RUN yarn install --production --no-progress
+RUN npm install --production --no-progress
 
 COPY . ${APP_DIR}/
 
