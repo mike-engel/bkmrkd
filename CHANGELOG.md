@@ -1,3 +1,9 @@
+# 3.1.1
+
+#### Bug fixes
+- Removes yarn from the dockerfile
+- Update the readme to be up to date
+
 # 3.1.0
 
 Dependency updates
