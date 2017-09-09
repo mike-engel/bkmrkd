@@ -6,6 +6,7 @@
   "scripts": {
     "compile": "scripty",
     "compile:elm": "scripty",
+    "dev": "scripty",
     "migrate:up": "scripty",
     "migrate:down": "scripty",
     "report-coverage": "scripty",
@@ -63,6 +64,7 @@
     "husky": "^0.14.3",
     "lint-staged": "^4.1.3",
     "mocha": "^3.1.2",
+    "nodemon": "^1.12.0",
     "nyc": "^11.2.1",
     "prettier": "^1.6.1",
     "proxyquire": "^1.7.10",
