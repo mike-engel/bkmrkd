@@ -1,3 +1,12 @@
+# 3.2.0
+
+#### Minor updates
+- There is now a loading state so that it doesn't initially look like there are no bookmarks
+
+#### Bug fixes
+- The label color for the input is now the correct color on chrome
+- Titles are now URL encoded
+
 # 3.1.1
 
 #### Bug fixes
