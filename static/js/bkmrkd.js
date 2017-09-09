@@ -2571,7 +2571,10 @@
         .join("");
     }
     function reverse(str) {
-      return str.split("").reverse().join("");
+      return str
+        .split("")
+        .reverse()
+        .join("");
     }
     function foldl(f, b, str) {
       var len = str.length;
@@ -11247,7 +11250,8 @@
         _elm_lang$core$Basics_ops["++"],
         location.protocol,
         A2(_elm_lang$core$Basics_ops["++"], "//", location.host)
-      )
+      ),
+      loading: false
     };
   });
   var _mike_engel$bkmrkd$Store$getUrlPageNumber = function(url) {
@@ -11265,7 +11269,7 @@
       return 1;
     }
   };
-  var _mike_engel$bkmrkd$Store$Model = F7(function(a, b, c, d, e, f, g) {
+  var _mike_engel$bkmrkd$Store$Model = F8(function(a, b, c, d, e, f, g, h) {
     return {
       alert: a,
       bookmarks: b,
@@ -11273,7 +11277,8 @@
       currentPageNumber: d,
       searchResults: e,
       searchTerm: f,
-      urlPrefix: g
+      urlPrefix: g,
+      loading: h
     };
   });
   var _mike_engel$bkmrkd$Store$Bookmark = F4(function(a, b, c, d) {
@@ -11431,7 +11436,7 @@
       case "FetchBookmarks":
         return {
           ctor: "_Tuple2",
-          _0: model,
+          _0: _elm_lang$core$Native_Utils.update(model, { loading: true }),
           _1: _mike_engel$bkmrkd$Store$getBookmarks(model.currentPageNumber)
         };
       case "Navigate":
@@ -11446,7 +11451,8 @@
             ctor: "_Tuple2",
             _0: _elm_lang$core$Native_Utils.update(model, {
               alert: { ctor: "_Tuple2", _0: "", _1: "" },
-              bookmarks: _p3._0._0
+              bookmarks: _p3._0._0,
+              loading: false
             }),
             _1: _elm_lang$core$Platform_Cmd$none
           };
@@ -11459,7 +11465,8 @@
                 _0: "error",
                 _1:
                   "There was a problem fetching your bookmarks. Please try again."
-              }
+              },
+              loading: false
             }),
             _1: _elm_lang$core$Platform_Cmd$none
           };
@@ -11470,7 +11477,8 @@
             ctor: "_Tuple2",
             _0: _elm_lang$core$Native_Utils.update(model, {
               alert: { ctor: "_Tuple2", _0: "", _1: "" },
-              searchResults: _p3._0._0
+              searchResults: _p3._0._0,
+              loading: false
             }),
             _1: _elm_lang$core$Platform_Cmd$none
           };
@@ -11483,7 +11491,8 @@
                 _0: "error",
                 _1:
                   "There was a problem searching through your bookmarks. Please try again."
-              }
+              },
+              loading: false
             }),
             _1: _elm_lang$core$Platform_Cmd$none
           };
@@ -11520,12 +11529,15 @@
             _p6.search
           )
         });
+        var loadingModel = _elm_lang$core$Native_Utils.update(updatedModel, {
+          loading: true
+        });
         var _p5 = newRoute;
         switch (_p5.ctor) {
           case "BookmarksRoute":
             return {
               ctor: "_Tuple2",
-              _0: updatedModel,
+              _0: loadingModel,
               _1: _mike_engel$bkmrkd$Store$getBookmarks(
                 A2(_elm_lang$core$Maybe$withDefault, 1, _p5._0)
               )
@@ -11539,7 +11551,7 @@
           case "SearchRoute":
             return {
               ctor: "_Tuple2",
-              _0: updatedModel,
+              _0: loadingModel,
               _1: _mike_engel$bkmrkd$Store$searchBookmarks(
                 A2(_elm_lang$core$Maybe$withDefault, "", _p5._0)
               )
@@ -11554,7 +11566,7 @@
       case "SearchBookmarks":
         return {
           ctor: "_Tuple2",
-          _0: model,
+          _0: _elm_lang$core$Native_Utils.update(model, { loading: true }),
           _1: _mike_engel$bkmrkd$Store$searchBookmarks(model.searchTerm)
         };
       case "UpdateSearchTerm":
@@ -11824,6 +11836,19 @@
     );
   };
 
+  var _mike_engel$bkmrkd$Bookmarks$loadingBookmarks = A2(
+    _elm_lang$html$Html$li,
+    {
+      ctor: "::",
+      _0: _elm_lang$html$Html_Attributes$class("bookmark bookmark--empty"),
+      _1: { ctor: "[]" }
+    },
+    {
+      ctor: "::",
+      _0: _elm_lang$html$Html$text("Loading..."),
+      _1: { ctor: "[]" }
+    }
+  );
   var _mike_engel$bkmrkd$Bookmarks$emptyBookmarks = A2(
     _elm_lang$html$Html$li,
     {
@@ -11839,21 +11864,27 @@
       _1: { ctor: "[]" }
     }
   );
-  var _mike_engel$bkmrkd$Bookmarks$bookmarksList = function(bookmarks) {
-    return _elm_lang$core$Native_Utils.eq(
-      _elm_lang$core$List$length(bookmarks),
-      0
-    )
+  var _mike_engel$bkmrkd$Bookmarks$bookmarksList = function(model) {
+    return _elm_lang$core$Native_Utils.eq(model.loading, true)
       ? {
           ctor: "::",
-          _0: _mike_engel$bkmrkd$Bookmarks$emptyBookmarks,
+          _0: _mike_engel$bkmrkd$Bookmarks$loadingBookmarks,
           _1: { ctor: "[]" }
         }
-      : A2(
-          _elm_lang$core$List$map,
-          _mike_engel$bkmrkd$Helpers$bookmarkItem,
-          bookmarks
-        );
+      : _elm_lang$core$Native_Utils.eq(
+          _elm_lang$core$List$length(model.bookmarks),
+          0
+        )
+        ? {
+            ctor: "::",
+            _0: _mike_engel$bkmrkd$Bookmarks$emptyBookmarks,
+            _1: { ctor: "[]" }
+          }
+        : A2(
+            _elm_lang$core$List$map,
+            _mike_engel$bkmrkd$Helpers$bookmarkItem,
+            model.bookmarks
+          );
   };
   var _mike_engel$bkmrkd$Bookmarks$stopOrContinue = F2(function(page, enabled) {
     return enabled
@@ -11985,7 +12016,7 @@
         _0: A2(
           _elm_lang$html$Html$ul,
           { ctor: "[]" },
-          _mike_engel$bkmrkd$Bookmarks$bookmarksList(model.bookmarks)
+          _mike_engel$bkmrkd$Bookmarks$bookmarksList(model)
         ),
         _1: {
           ctor: "::",
@@ -12203,7 +12234,7 @@
       A2(
         _elm_lang$core$Basics_ops["++"],
         urlPrefix,
-        "/api/bookmarks/create?title='+b+'&url='+encodeURIComponent(window.location.href);try{document.title='Bookmarking '+b,a.setAttribute('src',c),a.setAttribute('async',''),document.body.appendChild(a),document.title=b}catch(d){alert('Something went wrong. Make sure the page is fully loaded.')}}bkmrk();void 0;"
+        "/api/bookmarks/create?title='+encodeURIComponent(b)+'&url='+encodeURIComponent(window.location.href);try{document.title='Bookmarking '+b,a.setAttribute('src',c),a.setAttribute('async',''),document.body.appendChild(a),document.title=b}catch(d){alert('Something went wrong. Make sure the page is fully loaded.')}}bkmrk();void 0;"
       )
     );
   };

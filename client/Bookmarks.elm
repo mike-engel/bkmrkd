@@ -66,19 +66,26 @@ emptyBookmarks =
     li [ class "bookmark bookmark--empty" ]
         [ text "You don't have any bookmarks saved yet! As soon as you add one, it will show up here." ]
 
+loadingBookmarks : Html Msg
+loadingBookmarks =
+    li [ class "bookmark bookmark--empty" ]
+        [ text "Loading..." ]
 
-bookmarksList : List Bookmark -> List (Html Msg)
-bookmarksList bookmarks =
-    if List.length bookmarks == 0 then
+
+bookmarksList : Model -> List (Html Msg)
+bookmarksList model =
+    if model.loading == True then
+        [ loadingBookmarks ]
+    else if List.length model.bookmarks == 0 then
         [ emptyBookmarks ]
     else
-        List.map bookmarkItem bookmarks
+        List.map bookmarkItem model.bookmarks
 
 
 view : Model -> Html Msg
 view model =
     section [ class "site-constraint bookmarks-list" ]
-        [ ul [] (bookmarksList model.bookmarks)
+        [ ul [] (bookmarksList model)
         , nav [ class "pagination" ]
             [ (previousButton model.currentPageNumber), (nextButton model) ]
         ]

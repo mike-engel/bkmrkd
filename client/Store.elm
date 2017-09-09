@@ -15,6 +15,7 @@ type alias Model =
     , searchResults : List Bookmark
     , searchTerm : String
     , urlPrefix : String
+    , loading : Bool
     }
 
 
@@ -130,6 +131,7 @@ initialModel currentPage location =
     , searchResults = []
     , searchTerm = ""
     , urlPrefix = location.protocol ++ "//" ++ location.host
+    , loading = False
     }
 
 
@@ -148,28 +150,28 @@ update msg model =
             ( model, deleteBookmark <| id )
 
         FetchBookmarks ->
-            ( model, getBookmarks <| model.currentPageNumber )
+            ( { model | loading = True }, getBookmarks <| model.currentPageNumber )
 
         Navigate url ->
             ( model, newUrl url )
 
         BookmarkFetchRequest (Ok bookmarkList) ->
-            ( { model | alert = ( "", "" ), bookmarks = bookmarkList }
+            ( { model | alert = ( "", "" ), bookmarks = bookmarkList, loading = False }
             , Cmd.none
             )
 
         BookmarkFetchRequest (Err _) ->
-            ( { model | alert = ( "error", "There was a problem fetching your bookmarks. Please try again." ) }
+            ( { model | alert = ( "error", "There was a problem fetching your bookmarks. Please try again." ), loading = False }
             , Cmd.none
             )
 
         BookmarkSearchRequest (Ok bookmarkList) ->
-            ( { model | alert = ( "", "" ), searchResults = bookmarkList }
+            ( { model | alert = ( "", "" ), searchResults = bookmarkList, loading = False }
             , Cmd.none
             )
 
         BookmarkSearchRequest (Err _) ->
-            ( { model | alert = ( "error", "There was a problem searching through your bookmarks. Please try again." ) }
+            ( { model | alert = ( "error", "There was a problem searching through your bookmarks. Please try again." ), loading = False }
             , Cmd.none
             )
 
@@ -193,10 +195,13 @@ update msg model =
                         | currentPage = newRoute
                         , currentPageNumber = getUrlPageNumber location.search
                     }
+
+                loadingModel =
+                    { updatedModel | loading = True }
             in
                 case newRoute of
                     BookmarksRoute page ->
-                        ( updatedModel
+                        ( loadingModel
                         , getBookmarks <| Maybe.withDefault 1 page
                         )
 
@@ -204,7 +209,7 @@ update msg model =
                         ( updatedModel, Cmd.none )
 
                     SearchRoute term ->
-                        ( updatedModel
+                        ( loadingModel
                         , searchBookmarks <| Maybe.withDefault "" term
                         )
 
@@ -212,7 +217,7 @@ update msg model =
                         ( updatedModel, Cmd.none )
 
         SearchBookmarks ->
-            ( model, searchBookmarks <| model.searchTerm )
+            ( { model | loading = True }, searchBookmarks <| model.searchTerm )
 
         UpdateSearchTerm term ->
             ( { model | searchTerm = term }, Cmd.none )
