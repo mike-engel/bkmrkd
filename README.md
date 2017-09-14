@@ -1,5 +1,7 @@
 # bkmrkd
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/mike-engel/bkmrkd.svg)](https://greenkeeper.io/)
+
 
 [![Build Status](https://travis-ci.org/mike-engel/bkmrkd.svg?branch=master)](https://travis-ci.org/mike-engel/bkmrkd)
 ![Dependencies](https://david-dm.org/mike-engel/bkmrkd.svg)
